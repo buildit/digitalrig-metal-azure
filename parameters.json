@@ -2,59 +2,22 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "administratorLogin": {
-            "value": "RigAdmin"
+        "sites_RigContainerApp_name": {
+            "value": "RigContainerApp"
         },
-        "administratorLoginPassword": {
-            "value": null
+        "serverfarms_RigContainerPlan_name": {
+            "value": "RigContainerPlan"
         },
-        "collation": {
-            "value": "SQL_Latin1_General_CP1_CI_AS"
+        "config_web_name": {
+            "value": "RigWebAppConfig"
         },
-        "databaseName": {
-            "value": "AzureRigDb"
+        "registries_RigContainerRegistry_name": {
+            "value": "RigContainerRegistry"
         },
-        "tier": {
-            "value": "Standard"
-        },
-        "skuName": {
-            "value": "S0"
-        },
-        "location": {
-            "value": "centralus"
-        },
-        "maxSizeBytes": {
-            "value": 268435456000
-        },
-        "serverName": {
-            "value": "azure-bare-rig"
-        },
-        "sampleName": {
-            "value": ""
-        },
-        "zoneRedundant": {
-            "value": false
-        },
-        "licenseType": {
-            "value": ""
-        },
-        "readScaleOut": {
-            "value": "Disabled"
-        },
-        "numberOfReplicas": {
-            "value": 0
-        },
-        "enableATP": {
-            "value": false
-        },
-        "allowAzureIps": {
-            "value": true
-        },
-        "databaseTags": {
-            "value": {}
-        },
-        "serverTags": {
-            "value": {}
+        "hostNameBindings": {
+            "value": "rigcontainerapp.azurewebsites.net"
         }
     }
 }
+
+
