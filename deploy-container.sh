@@ -1,0 +1,1 @@
+sudo az webapp config container set --name RigContainerApp --resource-group AzureTestRig --docker-custom-image-name rigcontainerregistry.azurecr.io/vote --docker-registry-server-url https://rigcontainerregistry.azurecr.io 

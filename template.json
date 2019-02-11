@@ -21,6 +21,73 @@
         "hostNameBindings": {
             "defaultValue": "rigcontainerapp.azurewebsites.net",
             "type": "String"
+        },
+        "administratorLogin": {
+            "type": "String"
+        },
+        "administratorLoginPassword": {
+            "type": "SecureString"
+        },
+        "collation": {
+            "type": "String",
+            "defaultValue": "SQL_Latin1_General_CP1_CI_AS"
+        },
+        "databaseName": {
+            "type": "String"
+        },
+        "tier": {
+            "type": "String",
+            "defaultValue": "Standard"
+        },
+        "skuName": {
+            "type": "String",
+            "defaultValue": "S0"
+        },
+        "location": {
+            "type": "String"
+        },
+        "maxSizeBytes": {
+            "type": "Int",
+            "defaultValue": 268435456000
+        },
+        "serverName": {
+            "type": "String"
+        },
+        "sampleName": {
+            "defaultValue": "",
+            "type": "String"
+        },
+        "zoneRedundant": {
+            "defaultValue": false,
+            "type": "Bool"
+        },
+        "licenseType": {
+            "defaultValue": "",
+            "type": "String"
+        },
+        "readScaleOut": {
+            "defaultValue": "Disabled",
+            "type": "String"
+        },
+        "numberOfReplicas": {
+            "defaultValue": 0,
+            "type": "Int"
+        },
+        "enableATP": {
+            "defaultValue": false,
+            "type": "Bool"
+        },
+        "allowAzureIps": {
+            "defaultValue": true,
+            "type": "Bool"
+        },
+        "databaseTags": {
+            "defaultValue": {},
+            "type": "Object"
+        },
+        "serverTags": {
+            "defaultValue": {},
+            "type": "Object"
         }
     },
     "variables": {},
@@ -113,6 +180,21 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_RigContainerPlan_name'))]"
             ]
+        },
+        {
+            "type": "Microsoft.Cache/Redis",
+            "name": "AzureRig",
+            "apiVersion": "2018-03-01",
+            "location": "centralus",
+            "properties": {
+                "sku": {
+                    "name": "Standard",
+                    "family": "C",
+                    "capacity": 1
+                },
+                "redisConfiguration": {},
+                "enableNonSslPort": false
+            }
         },
         {
             "comments": "Generalized from resource: '/subscriptions/736bac69-1352-4801-8b8f-567e37804014/resourceGroups/RigContainerApp/providers/Microsoft.Web/sites/RigContainerApp/config/web'.",
@@ -231,6 +313,73 @@
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('sites_RigContainerApp_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Sql/servers",
+            "name": "[parameters('serverName')]",
+            "apiVersion": "2015-05-01-preview",
+            "location": "[parameters('location')]",
+            "tags": "[parameters('serverTags')]",
+            "properties": {
+                "administratorLogin": "[parameters('administratorLogin')]",
+                "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
+                "version": "12.0"
+            },
+            "resources": [
+                {
+                    "type": "databases",
+                    "sku": {
+                        "name": "[parameters('skuName')]",
+                        "tier": "[parameters('tier')]"
+                    },
+                    "name": "[parameters('databaseName')]",
+                    "apiVersion": "2017-10-01-preview",
+                    "location": "[parameters('location')]",
+                    "tags": "[parameters('databaseTags')]",
+                    "properties": {
+                        "collation": "[parameters('collation')]",
+                        "maxSizeBytes": "[parameters('maxSizeBytes')]",
+                        "sampleName": "[parameters('sampleName')]",
+                        "zoneRedundant": "[parameters('zoneRedundant')]",
+                        "licenseType": "[parameters('licenseType')]",
+                        "readScale": "[parameters('readScaleOut')]",
+                        "readReplicaCount": "[parameters('numberOfReplicas')]"
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.Sql/servers/', parameters('serverName'))]"
+                    ]
+                },
+                {
+                    "type": "firewallrules",
+                    "name": "AllowAllWindowsAzureIps",
+                    "apiVersion": "2014-04-01-preview",
+                    "location": "[parameters('location')]",
+                    "properties": {
+                        "endIpAddress": "0.0.0.0",
+                        "startIpAddress": "0.0.0.0"
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.Sql/servers/', parameters('serverName'))]"
+                    ],
+                    "condition": "[parameters('allowAzureIps')]"
+                },
+                {
+                    "type": "securityAlertPolicies",
+                    "name": "Default",
+                    "apiVersion": "2017-03-01-preview",
+                    "properties": {
+                        "state": "Enabled",
+                        "disabledAlerts": [],
+                        "emailAddresses": [],
+                        "emailAccountAdmins": true
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.Sql/servers/', parameters('serverName'))]",
+                        "[concat('Microsoft.Sql/servers/', parameters('serverName'), '/databases/', parameters('databaseName'))]"
+                    ],
+                    "condition": "[parameters('enableATP')]"
+                }
             ]
         },
         {
