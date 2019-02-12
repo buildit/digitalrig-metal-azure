@@ -3,19 +3,19 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "sites_RigContainerApp_name": {
-            "value": "RigContainerApp"
+            "value": "RigContainerAppNickRig"
         },
         "serverfarms_RigContainerPlan_name": {
-            "value": "RigContainerPlan"
+            "value": "RigContainerPlanNickRig"
         },
         "config_web_name": {
-            "value": "RigWebAppConfig"
+            "value": "RigWebAppConfigNickRig"
         },
         "registries_RigContainerRegistry_name": {
-            "value": "RigContainerRegistry"
+            "value": "RigContainerRegistryNickRig"
         },
         "hostNameBindings": {
-            "value": "rigcontainerapp.azurewebsites.net"
+            "value": "rigcontainerappnickrig.azurewebsites.net"
         }
     }
 }
