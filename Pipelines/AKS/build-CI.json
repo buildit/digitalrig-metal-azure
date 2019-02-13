@@ -1,0 +1,414 @@
+{
+    "options": [
+      {
+        "enabled": false,
+        "definition": {
+          "id": "5d58cc01-7c75-450c-be18-a388ddb129ec"
+        },
+        "inputs": {
+          "branchFilters": "[\"+refs/heads/*\"]",
+          "additionalFields": "{}"
+        }
+      },
+      {
+        "enabled": false,
+        "definition": {
+          "id": "a9db38f9-9fdc-478c-b0f9-464221e58316"
+        },
+        "inputs": {
+          "workItemType": "Bug",
+          "assignToRequestor": "true",
+          "additionalFields": "{}"
+        }
+      }
+    ],
+    "triggers": [
+      {
+        "branchFilters": [
+          "+master"
+        ],
+        "pathFilters": [
+          "+/"
+        ],
+        "batchChanges": true,
+        "maxConcurrentBuildsPerBranch": 1,
+        "triggerType": 2
+      }
+    ],
+    "variables": {
+      "imageLocation": {
+        "value": "daviddevopsacr.azurecr.io/daviddevops"
+      },
+      "system.debug": {
+        "value": "false",
+        "allowOverride": true
+      }
+    },
+    "properties": {},
+    "tags": [],
+    "_links": {
+      "self": {
+        "href": "https://dev.azure.com/rigtest/ba1761e3-de0d-46b9-8f2e-1881d6fb0cbe/_apis/build/Definitions/4?revision=18"
+      },
+      "web": {
+        "href": "https://dev.azure.com/rigtest/ba1761e3-de0d-46b9-8f2e-1881d6fb0cbe/_build/definition?definitionId=4"
+      },
+      "editor": {
+        "href": "https://dev.azure.com/rigtest/ba1761e3-de0d-46b9-8f2e-1881d6fb0cbe/_build/designer?id=4&_a=edit-build-definition"
+      },
+      "badge": {
+        "href": "https://dev.azure.com/rigtest/ba1761e3-de0d-46b9-8f2e-1881d6fb0cbe/_apis/build/status/4"
+      }
+    },
+    "buildNumberFormat": "$(date:yyyyMMdd)$(rev:.r)",
+    "jobAuthorizationScope": 1,
+    "jobCancelTimeoutInMinutes": 5,
+    "process": {
+      "phases": [
+        {
+          "steps": [
+            {
+              "environment": {},
+              "enabled": true,
+              "continueOnError": false,
+              "alwaysRun": false,
+              "displayName": "Change image location and id to current values in chart",
+              "timeoutInMinutes": 0,
+              "condition": "succeeded()",
+              "task": {
+                "id": "6c731c3c-3c68-459a-a5c9-bde6e6595b5b",
+                "versionSpec": "3.*",
+                "definitionType": "task"
+              },
+              "inputs": {
+                "targetType": "filePath",
+                "filePath": "$(Build.Repository.LocalPath)/changeChart.sh",
+                "arguments": "$(imageLocation) $(Build.BuildId)",
+                "script": "# Write your commands here\n\n# Use the environment variables input below to pass secret variables to this script",
+                "workingDirectory": "",
+                "failOnStderr": "false"
+              }
+            },
+            {
+              "environment": {},
+              "enabled": true,
+              "continueOnError": false,
+              "alwaysRun": false,
+              "displayName": "Azure Deployment:Create Azure Container Registry",
+              "timeoutInMinutes": 0,
+              "condition": "succeeded()",
+              "task": {
+                "id": "94a74903-f93f-4075-884f-dc11f34058b4",
+                "versionSpec": "2.*",
+                "definitionType": "task"
+              },
+              "inputs": {
+                "ConnectedServiceName": "906e96e6-7447-462a-aa9e-b18e32afb875",
+                "action": "Create Or Update Resource Group",
+                "resourceGroupName": "davidDevOps-rg",
+                "location": "East US",
+                "templateLocation": "URL of the file",
+                "csmFileLink": "https://raw.githubusercontent.com/Microsoft/devops-project-samples/057f6cc268a62922d012067d069d58684e967d0a/armtemplates/kubernetes/containerRegistry-template.json",
+                "csmParametersFileLink": "",
+                "csmFile": "",
+                "csmParametersFile": "",
+                "overrideParameters": "-registryName \"davidDevOpsacr\" -registryLocation \"South Central US\" -registrySku \"Standard\"",
+                "deploymentMode": "Incremental",
+                "enableDeploymentPrerequisites": "None",
+                "deploymentGroupEndpoint": "",
+                "project": "",
+                "deploymentGroupName": "",
+                "copyAzureVMTags": "true",
+                "runAgentServiceAsUser": "false",
+                "userName": "",
+                "password": "",
+                "outputVariable": "",
+                "deploymentName": "",
+                "deploymentOutputs": "",
+                "addSpnToEnvironment": "false"
+              }
+            },
+            {
+              "environment": {},
+              "enabled": true,
+              "continueOnError": false,
+              "alwaysRun": false,
+              "displayName": "Build an image",
+              "timeoutInMinutes": 0,
+              "task": {
+                "id": "e28912f1-0114-4464-802a-a3a35437fd16",
+                "versionSpec": "0.*",
+                "definitionType": "task"
+              },
+              "inputs": {
+                "containerregistrytype": "Azure Container Registry",
+                "dockerRegistryEndpoint": "",
+                "azureSubscriptionEndpoint": "906e96e6-7447-462a-aa9e-b18e32afb875",
+                "azureContainerRegistry": "{\"loginServer\":\"daviddevopsacr.azurecr.io\", \"id\" : \"/subscriptions/789c22e5-7d6f-4afb-a153-49f812d26b70/resourceGroups/davidDevOps-rg/providers/Microsoft.ContainerRegistry/registries/davidDevOpsacr\"}",
+                "action": "Build an image",
+                "dockerFile": "**/Dockerfile",
+                "buildArguments": "",
+                "defaultContext": "true",
+                "context": "",
+                "imageName": "$(imageLocation):$(Build.BuildId)",
+                "imageNamesPath": "",
+                "qualifyImageName": "true",
+                "additionalImageTags": "",
+                "includeSourceTags": "false",
+                "includeLatestTag": "false",
+                "imageDigestFile": "",
+                "containerName": "",
+                "ports": "",
+                "volumes": "",
+                "envVars": "",
+                "workDir": "",
+                "entrypoint": "",
+                "containerCommand": "",
+                "detached": "true",
+                "restartPolicy": "no",
+                "restartMaxRetries": "",
+                "customCommand": "",
+                "dockerHostEndpoint": "",
+                "enforceDockerNamingConvention": "true",
+                "cwd": "$(System.DefaultWorkingDirectory)",
+                "memory": ""
+              }
+            },
+            {
+              "environment": {},
+              "enabled": true,
+              "continueOnError": false,
+              "alwaysRun": false,
+              "displayName": "Push an image",
+              "timeoutInMinutes": 0,
+              "task": {
+                "id": "e28912f1-0114-4464-802a-a3a35437fd16",
+                "versionSpec": "0.*",
+                "definitionType": "task"
+              },
+              "inputs": {
+                "containerregistrytype": "Azure Container Registry",
+                "dockerRegistryEndpoint": "",
+                "azureSubscriptionEndpoint": "906e96e6-7447-462a-aa9e-b18e32afb875",
+                "azureContainerRegistry": "{\"loginServer\":\"daviddevopsacr.azurecr.io\", \"id\" : \"/subscriptions/789c22e5-7d6f-4afb-a153-49f812d26b70/resourceGroups/davidDevOps-rg/providers/Microsoft.ContainerRegistry/registries/davidDevOpsacr\"}",
+                "action": "Push an image",
+                "dockerFile": "**/Dockerfile",
+                "buildArguments": "",
+                "defaultContext": "true",
+                "context": "",
+                "imageName": "$(imageLocation):$(Build.BuildId)",
+                "imageNamesPath": "",
+                "qualifyImageName": "true",
+                "additionalImageTags": "",
+                "includeSourceTags": "false",
+                "includeLatestTag": "false",
+                "imageDigestFile": "",
+                "containerName": "",
+                "ports": "",
+                "volumes": "",
+                "envVars": "",
+                "workDir": "",
+                "entrypoint": "",
+                "containerCommand": "",
+                "detached": "true",
+                "restartPolicy": "no",
+                "restartMaxRetries": "",
+                "customCommand": "",
+                "dockerHostEndpoint": "",
+                "enforceDockerNamingConvention": "true",
+                "cwd": "$(System.DefaultWorkingDirectory)",
+                "memory": ""
+              }
+            },
+            {
+              "environment": {},
+              "enabled": true,
+              "continueOnError": false,
+              "alwaysRun": false,
+              "displayName": "Install Helm 2.9.1",
+              "timeoutInMinutes": 0,
+              "task": {
+                "id": "068d5909-43e6-48c5-9e01-7c8a94816220",
+                "versionSpec": "0.*",
+                "definitionType": "task"
+              },
+              "inputs": {
+                "helmVersion": "2.9.1",
+                "checkLatestHelmVersion": "true",
+                "installKubeCtl": "true",
+                "kubectlVersion": "1.10.3",
+                "checkLatestKubeCtl": "false"
+              }
+            },
+            {
+              "environment": {},
+              "enabled": true,
+              "continueOnError": false,
+              "alwaysRun": false,
+              "displayName": "helm package",
+              "timeoutInMinutes": 0,
+              "task": {
+                "id": "afa7d54d-537b-4dc8-b60a-e0eeea2c9a87",
+                "versionSpec": "0.*",
+                "definitionType": "task"
+              },
+              "inputs": {
+                "connectionType": "Azure Resource Manager",
+                "azureSubscriptionEndpoint": "906e96e6-7447-462a-aa9e-b18e32afb875",
+                "azureResourceGroup": "davidDevOps-rg",
+                "kubernetesCluster": "davidDevOps",
+                "kubernetesServiceEndpoint": "",
+                "namespace": "",
+                "command": "package",
+                "chartType": "FilePath",
+                "chartName": "",
+                "chartPath": "**/charts",
+                "version": "",
+                "releaseName": "",
+                "overrideValues": "",
+                "valueFile": "",
+                "destination": "$(Build.ArtifactStagingDirectory)",
+                "canaryimage": "false",
+                "upgradetiller": "false",
+                "updatedependency": "false",
+                "save": "false",
+                "install": "false",
+                "recreate": "false",
+                "resetValues": "false",
+                "force": "false",
+                "waitForExecution": "true",
+                "arguments": "",
+                "enableTls": "false",
+                "caCert": "",
+                "certificate": "",
+                "privatekey": "",
+                "tillernamespace": ""
+              }
+            },
+            {
+              "environment": {},
+              "enabled": true,
+              "continueOnError": false,
+              "alwaysRun": false,
+              "displayName": "Publish Artifacts: drop",
+              "timeoutInMinutes": 0,
+              "task": {
+                "id": "2ff763a7-ce83-4e1f-bc89-0ae63477cebe",
+                "versionSpec": "1.*",
+                "definitionType": "task"
+              },
+              "inputs": {
+                "PathtoPublish": "$(Build.ArtifactStagingDirectory)",
+                "ArtifactName": "drop",
+                "ArtifactType": "Container",
+                "TargetPath": "\\\\my\\share\\$(Build.DefinitionName)\\$(Build.BuildNumber)",
+                "Parallel": "false",
+                "ParallelCount": "8"
+              }
+            }
+          ],
+          "name": "Agent job 1",
+          "refName": "Phase_1",
+          "condition": "succeeded()",
+          "target": {
+            "executionOptions": {
+              "type": 0
+            },
+            "allowScriptsAuthAccessOption": false,
+            "type": 1
+          },
+          "jobAuthorizationScope": 1
+        }
+      ],
+      "type": 1
+    },
+    "repository": {
+      "properties": {
+        "apiUrl": "https://api.github.com/repos/d2burkhalter/AzureDevOps",
+        "branchesUrl": "https://api.github.com/repos/d2burkhalter/AzureDevOps/branches",
+        "cloneUrl": "https://github.com/d2burkhalter/AzureDevOps.git",
+        "connectedServiceId": "0e48de3a-8b1e-44cb-a6ed-687e1e753b37",
+        "defaultBranch": "master",
+        "fullName": "d2burkhalter/AzureDevOps",
+        "hasAdminPermissions": "True",
+        "isFork": "False",
+        "isPrivate": "False",
+        "lastUpdated": "02/13/2019 16:37:39",
+        "manageUrl": "https://github.com/d2burkhalter/AzureDevOps",
+        "nodeId": "MDEwOlJlcG9zaXRvcnkxNjkyNzU4MjA=",
+        "ownerId": "23088720",
+        "orgName": "d2burkhalter",
+        "refsUrl": "https://api.github.com/repos/d2burkhalter/AzureDevOps/git/refs",
+        "shortName": "AzureDevOps",
+        "ownerAvatarUrl": "https://avatars2.githubusercontent.com/u/23088720?v=4",
+        "safeId": "B8B422579350676FB482BCD8386F024314F13C00C0B5937A06A92FDE9092B473BBB6885C724B2535C07EE315B7F117C8E8D6861890C0F0920255A54679D2/AzureDevOps",
+        "safeOwnerId": "B8B422579350676FB482BCD8386F024314F13C00C0B5937A06A92FDE9092B473BBB6885C724B2535C07EE315B7F117C8E8D6861890C0F0920255A54679D2",
+        "safeRepository": "AzureDevOps",
+        "ownerIsAUser": "True",
+        "checkoutNestedSubmodules": "false",
+        "cleanOptions": "0",
+        "fetchDepth": "0",
+        "gitLfsSupport": "false",
+        "reportBuildStatus": "false",
+        "skipSyncSource": "false",
+        "labelSourcesFormat": "$(build.buildNumber)",
+        "labelSources": "0"
+      },
+      "id": "d2burkhalter/AzureDevOps",
+      "type": "GitHub",
+      "name": "d2burkhalter/AzureDevOps",
+      "url": "https://github.com/d2burkhalter/AzureDevOps.git",
+      "defaultBranch": "master",
+      "clean": "false",
+      "checkoutSubmodules": false
+    },
+    "processParameters": {},
+    "quality": 1,
+    "authoredBy": {
+      "displayName": "David Burkhalter",
+      "url": "https://app.vssps.visualstudio.com/A7f95b4c6-b51c-4393-9dc2-5bd38e2fd173/_apis/Identities/473a0743-9bf5-6d3a-b4b6-fb457eff9c00",
+      "_links": {
+        "avatar": {
+          "href": "https://dev.azure.com/rigtest/_apis/GraphProfile/MemberAvatars/aad.NDczYTA3NDMtOWJmNS03ZDNhLWI0YjYtZmI0NTdlZmY5YzAw"
+        }
+      },
+      "id": "473a0743-9bf5-6d3a-b4b6-fb457eff9c00",
+      "uniqueName": "d2.burkhalter@gmail.com",
+      "imageUrl": "https://dev.azure.com/rigtest/_api/_common/identityImage?id=473a0743-9bf5-6d3a-b4b6-fb457eff9c00",
+      "descriptor": "aad.NDczYTA3NDMtOWJmNS03ZDNhLWI0YjYtZmI0NTdlZmY5YzAw"
+    },
+    "drafts": [],
+    "queue": {
+      "_links": {
+        "self": {
+          "href": "https://dev.azure.com/rigtest/_apis/build/Queues/36"
+        }
+      },
+      "id": 36,
+      "name": "Hosted Ubuntu 1604",
+      "url": "https://dev.azure.com/rigtest/_apis/build/Queues/36",
+      "pool": {
+        "id": 6,
+        "name": "Hosted Ubuntu 1604",
+        "isHosted": true
+      }
+    },
+    "id": 4,
+    "name": "davidDevOps - CI",
+    "url": "https://dev.azure.com/rigtest/ba1761e3-de0d-46b9-8f2e-1881d6fb0cbe/_apis/build/Definitions/4?revision=18",
+    "uri": "vstfs:///Build/Definition/4",
+    "path": "\\",
+    "type": 2,
+    "queueStatus": 0,
+    "revision": 18,
+    "createdDate": "2019-02-13T16:38:40.470Z",
+    "project": {
+      "id": "ba1761e3-de0d-46b9-8f2e-1881d6fb0cbe",
+      "name": "davidDevOps",
+      "url": "https://dev.azure.com/rigtest/_apis/projects/ba1761e3-de0d-46b9-8f2e-1881d6fb0cbe",
+      "state": 1,
+      "revision": 64,
+      "visibility": 0,
+      "lastUpdateTime": "2019-02-05T17:37:22.980Z"
+    }
+  }

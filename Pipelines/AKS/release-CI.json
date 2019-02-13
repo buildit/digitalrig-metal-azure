@@ -1,0 +1,426 @@
+{
+    "source": 8,
+    "revision": 7,
+    "description": null,
+    "createdBy": {
+      "displayName": "David Burkhalter",
+      "url": "https://app.vssps.visualstudio.com/A7f95b4c6-b51c-4393-9dc2-5bd38e2fd173/_apis/Identities/473a0743-9bf5-6d3a-b4b6-fb457eff9c00",
+      "_links": {
+        "avatar": {
+          "href": "https://dev.azure.com/rigtest/_apis/GraphProfile/MemberAvatars/aad.NDczYTA3NDMtOWJmNS03ZDNhLWI0YjYtZmI0NTdlZmY5YzAw"
+        }
+      },
+      "id": "473a0743-9bf5-6d3a-b4b6-fb457eff9c00",
+      "uniqueName": "d2.burkhalter@gmail.com",
+      "imageUrl": "https://dev.azure.com/rigtest/_api/_common/identityImage?id=473a0743-9bf5-6d3a-b4b6-fb457eff9c00",
+      "descriptor": "aad.NDczYTA3NDMtOWJmNS03ZDNhLWI0YjYtZmI0NTdlZmY5YzAw"
+    },
+    "createdOn": "2019-02-05T17:37:21.930Z",
+    "modifiedBy": {
+      "displayName": "David Burkhalter",
+      "url": "https://app.vssps.visualstudio.com/A7f95b4c6-b51c-4393-9dc2-5bd38e2fd173/_apis/Identities/473a0743-9bf5-6d3a-b4b6-fb457eff9c00",
+      "_links": {
+        "avatar": {
+          "href": "https://dev.azure.com/rigtest/_apis/GraphProfile/MemberAvatars/aad.NDczYTA3NDMtOWJmNS03ZDNhLWI0YjYtZmI0NTdlZmY5YzAw"
+        }
+      },
+      "id": "473a0743-9bf5-6d3a-b4b6-fb457eff9c00",
+      "uniqueName": "d2.burkhalter@gmail.com",
+      "imageUrl": "https://dev.azure.com/rigtest/_api/_common/identityImage?id=473a0743-9bf5-6d3a-b4b6-fb457eff9c00",
+      "descriptor": "aad.NDczYTA3NDMtOWJmNS03ZDNhLWI0YjYtZmI0NTdlZmY5YzAw"
+    },
+    "modifiedOn": "2019-02-12T20:23:11.473Z",
+    "isDeleted": false,
+    "variables": {},
+    "variableGroups": [],
+    "environments": [
+      {
+        "id": 1,
+        "name": "dev",
+        "rank": 1,
+        "owner": {
+          "displayName": "David Burkhalter",
+          "url": "https://app.vssps.visualstudio.com/A7f95b4c6-b51c-4393-9dc2-5bd38e2fd173/_apis/Identities/473a0743-9bf5-6d3a-b4b6-fb457eff9c00",
+          "_links": {
+            "avatar": {
+              "href": "https://dev.azure.com/rigtest/_apis/GraphProfile/MemberAvatars/aad.NDczYTA3NDMtOWJmNS03ZDNhLWI0YjYtZmI0NTdlZmY5YzAw"
+            }
+          },
+          "id": "473a0743-9bf5-6d3a-b4b6-fb457eff9c00",
+          "uniqueName": "d2.burkhalter@gmail.com",
+          "imageUrl": "https://dev.azure.com/rigtest/_api/_common/identityImage?id=473a0743-9bf5-6d3a-b4b6-fb457eff9c00",
+          "descriptor": "aad.NDczYTA3NDMtOWJmNS03ZDNhLWI0YjYtZmI0NTdlZmY5YzAw"
+        },
+        "variables": {
+          "ServicePrincipalId": {
+            "value": "7a26551f-726f-4075-9bdc-800712e77180"
+          },
+          "ServicePrincipalKey": {
+            "value": null,
+            "isSecret": true
+          }
+        },
+        "variableGroups": [],
+        "preDeployApprovals": {
+          "approvals": [
+            {
+              "rank": 1,
+              "isAutomated": true,
+              "isNotificationOn": false,
+              "id": 1
+            }
+          ],
+          "approvalOptions": {
+            "requiredApproverCount": null,
+            "releaseCreatorCanBeApprover": false,
+            "autoTriggeredAndPreviousEnvironmentApprovedCanBeSkipped": false,
+            "enforceIdentityRevalidation": false,
+            "timeoutInMinutes": 0,
+            "executionOrder": 1
+          }
+        },
+        "deployStep": {
+          "id": 2
+        },
+        "postDeployApprovals": {
+          "approvals": [
+            {
+              "rank": 1,
+              "isAutomated": true,
+              "isNotificationOn": false,
+              "id": 3
+            }
+          ],
+          "approvalOptions": {
+            "requiredApproverCount": null,
+            "releaseCreatorCanBeApprover": false,
+            "autoTriggeredAndPreviousEnvironmentApprovedCanBeSkipped": false,
+            "enforceIdentityRevalidation": false,
+            "timeoutInMinutes": 0,
+            "executionOrder": 2
+          }
+        },
+        "deployPhases": [
+          {
+            "deploymentInput": {
+              "parallelExecution": {
+                "parallelExecutionType": 0
+              },
+              "skipArtifactsDownload": false,
+              "artifactsDownloadInput": {
+                "downloadInputs": []
+              },
+              "queueId": 36,
+              "demands": [],
+              "enableAccessToken": false,
+              "timeoutInMinutes": 0,
+              "jobCancelTimeoutInMinutes": 1,
+              "condition": "succeeded()",
+              "overrideInputs": {}
+            },
+            "rank": 1,
+            "phaseType": 1,
+            "name": "Agent phase",
+            "refName": null,
+            "workflowTasks": [
+              {
+                "environment": {},
+                "taskId": "94a74903-f93f-4075-884f-dc11f34058b4",
+                "version": "2.*",
+                "name": "Azure Deployment:Create AKS cluster",
+                "refName": "",
+                "enabled": true,
+                "alwaysRun": false,
+                "continueOnError": false,
+                "timeoutInMinutes": 0,
+                "definitionType": "task",
+                "overrideInputs": {},
+                "condition": "succeeded()",
+                "inputs": {
+                  "ConnectedServiceName": "906e96e6-7447-462a-aa9e-b18e32afb875",
+                  "action": "Create Or Update Resource Group",
+                  "resourceGroupName": "davidDevOps-rg",
+                  "location": "East US",
+                  "templateLocation": "URL of the file",
+                  "csmFileLink": "https://raw.githubusercontent.com/Microsoft/devops-project-samples/057f6cc268a62922d012067d069d58684e967d0a/armtemplates/kubernetes/aks-template.json",
+                  "csmParametersFileLink": "",
+                  "csmFile": "",
+                  "csmParametersFile": "",
+                  "overrideParameters": "-clusterName \"davidDevOpsTest\" -dnsPrefix \"davidDevOpsTest\" -appInsightsLocation \"South Central US\" -clusterLocation \"East US\" -servicePrincipalClientId \"$(ServicePrincipalId)\" -servicePrincipalClientSecret \"$(ServicePrincipalKey)\" -agentCount 1 -agentVMSize Standard_D2_v2 -kubernetesVersion 1.12.4 -omsLocation \"East US\"",
+                  "deploymentMode": "Incremental",
+                  "enableDeploymentPrerequisites": "None",
+                  "deploymentGroupEndpoint": "",
+                  "project": "",
+                  "deploymentGroupName": "",
+                  "copyAzureVMTags": "true",
+                  "runAgentServiceAsUser": "false",
+                  "userName": "",
+                  "password": "",
+                  "outputVariable": "",
+                  "deploymentName": "",
+                  "deploymentOutputs": "deploymentOutputs",
+                  "addSpnToEnvironment": "false"
+                }
+              },
+              {
+                "environment": {},
+                "taskId": "e213ff0f-5d5c-4791-802d-52ea3e7be1f1",
+                "version": "2.*",
+                "name": "Extract the ApplicationRoutingZone",
+                "refName": "",
+                "enabled": true,
+                "alwaysRun": false,
+                "continueOnError": false,
+                "timeoutInMinutes": 0,
+                "definitionType": "task",
+                "overrideInputs": {},
+                "condition": "succeeded()",
+                "inputs": {
+                  "targetType": "inline",
+                  "filePath": "",
+                  "arguments": "",
+                  "script": "$deploymentOutputs=(ConvertFrom-Json '$(deploymentOutputs)')\n$applicationRoutingZone=$deploymentOutputs.applicationRoutingZone.value\n$aiKey=$deploymentOutputs.aiKey.value\nWrite-Host \"##vso[task.setvariable variable=applicationRoutingZone;]$applicationRoutingZone\"\nWrite-Host \"##vso[task.setvariable variable=aiKey;]$aiKey\"",
+                  "errorActionPreference": "stop",
+                  "failOnStderr": "false",
+                  "ignoreLASTEXITCODE": "false",
+                  "pwsh": "false",
+                  "workingDirectory": ""
+                }
+              },
+              {
+                "environment": {},
+                "taskId": "068d5909-43e6-48c5-9e01-7c8a94816220",
+                "version": "0.*",
+                "name": "Install Helm 2.9.1",
+                "refName": "",
+                "enabled": true,
+                "alwaysRun": false,
+                "continueOnError": false,
+                "timeoutInMinutes": 0,
+                "definitionType": "task",
+                "overrideInputs": {},
+                "condition": "succeeded()",
+                "inputs": {
+                  "helmVersion": "2.9.1",
+                  "checkLatestHelmVersion": "true",
+                  "installKubeCtl": "true",
+                  "kubectlVersion": "1.10.3",
+                  "checkLatestKubeCtl": "false"
+                }
+              },
+              {
+                "environment": {},
+                "taskId": "afa7d54d-537b-4dc8-b60a-e0eeea2c9a87",
+                "version": "0.*",
+                "name": "Helm init",
+                "refName": "",
+                "enabled": true,
+                "alwaysRun": false,
+                "continueOnError": false,
+                "timeoutInMinutes": 0,
+                "definitionType": null,
+                "overrideInputs": {},
+                "condition": "succeeded()",
+                "inputs": {
+                  "connectionType": "Azure Resource Manager",
+                  "azureSubscriptionEndpoint": "906e96e6-7447-462a-aa9e-b18e32afb875",
+                  "azureResourceGroup": "davidDevOps-rg",
+                  "kubernetesCluster": "davidDevOpsTest",
+                  "kubernetesServiceEndpoint": "",
+                  "namespace": "",
+                  "command": "init",
+                  "chartType": "Name",
+                  "chartName": "",
+                  "chartPath": "",
+                  "version": "",
+                  "releaseName": "",
+                  "overrideValues": "",
+                  "valueFile": "",
+                  "destination": "$(Build.ArtifactStagingDirectory)",
+                  "canaryimage": "false",
+                  "upgradetiller": "false",
+                  "updatedependency": "false",
+                  "save": "true",
+                  "install": "true",
+                  "recreate": "false",
+                  "resetValues": "false",
+                  "force": "false",
+                  "waitForExecution": "true",
+                  "arguments": "",
+                  "enableTls": "false",
+                  "caCert": "",
+                  "certificate": "",
+                  "privatekey": "",
+                  "tillernamespace": ""
+                }
+              },
+              {
+                "environment": {},
+                "taskId": "afa7d54d-537b-4dc8-b60a-e0eeea2c9a87",
+                "version": "0.*",
+                "name": "Helm upgrade",
+                "refName": "",
+                "enabled": true,
+                "alwaysRun": false,
+                "continueOnError": false,
+                "timeoutInMinutes": 0,
+                "definitionType": null,
+                "overrideInputs": {},
+                "condition": "succeeded()",
+                "inputs": {
+                  "connectionType": "Azure Resource Manager",
+                  "azureSubscriptionEndpoint": "906e96e6-7447-462a-aa9e-b18e32afb875",
+                  "azureResourceGroup": "davidDevOps-rg",
+                  "kubernetesCluster": "davidDevOpsTest",
+                  "kubernetesServiceEndpoint": "",
+                  "namespace": "dev",
+                  "command": "upgrade",
+                  "chartType": "FilePath",
+                  "chartName": "",
+                  "chartPath": "$(System.DefaultWorkingDirectory)/**/charts-*.tgz",
+                  "version": "",
+                  "releaseName": "azuredevops",
+                  "overrideValues": "",
+                  "valueFile": "",
+                  "destination": "",
+                  "canaryimage": "false",
+                  "upgradetiller": "false",
+                  "updatedependency": "false",
+                  "save": "true",
+                  "install": "true",
+                  "recreate": "false",
+                  "resetValues": "false",
+                  "force": "true",
+                  "waitForExecution": "true",
+                  "arguments": "--set image.repository=davidDevOpsacr.azurecr.io/daviddevops --set image.tag=$(Build.BuildId) --set ingress.enabled=true --set ingress.hostname=dev-sampleapp.$(applicationRoutingZone)",
+                  "enableTls": "false",
+                  "caCert": "",
+                  "certificate": "",
+                  "privatekey": "",
+                  "tillernamespace": ""
+                }
+              }
+            ]
+          }
+        ],
+        "environmentOptions": {
+          "emailNotificationType": "OnlyOnFailure",
+          "emailRecipients": "release.environment.owner;release.creator",
+          "skipArtifactsDownload": false,
+          "timeoutInMinutes": 0,
+          "enableAccessToken": false,
+          "publishDeploymentStatus": false,
+          "badgeEnabled": false,
+          "autoLinkWorkItems": false,
+          "pullRequestDeploymentEnabled": false
+        },
+        "demands": [],
+        "conditions": [
+          {
+            "name": "ReleaseStarted",
+            "conditionType": 1,
+            "value": ""
+          }
+        ],
+        "executionPolicy": {
+          "concurrencyCount": 0,
+          "queueDepthCount": 0
+        },
+        "schedules": [],
+        "currentRelease": {
+          "id": 30,
+          "url": "https://vsrm.dev.azure.com/rigtest/ba1761e3-de0d-46b9-8f2e-1881d6fb0cbe/_apis/Release/releases/30",
+          "_links": {}
+        },
+        "retentionPolicy": {
+          "daysToKeep": 30,
+          "releasesToKeep": 3,
+          "retainBuild": true
+        },
+        "processParameters": {},
+        "properties": {},
+        "preDeploymentGates": {
+          "id": 0,
+          "gatesOptions": null,
+          "gates": []
+        },
+        "postDeploymentGates": {
+          "id": 0,
+          "gatesOptions": null,
+          "gates": []
+        },
+        "environmentTriggers": [],
+        "badgeUrl": "https://vsrm.dev.azure.com/rigtest/_apis/public/Release/badge/ba1761e3-de0d-46b9-8f2e-1881d6fb0cbe/1/1"
+      }
+    ],
+    "artifacts": [
+      {
+        "sourceId": "ba1761e3-de0d-46b9-8f2e-1881d6fb0cbe:4",
+        "type": "Build",
+        "alias": "Drop",
+        "definitionReference": {
+          "artifactSourceDefinitionUrl": {
+            "id": "https://dev.azure.com/rigtest/_permalink/_build/index?collectionId=b92fff70-5345-4d2a-a177-9fb6e4e1b874&projectId=ba1761e3-de0d-46b9-8f2e-1881d6fb0cbe&definitionId=4",
+            "name": ""
+          },
+          "defaultVersionBranch": {
+            "id": "",
+            "name": ""
+          },
+          "defaultVersionSpecific": {
+            "id": "",
+            "name": ""
+          },
+          "defaultVersionTags": {
+            "id": "",
+            "name": ""
+          },
+          "defaultVersionType": {
+            "id": "latestType",
+            "name": "Latest"
+          },
+          "definition": {
+            "id": "4",
+            "name": "4"
+          },
+          "project": {
+            "id": "ba1761e3-de0d-46b9-8f2e-1881d6fb0cbe",
+            "name": "davidDevOps"
+          }
+        },
+        "isPrimary": true,
+        "isRetained": false
+      }
+    ],
+    "triggers": [
+      {
+        "artifactAlias": "Drop",
+        "triggerConditions": [],
+        "triggerType": 1
+      }
+    ],
+    "releaseNameFormat": "Release-$(rev:r)",
+    "tags": [],
+    "pipelineProcess": {
+      "type": 1
+    },
+    "properties": {
+      "DefinitionCreationSource": {
+        "$type": "System.String",
+        "$value": "PortalExtension "
+      }
+    },
+    "id": 1,
+    "name": "davidDevOps - CD",
+    "path": "\\",
+    "projectReference": null,
+    "url": "https://vsrm.dev.azure.com/rigtest/ba1761e3-de0d-46b9-8f2e-1881d6fb0cbe/_apis/Release/definitions/1",
+    "_links": {
+      "self": {
+        "href": "https://vsrm.dev.azure.com/rigtest/ba1761e3-de0d-46b9-8f2e-1881d6fb0cbe/_apis/Release/definitions/1"
+      },
+      "web": {
+        "href": "https://dev.azure.com/rigtest/ba1761e3-de0d-46b9-8f2e-1881d6fb0cbe/_release?definitionId=1"
+      }
+    }
+  }
