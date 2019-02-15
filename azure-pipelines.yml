@@ -6,21 +6,34 @@
 trigger:
 - azure-pipelines
 
+variables:
+  imageLocation: 'daviddevopsacr.azurecr.io/sampleApp'
+
 pool:
   vmImage: 'Ubuntu-16.04'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
-
-- task: Bash@3
-  displayName: 'empty bash'
+- task: AzureResourceGroupDeployment@2
+  displayName: 'Azure Deployment:Create Azure Container Registry'
   inputs:
-    targetType: ./
-    filePath: ''
-    arguments: ''
+    azureSubscription: 'davidDevOps - Service Endpoint'
+    resourceGroupName: 'davidDevOps-rg'
+    location: 'East US'
+    templateLocation: 'URL of the file'
+    csmFileLink: 'https://raw.githubusercontent.com/Microsoft/devops-project-samples/057f6cc268a62922d012067d069d58684e967d0a/armtemplates/kubernetes/containerRegistry-template.json'
+    overrideParameters: '-registryName "davidDevOpsacr" -registryLocation "South Central US" -registrySku "Standard"'
+
+- task: Docker@0
+  displayName: 'Build an image'
+  inputs:
+    azureSubscription: 'davidDevOps - Service Endpoint'
+    azureContainerRegistry: '{"loginServer":"daviddevopsacr.azurecr.io", "id" : "/subscriptions/789c22e5-7d6f-4afb-a153-49f812d26b70/resourceGroups/davidDevOps-rg/providers/Microsoft.ContainerRegistry/registries/davidDevOpsacr"}'
+    imageName: '$(imageLocation):$(Build.BuildId)'
+
+- task: Docker@0
+  displayName: 'Push an image'
+  inputs:
+    azureSubscription: 'davidDevOps - Service Endpoint'
+    azureContainerRegistry: '{"loginServer":"daviddevopsacr.azurecr.io", "id" : "/subscriptions/789c22e5-7d6f-4afb-a153-49f812d26b70/resourceGroups/davidDevOps-rg/providers/Microsoft.ContainerRegistry/registries/davidDevOpsacr"}'
+    action: 'Push an image'
+    imageName: '$(imageLocation):$(Build.BuildId)'
