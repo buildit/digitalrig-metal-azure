@@ -13,6 +13,11 @@ pool:
   vmImage: 'Ubuntu-16.04'
 
 steps:
+- task: Bash@3
+  inputs:
+    targetType: inline
+    script: git checkout azure-pipelines
+
 - task: AzureResourceGroupDeployment@2
   displayName: 'Azure Deployment:Create Azure Container Registry'
   inputs:
