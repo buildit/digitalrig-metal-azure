@@ -34,4 +34,16 @@ The high level steps for these pipelines:
 1. Push the container image to Azure Container Registry 
 1. Deploy the Container Images from the Container Registry to the Azure service
 
+## Connect to Azure Devops Services API
+In order to create build and release pipelines the Azure DevOps Services REST API must be used [API Documentation](https://docs.microsoft.com/en-us/rest/api/azure/devops/?view=azure-devops-rest-5.0)
+### Authorize requests
+A personal access token (PAT) is required to authorize API requests to grant a PAT follow these steps
+1. Go to https://dev.azure.com/{yourorganization} to get to the DevOps organization homepage
+1. Click on your user icon in the top right corner and click the security tab from the dropdown menu
+1. Click new token and provide a unique name and access scope 
+1. Copy and store the token in a secure location
+
+sample command (username is normally the email address of the user)
+
+```curl -u username:<personalaccesstoken> "https://dev.azure.com/{organization}/_apis/projects?api-version=5.0"```
 
