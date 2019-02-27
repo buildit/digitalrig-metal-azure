@@ -35,7 +35,7 @@ done
 echo "created resource group successful"
 cat ./outputs/groupCreateOutput.json
 export RESOURCEGROUPID=$(jq -r '.id' < ./outputs/groupCreateOutput.json)
-sleep 120
+sleep 30
 
 #import values into createServiceConnectionData.json
 echo "creating service connection for build tasks"
@@ -51,7 +51,7 @@ until $(curl -u $USERCRED --header "Content-Type: application/json" --request PO
     sleep 5
 done
 export SERVICECONNECTIONID=$(jq -r '.id' < ./outputs/createServiceOutput.json)
-sleep 120
+sleep 30
 
 #create service connector for git integration
 echo "creating service connection for git integration"
@@ -66,19 +66,32 @@ until $(curl -u $USERCRED --header "Content-Type: application/json" --request PO
     sleep 5
 done
 export GITSERVICECONNECTIONID=$(jq -r '.id' < ./outputs/createGitServiceOutput.json)
-sleep 120
+sleep 30
 
 #create build pipeline
 echo "creating build pipeline"
 [ -e ./data/createBuildPipelineData.json ] && rm ./data/createBuildPipelineData.json
-[ -e ./outputs/createBuildOutput.json ] && rm ./outputs/createBuildOutput.json.json
+[ -e ./outputs/createBuildOutput.json ] && rm ./outputs/createBuildOutput.json
 cp ./templates/createBuildPipelineTemplate.json ./data/createBuildPipelineData.json
 LOWERRESOURCEGROUPNAME=$(echo "$RESOURCEGROUPNAME" | awk '{print tolower($0)}')
 REGISTRYNAME=$LOWERRESOURCEGROUPNAME"acr"
 REGISTRYADDRESS=$REGISTRYNAME".azurecr.io"
-PIPELINENAME="API Created Buildpipeline"
+PIPELINENAME="API Create and Queued Buildpipeline For Real"
 sed -i " s|\${serviceConnectionId}|$SERVICECONNECTIONID|; s|\${groupName}|$RESOURCEGROUPNAME|; s|\${location}|$LOCATION|; s|\${registryName}|$REGISTRYNAME|; s|\${registryAddress}|$REGISTRYADDRESS|; s|\${registrySku}|$REGISTRYSKU|; s|\${imageName}|$IMAGENAME|; s|\${subscriptionId}|$SUBSCRIPTIONID|; s|\${resourceGroupId}|$RESOURCEGROUPID|; s|\${gitOrg}|$GITORG|; s|\${gitRepo}|$GITREPO|; s|\${gitServiceConnectionId}|$GITSERVICECONNECTIONID|; s|\${orgName}|$ORGNAME|; s|\${pipelineName}|$PIPELINENAME|; s|\${projectId}|$PROJECTID|; s|\${projectName}|$PROJECTNAME|" ./data/createBuildPipelineData.json
 until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@./data/createBuildPipelineData.json" "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/build/definitions?api-version=5.0" | jq '.' > ./outputs/createBuildOutput.json); do
     printf "wating to create pipeline"
+    sleep 5
+done
+export PIPELINEID=$(jq -r '.id' < ./outputs/createBuildOutput.json)
+sleep 30
+
+#queue build pipeline
+echo "queueing build"
+[ -e ./data/queueBuildData.json ] && rm ./data/queueBuildData.json
+[ -e ./outputs/queueBuildOutput.json ] && rm ./outputs/queueBuildOutput.json.json
+cp ./templates/queueBuildDataTemplate.json ./data/queueBuildData.json
+sed -i " s|\${pipelineId}|$PIPELINEID|; s|\${pipelineName}|$PIPELINENAME|; s|\${projectId}|$PROJECTID|; s|\${projectName}|$PROJECTNAME|; s|\${orgName}|$ORGNAME|" ./data/queueBuildData.json
+until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@./data/queueBuildData.json" "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/build/builds?api-version=5.0" | jq '.' > ./outputs/queueBuildOutput.json); do
+    printf "waiting to queue build"
     sleep 5
 done
