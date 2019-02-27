@@ -18,7 +18,6 @@ curl -u ***REMOVED***:***REMOVED*** https://dev.azure.com/rigtest/WebContainerTe
         "patch": 0
       },
       "artifactId": "",
-      "url": "https://dev.azure.com/rigtest/e2eb2c17-9bef-4d0c-93a0-650bd0b2e28d/bc952219-8deb-4ab4-bdd8-02c0eef3ca9d/_apis/Dashboard/dashboards/ea5c07ff-9294-49f9-b3cd-55ac9402e64d/Widgets/455aff8b-3582-4345-b80d-5707cc581a22",
       "isEnabled": true,
       "contentUri": null,
       "contributionId": "ms.vss-dashboards-web.Microsoft.VisualStudioOnline.Dashboards.BuildHistogramWidget",
@@ -45,7 +44,6 @@ curl -u ***REMOVED***:***REMOVED*** https://dev.azure.com/rigtest/WebContainerTe
         "patch": 0
       },
       "artifactId": "",
-      "url": "https://dev.azure.com/rigtest/e2eb2c17-9bef-4d0c-93a0-650bd0b2e28d/bc952219-8deb-4ab4-bdd8-02c0eef3ca9d/_apis/Dashboard/dashboards/ea5c07ff-9294-49f9-b3cd-55ac9402e64d/Widgets/de9ba399-5b59-4379-8c51-7c0794bc5d70",
       "isEnabled": true,
       "contentUri": null,
       "contributionId": "ms.vss-test-web.Microsoft.VisualStudioTeamServices.Dashboards.TestResultsTrendWidget",
