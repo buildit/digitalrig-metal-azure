@@ -25,6 +25,7 @@ echo "logged in successful"
 cat ./outputs/loginOutput.json
 export SUBSCRIPTIONID=$(jq -r '.id' < ./outputs/loginOutput.json)
 export TENNANTID=$(jq -r '.tenantId' < ./outputs/loginOutput.json)
+export SUBSCRIPTIONNAME=$(jq -r '.name' < ./outputs/loginOutput.json)
 
 #create resource group
 [ -e ./outputs/groupCreateOutput.json ] && rm ./outputs/groupCreateOutput.json
@@ -43,8 +44,8 @@ echo "creating service connection for build tasks"
 [ -e ./outputs/createServiceOutput.json ] && rm ./outputs/createServiceOutput.json
 cp ./templates/createServiceConnectionDataTemplate.json ./data/createServiceConnectionData.json
 SERVICECONNECTIONIDGEN=$(uuidgen)
-SERVICECONNECTIONNAME="Azure Service Connection"
-sed -i "s|\${serviceConnectionId}|$SERVICECONNECTIONIDGEN|; s|\${tennantId}|$TENNANTID|; s|\${resourceGroupId}|$RESOURCEGROUPID|; s|\${subscriptionId}|$SUBSCRIPTIONID|; s|\${connectionName}|$SERVICECONNECTIONNAME|" ./data/createServiceConnectionData.json
+SERVICECONNECTIONNAME="Azure Service Connection-From API"
+sed -i "s|\${serviceConnectionId}|$SERVICECONNECTIONIDGEN|; s|\${tennantId}|$TENNANTID|; s|\${resourceGroupId}|$RESOURCEGROUPID|; s|\${subscriptionId}|$SUBSCRIPTIONID|; s|\${subscriptionName}|$SUBSCRIPTIONNAME|; s|\${connectionName}|$SERVICECONNECTIONNAME|" ./data/createServiceConnectionData.json
 #user credentials should be form username:PAT and defined in config
 until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@./data/createServiceConnectionData.json" "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/serviceendpoint/endpoints?api-version=5.0-preview.2" | jq '.' > ./outputs/createServiceOutput.json); do
     printf "waiting to create service connection"
@@ -59,7 +60,7 @@ echo "creating service connection for git integration"
 [ -e ./outputs/createGitServiceOutput.json ] && rm ./outputs/createGitServiceOutput.json
 cp ./templates/createGitServiceConnectionDataTemplate.json ./data/createGitServiceConnectionData.json
 GITSERVICECONNECTIONIDGEN=$(uuidgen)
-GITSERVICECONNECTIONNAME="Github service connection"
+GITSERVICECONNECTIONNAME="Github service connection-From API"
 sed -i "s|\${gitServiceConnectionId}|$GITSERVICECONNECTIONIDGEN|; s|\${gitPAT}|$GITPAT|; s|\${gitServiceConnectionName}|$GITSERVICECONNECTIONNAME|" ./data/createGitServiceConnectionData.json
 until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@./data/createGitServiceConnectionData.json" "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/serviceendpoint/endpoints?api-version=5.0-preview.2" | jq '.' > ./outputs/createGitServiceOutput.json); do
     printf "waiting to create service connection"
@@ -88,7 +89,7 @@ sleep 30
 #queue build pipeline
 echo "queueing build"
 [ -e ./data/queueBuildData.json ] && rm ./data/queueBuildData.json
-[ -e ./outputs/queueBuildOutput.json ] && rm ./outputs/queueBuildOutput.json.json
+[ -e ./outputs/queueBuildOutput.json ] && rm ./outputs/queueBuildOutput.json
 cp ./templates/queueBuildDataTemplate.json ./data/queueBuildData.json
 sed -i " s|\${pipelineId}|$PIPELINEID|; s|\${pipelineName}|$PIPELINENAME|; s|\${projectId}|$PROJECTID|; s|\${projectName}|$PROJECTNAME|; s|\${orgName}|$ORGNAME|" ./data/queueBuildData.json
 until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@./data/queueBuildData.json" "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/build/builds?api-version=5.0" | jq '.' > ./outputs/queueBuildOutput.json); do
