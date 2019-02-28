@@ -1,0 +1,301 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sites_RigContainerApp_name": {
+            "defaultValue": "RigContainerApp",
+            "type": "String"
+        },
+        "serverfarms_RigContainerPlan_name": {
+            "defaultValue": "RigContainerPlan",
+            "type": "String"
+        },
+        "config_web_name": {
+            "defaultValue": "web",
+            "type": "String"
+        },
+        "registries_RigContainerRegistry_name": {
+            "defaultValue": "RigContainerRegistry",
+            "type": "String"
+        },
+        "hostNameBindings": {
+            "defaultValue": "rigcontainerapp.azurewebsites.net",
+            "type": "String"
+        },
+        "administratorLogin": {
+            "type": "String"
+        },
+        "administratorLoginPassword": {
+            "type": "SecureString"
+        },
+        "collation": {
+            "type": "String",
+            "defaultValue": "SQL_Latin1_General_CP1_CI_AS"
+        },
+        "databaseName": {
+            "type": "String"
+        },
+        "tier": {
+            "type": "String",
+            "defaultValue": "Standard"
+        },
+        "skuName": {
+            "type": "String",
+            "defaultValue": "S0"
+        },
+        "location": {
+            "type": "String"
+        },
+        "maxSizeBytes": {
+            "type": "Int",
+            "defaultValue": 268435456000
+        },
+        "serverName": {
+            "type": "String"
+        },
+        "sampleName": {
+            "defaultValue": "",
+            "type": "String"
+        },
+        "zoneRedundant": {
+            "defaultValue": false,
+            "type": "Bool"
+        },
+        "licenseType": {
+            "defaultValue": "",
+            "type": "String"
+        },
+        "readScaleOut": {
+            "defaultValue": "Disabled",
+            "type": "String"
+        },
+        "numberOfReplicas": {
+            "defaultValue": 0,
+            "type": "Int"
+        },
+        "enableATP": {
+            "defaultValue": false,
+            "type": "Bool"
+        },
+        "allowAzureIps": {
+            "defaultValue": true,
+            "type": "Bool"
+        },
+        "databaseTags": {
+            "defaultValue": {},
+            "type": "Object"
+        },
+        "serverTags": {
+            "defaultValue": {},
+            "type": "Object"
+        },
+        "appInsightsName" : {
+            "type": "string"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "comments": "Azure Container Registry",
+            "type": "Microsoft.ContainerRegistry/registries",
+            "sku": {
+                "name": "Standard",
+                "tier": "Standard"
+            },
+            "name": "[parameters('registries_RigContainerRegistry_name')]",
+            "apiVersion": "2017-10-01",
+            "location": "centralus",
+            "tags": {},
+            "scale": null,
+            "properties": {
+                "adminUserEnabled": false
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "WebApp Service Plan",
+            "type": "Microsoft.Web/serverfarms",
+            "sku": {
+                "name": "P1v2",
+                "tier": "PremiumV2",
+                "size": "P1v2",
+                "family": "Pv2",
+                "capacity": 1
+            },
+            "kind": "linux",
+            "name": "[parameters('serverfarms_RigContainerPlan_name')]",
+            "apiVersion": "2016-09-01",
+            "location": "centralus",
+            "scale": null,
+            "properties": {
+                "name": "[parameters('serverfarms_RigContainerPlan_name')]",
+                "workerTierName": null,
+                "adminSiteName": null,
+                "hostingEnvironmentProfile": null,
+                "perSiteScaling": false,
+                "reserved": true,
+                "targetWorkerCount": 0,
+                "targetWorkerSizeId": 0
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "WebApp Container",
+            "type": "Microsoft.Web/sites",
+            "kind": "app,linux,container",
+            "name": "[parameters('sites_RigContainerApp_name')]",
+            "apiVersion": "2016-08-01",
+            "location": "centralus",
+            "scale": null,
+            "properties": {
+                "enabled": true,
+                "hostNameSslStates": [
+                    {
+                        "name": "[concat(parameters('sites_RigContainerApp_name'),'rigcontainerapp.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "virtualIP": null,
+                        "thumbprint": null,
+                        "toUpdate": null,
+                        "hostType": "Standard"
+                    },
+                    {
+                        "name": "[concat(parameters('sites_RigContainerApp_name'),'rigcontainerapp.scm.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "virtualIP": null,
+                        "thumbprint": null,
+                        "toUpdate": null,
+                        "hostType": "Repository"
+                    }
+                ],
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_RigContainerPlan_name'))]",
+                "reserved": true,
+                "siteConfig": null,
+                "scmSiteAlsoStopped": false,
+                "hostingEnvironmentProfile": null,
+                "clientAffinityEnabled": true,
+                "clientCertEnabled": false,
+                "hostNamesDisabled": false,
+                "containerSize": 0,
+                "dailyMemoryTimeQuota": 0,
+                "cloningInfo": null,
+                "httpsOnly": false
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_RigContainerPlan_name'))]"
+            ]
+        },
+        {
+            "comments": "Redis Cache",
+            "type": "Microsoft.Cache/Redis",
+            "name": "AzureRig",
+            "apiVersion": "2018-03-01",
+            "location": "[parameters('location')]",
+            "properties": {
+                "sku": {
+                    "name": "Standard",
+                    "family": "C",
+                    "capacity": 1
+                },
+                "redisConfiguration": {},
+                "enableNonSslPort": false
+            }
+        },
+        {
+            "comments": "AppInsights (location restrictions as of 2/2019 will default to eastus)",
+            "type": "microsoft.insights/components",
+            "name": "[parameters('appInsightsName')]",
+            "apiVersion": "2014-08-01",
+            "location": "eastus",
+            "properties": {
+                "ApplicationId": "[parameters('appInsightsName')]",
+                "Application_Type": "other",
+                "Flow_Type": "Redfield",
+                "Request_Source": "IbizaAIExtensions"
+            }
+        },
+        {
+            "comments": "Azure SQL Database Server",
+            "type": "Microsoft.Sql/servers",
+            "name": "[parameters('serverName')]",
+            "apiVersion": "2015-05-01-preview",
+            "location": "[parameters('location')]",
+            "tags": "[parameters('serverTags')]",
+            "properties": {
+                "administratorLogin": "[parameters('administratorLogin')]",
+                "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
+                "version": "12.0"
+            },
+            "resources": [
+                {
+                    "type": "databases",
+                    "sku": {
+                        "name": "[parameters('skuName')]",
+                        "tier": "[parameters('tier')]"
+                    },
+                    "name": "[parameters('databaseName')]",
+                    "apiVersion": "2017-10-01-preview",
+                    "location": "[parameters('location')]",
+                    "tags": "[parameters('databaseTags')]",
+                    "properties": {
+                        "collation": "[parameters('collation')]",
+                        "maxSizeBytes": "[parameters('maxSizeBytes')]",
+                        "sampleName": "[parameters('sampleName')]",
+                        "zoneRedundant": "[parameters('zoneRedundant')]",
+                        "licenseType": "[parameters('licenseType')]",
+                        "readScale": "[parameters('readScaleOut')]",
+                        "readReplicaCount": "[parameters('numberOfReplicas')]"
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.Sql/servers/', parameters('serverName'))]"
+                    ]
+                },
+                {
+                    "type": "firewallrules",
+                    "name": "AllowAllWindowsAzureIps",
+                    "apiVersion": "2014-04-01-preview",
+                    "location": "[parameters('location')]",
+                    "properties": {
+                        "endIpAddress": "0.0.0.0",
+                        "startIpAddress": "0.0.0.0"
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.Sql/servers/', parameters('serverName'))]"
+                    ],
+                    "condition": "[parameters('allowAzureIps')]"
+                },
+                {
+                    "type": "securityAlertPolicies",
+                    "name": "Default",
+                    "apiVersion": "2017-03-01-preview",
+                    "properties": {
+                        "state": "Enabled",
+                        "disabledAlerts": [],
+                        "emailAddresses": [],
+                        "emailAccountAdmins": true
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.Sql/servers/', parameters('serverName'))]",
+                        "[concat('Microsoft.Sql/servers/', parameters('serverName'), '/databases/', parameters('databaseName'))]"
+                    ],
+                    "condition": "[parameters('enableATP')]"
+                }
+            ]
+        },
+        {
+            "comments": "",
+            "type": "Microsoft.Web/sites/hostNameBindings",
+            "name": "[concat(parameters('sites_RigContainerApp_name'), '/', parameters('hostNameBindings'))]",
+            "apiVersion": "2016-08-01",
+            "location": "centralus",
+            "scale": null,
+            "properties": {
+                "siteName": "RigContainerApp",
+                "domainId": null,
+                "hostNameType": "Verified"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_RigContainerApp_name'))]"
+            ]
+        }
+    ]
+}
