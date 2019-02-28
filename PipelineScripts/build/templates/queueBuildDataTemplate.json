@@ -1,0 +1,18 @@
+{
+    "definition": {
+        "id": "${pipelineId}",
+        "name": "${pipelineName}",
+        "path": "\\",
+        "type": "build",
+        "queueStatus": "enabled",
+        "revision": 1,
+        "project": {
+            "id": "${projectId}",
+            "name": "${projectName}",
+            "url": "https://dev.azure.com/${orgName}/_apis/projects/${projectId}",
+            "state": "wellFormed",
+            "revision": 83,
+            "visibility": "private"
+        }
+    }
+}
