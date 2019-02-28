@@ -185,22 +185,6 @@
             ]
         },
         {
-            "comments": "Redis Cache",
-            "type": "Microsoft.Cache/Redis",
-            "name": "AzureRig",
-            "apiVersion": "2018-03-01",
-            "location": "[parameters('location')]",
-            "properties": {
-                "sku": {
-                    "name": "Standard",
-                    "family": "C",
-                    "capacity": 1
-                },
-                "redisConfiguration": {},
-                "enableNonSslPort": false
-            }
-        },
-        {
             "comments": "AppInsights (location restrictions as of 2/2019 will default to eastus)",
             "type": "microsoft.insights/components",
             "name": "[parameters('appInsightsName')]",
