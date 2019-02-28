@@ -1,0 +1,12 @@
+#get list of release definitions
+curl -u $userCred "https://vsrm.dev.azure.com/$orgName/$projectName/_apis/release/releases?api-version=5.0" | jq -r '.'> releaseList.json
+
+#get release definition to make example from
+curl -u $userCred "https://vsrm.dev.azure.com/$orgName/$projectName/_apis/release/definitions/1?api-version=5.0" | jq -r '.'> getRelease1.json
+
+#create new release definition
+curl -u $userCred \
+    --header "Content-Type: application/json" \
+    --request POST \
+    --data "@releaseTemplate.json" \
+    "https://vsrm.dev.azure.com/$orgName/$projectName/_apis/release/releases?api-version=5.0" | jq '.' > releaseOutput.json
