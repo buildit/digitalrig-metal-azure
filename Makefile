@@ -13,3 +13,11 @@ create-parameters-file:
 create-resource-group:
 	@echo "Create Resource Group"
 	@scripts/create-resource-group.sh
+
+create-build-pipeline:
+	@echo "Create Build Pipeline"
+	@scripts/create-build-pipeline.sh
+
+create-deploy-pipeline:
+	@echo "Create Deploy Pipeline"
+	@scripts/create-deploy-pipeline.sh
