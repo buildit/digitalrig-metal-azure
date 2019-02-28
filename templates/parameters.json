@@ -18,22 +18,31 @@
             "value": "HOST_NAME_BINDING"
         },
         "location": {
-            "value": "DATABASE_LOCATION_NAME"
-        },
-        "serverName": {
-            "value": "DATABASE_SERVER_NAME"
-        },
-        "databaseName": {
-            "value": "DATABASE_DB_NAME"
-        },
-        "administratorLogin": {
-            "value": "DATABASE_ADMIN_USERNAME"
-        },
-        "administratorLoginPassword": {
-            "value": "DATABASE_ADMIN_PASSWORD"
+            "value": "LOCATION"
         },
         "appInsightsName": {
             "value": "APP_INSIGHTS_NAME"
+        },
+        "resourceGroupName": {
+            "value": "RESOURCEGROUP_NAME"
+        },
+        "devops_org_name": {
+            "value": "ORGNAME"
+        },
+        "devops_proj_name": {
+            "value":"PROJECTNAME"
+        },
+        "devops_user_cred": {
+            "value":"USERCRED"
+        },
+        "gitOrg": {
+            "value":"GITORG"
+        },
+        "gitRepo": {
+            "value":"GITREPO"
+        },
+        "gitPAT": {
+            "value":"GITPAT"
         }
     }
 }
