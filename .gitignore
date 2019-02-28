@@ -3,3 +3,4 @@ secrets
 test.config
 **/data*
 **/outputs*
+.DS_Store
