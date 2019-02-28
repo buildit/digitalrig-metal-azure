@@ -1,5 +1,5 @@
 secrets
-/temp*
+/localtemp*
 test.config
 **/data*
 **/outputs*
