@@ -8,7 +8,7 @@ create-build-dashboard:
 
 create-parameters-file:
 	@echo "Create Parameters File"
-	@scripts/create-parameters-file.sh DEV
+	@scripts/create-parameters-file.sh
 
 create-resource-group:
 	@echo "Create Resource Group"
