@@ -18,8 +18,8 @@ echo
 
 read -p "Subscription Id (\"$DEFAULT_SUBSCRIPTION_ID\"): " SUBSCRIPTION_ID
 read -p "Resource Group Name (\"$DEFAULT_RESOURCEGROUP_NAME\"): " RESOURCEGROUP_NAME
-read -p "Resource Group Location (\"$DEFAULT_DEPLOYMENT_NAME\"): " DEPLOYMENT_NAME
-read -p "Deployment Name (\"$DEFAULT_RESOURCEGROUP_LOCATION\"): " RESOURCEGROUP_LOCATION
+read -p "Deployment Name (\"$DEFAULT_DEPLOYMENT_NAME\"): " DEPLOYMENT_NAME
+read -p "Resource Group Location (\"$DEFAULT_RESOURCEGROUP_LOCATION\"): " RESOURCEGROUP_LOCATION
 read -p "Template File Path (\"$DEFAULT_TEMPLATE_FILE_PATH\"): " TEMPLATE_FILE_PATH
 read -p "Parameters File Path (\"$DEFAULT_PARAMETERS_FILE_PATH\"): " PARAMETERS_FILE_PATH
 echo
