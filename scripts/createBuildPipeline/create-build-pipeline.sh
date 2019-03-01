@@ -2,7 +2,6 @@
 
 #hash to identifty build pipeline resources
 HASH=$( cat /dev/urandom | env LC_CTYPE=C tr -dc a-zA-Z0-9 | head -c 6 ; echo '')
-echo "$HASH"
 DATAPATH=./scripts/createBuildPipeline/data
 OUTPUTPATH=./scripts/createBuildPipeline/outputs
 TEMPLATEPATH=./scripts/createBuildPipeline/templates

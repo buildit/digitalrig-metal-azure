@@ -1,6 +1,6 @@
 create-build-notification:
 	@echo "Create Build Notification"
-	@scripts/create-build-notification.sh
+	@scripts/slack_notifications/create-build-notification.sh
 
 create-build-dashboard:
 	@echo "Create Build Dashboard"
@@ -30,4 +30,4 @@ create-dashboard:
 	@echo "Create Dashboard"
 	@scripts/dashboard/create-build-dashboard.sh
 
-create-populateProject: create-parameters-file create-resource-group create-build-pipeline
+create-populateProject: create-parameters-file create-resource-group create-build-notification create-build-pipeline

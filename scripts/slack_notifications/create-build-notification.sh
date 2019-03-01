@@ -5,9 +5,13 @@ DATAPATH=./scripts/slack_notifications/data/
 OUTPUTPATH=./scripts/slack_notifications/outputs/
 TEMPLATEPATH=./scripts/slack_notifications/templates/
 
+mkdir -p $DATAPATH
+mkdir -p $OUTPUTPATH
+mkdir -p $TEMPLATEPATH
+
 # Get parameters from parameter.json file.
 USERNAME=$(jq -r '.parameters.devops_user.value' < ./output/parameters.json)
-PAT=$(jq -r '.parameters.devops_user_cred.value' < ./output/parameters.json)
+PAT=$(jq -r '.parameters.devops_PAT.value' < ./output/parameters.json)
 ORGNAME=$(jq -r '.parameters.devops_org_name.value' < ./output/parameters.json) 
 PROJECT_URL="https://dev.azure.com/${ORGNAME}"
 PROJECT_ID=$(jq -r '.parameters.devops_proj_id.value' < ./output/parameters.json)
