@@ -12,7 +12,7 @@
       "buildStatus":"",
       "definitionName":"",
       "projectId":"PROJECT_ID",
-      "tfsSubscriptionId":"SUBSCRIPTION_ID"
+      "tfsSubscriptionId":"null"
     },
     "consumerInputs":{
       "url":"SLACK_HOOK_URL"

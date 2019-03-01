@@ -22,4 +22,12 @@ create-deploy-pipeline:
 	@echo "Create Deploy Pipeline"
 	@scripts/create-deploy-pipeline.sh
 
+create-slack-hook:
+	@echo "Create Slack Hook"
+	@scripts/slack_notifications/create-build-notification.sh
+
+create-dashboard:
+	@echo "Create Dashboard"
+	@scripts/dashboard/create-build-dashboard.sh
+
 create-populateProject: create-parameters-file create-resource-group create-build-pipeline
