@@ -1,0 +1,21 @@
+{
+    "status":"enabled",
+    "publisherId":"tfs",
+    "eventType":"build.complete",
+    "subscriber":null,
+    "resourceVersion":null,
+    "eventDescription":"Any completed build.",
+    "consumerId":"slack",
+    "consumerActionId":"postMessageToChannel",
+    "actionDescription":null,
+    "publisherInputs":{
+      "buildStatus":"",
+      "definitionName":"",
+      "projectId":"PROJECT_ID",
+      "tfsSubscriptionId":"SUBSCRIPTION_ID"
+    },
+    "consumerInputs":{
+      "url":"SLACK_HOOK_URL"
+    },
+    "_links":{}
+  }
