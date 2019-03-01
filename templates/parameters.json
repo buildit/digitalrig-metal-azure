@@ -47,11 +47,11 @@
         "gitPAT": {
             "value":"GITPAT"
         },
-        "account_id": {
-            "value":"ACCOUNTID"
+        "subscription_id": {
+            "value":"SUBSCRIPTIONID"
         },
-        "account_name": {
-            "value":"ACCOUNTNAME"
+        "subscription_name": {
+            "value":"SUBSCRIPTIONNAME"
         },
         "tenant_id": {
             "value": "TENANTID"

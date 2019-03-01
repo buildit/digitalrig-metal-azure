@@ -11,8 +11,8 @@ if [[ -z $LOGININFO ]]; then
     LOGININFO=$(az login)
 fi
 
-ACCOUNTID=$(echo "$LOGININFO" | jq -r '.id')
-ACCOUNTNAME=$(echo "$LOGININFO" | jq -r '.name')
+SUBSCRIPTIONID=$(echo "$LOGININFO" | jq -r '.id')
+SUBSCRIPTIONNAME=$(echo "$LOGININFO" | jq -r '.name')
 TENANTID=$(echo "$LOGININFO" | jq -r '.tenantId')
 
 #Create or get info for Resource Group
@@ -24,8 +24,8 @@ RESOURCEGROUPID=$(echo "$RESOURCEINFO" | jq -r '.id')
 #add values to parameters
 PARAM_FILE="output/parameters.json"
 
-sed -i "s/ACCOUNTID/${ACCOUNTID}/g" $PARAM_FILE
-sed -i "s/ACCOUNTNAME/${ACCOUNTNAME}/g" $PARAM_FILE
+sed -i "s/SUBSCRIPTIONID/${SUBSCRIPTIONID}/g" $PARAM_FILE
+sed -i "s/SUBSCRIPTIONNAME/${SUBSCRIPTIONNAME}/g" $PARAM_FILE
 sed -i "s/TENANTID/${TENANTID}/g" $PARAM_FILE
 sed -i "s|\${RESOURCEGROUPID}|$RESOURCEGROUPID|" $PARAM_FILE
 
