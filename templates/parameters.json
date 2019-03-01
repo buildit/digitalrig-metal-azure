@@ -35,8 +35,11 @@
         "devops_proj_id": {
             "value":"PROJECTID"
         },
-        "devops_user_cred": {
-            "value":"USERCRED"
+        "devops_user": {
+            "value":"DEVOPSUSERNAME"
+        },
+        "devops_PAT": {
+            "value":"DEVOPSPAT"
         },
         "gitOrg": {
             "value":"GITORG"

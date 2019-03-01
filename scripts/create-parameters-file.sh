@@ -42,7 +42,6 @@ while [[ -z "$DEVOPSPAT" ]]
 do
     read -p "Devops Personal Access Token (check readme for instructions to get): " DEVOPSPAT
 done
-USERCRED=$DEVOPSUSERNAME:$DEVOPSPAT
 
 while [[ -z "$GITPAT" ]]
 do
@@ -90,7 +89,7 @@ APP_INSIGHTS_NAME="${APP_INSIGHTS_NAME:-$DEFAULT_APP_INSIGHTS_NAME}"
 # Build the parameters.json file using the above parameters.
 PARAM_FILE="output/parameters.json"
 cp templates/parameters.json $PARAM_FILE
-
+#FIND A COMMAND THAT WORKS FOR BOTH LINUX AND MAC 
 sed -i "s/CONTAINER_APP_NAME/${CONTAINER_APP_NAME}/g" $PARAM_FILE
 sed -i "s/CONTAINER_PLAN_NAME/${CONTAINER_PLAN_NAME}/g" $PARAM_FILE
 sed -i "s/CONTAINER_REGISTRY_NAME/${CONTAINER_REGISTRY_NAME}/g" $PARAM_FILE
@@ -109,7 +108,8 @@ sed -i "s/LOCATION/${LOCATION}/g" $PARAM_FILE
 sed -i "s/RESOURCEGROUP_NAME/${RESOURCEGROUP_NAME}/g" $PARAM_FILE
 sed -i "s/ORGNAME/${ORGNAME}/g" $PARAM_FILE
 sed -i "s/PROJECTNAME/${PROJECTNAME}/g" $PARAM_FILE
-sed -i "s/USERCRED/${USERCRED}/g" $PARAM_FILE
+sed -i "s/DEVOPSPAT/${DEVOPSPAT}/g" $PARAM_FILE
+sed -i "s/DEVOPSUSERNAME/${DEVOPSUSERNAME}/g" $PARAM_FILE
 sed -i "s/GITORG/${GITORG}/g" $PARAM_FILE
 sed -i "s/GITREPO/${GITREPO}/g" $PARAM_FILE
 sed -i "s/GITPAT/${GITPAT}/g" $PARAM_FILE
