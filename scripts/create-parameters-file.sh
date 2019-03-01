@@ -31,22 +31,27 @@ echo "Defaults are shown in parenthesis.  <Enter> to accept."
 echo
 
 read -p "Location (\"$DEFAULT_LOCATION\"): " LOCATION
+LOCATION="${LOCATION:-$DEFAULT_LOCATION}"
+
 while [[ -z "$DEVOPSUSERNAME" ]]
 do
     read -p "Devops Username (normally email with Azure subscription): " DEVOPSUSERNAME
 done
+
 while [[ -z "$DEVOPSPAT" ]]
 do
     read -p "Devops Personal Access Token (check readme for instructions to get): " DEVOPSPAT
 done
 USERCRED=$DEVOPSUSERNAME:$DEVOPSPAT
+
 while [[ -z "$GITPAT" ]]
 do
     read -p "Github Personal Access Token (check readme for instructions to get): " GITPAT
 done
+
 read -p "Base Resource Name (\"$DEFAULT_RESOURCEGROUP_NAME\"): " RESOURCEGROUP_NAME
 # HASH=$( head /dev/urandom | tr -dc A-Za-z0-9 | head -c 6 ; echo '')
-RESOURCEGROUP_NAME=$DEFAULT_RESOURCEGROUP_NAME
+RESOURCEGROUP_NAME="${RESOURCEGROUP_NAME:-$DEFAULT_RESOURCEGROUP_NAME}"
 
 # read -p "sites_RigContainerApp_name (\"$DEFAULT_CONTAINER_APP_NAME\"): " CONTAINER_APP_NAME
 # read -p "serverfarms_RigContainerPlan_name (\"$DEFAULT_CONTAINER_PLAN_NAME\"): " CONTAINER_PLAN_NAME
@@ -72,7 +77,6 @@ CONTAINER_REGISTRY_NAME="${CONTAINER_REGISTRY_NAME:-$DEFAULT_CONTAINER_REGISTRY_
 WEB_CONFIG_NAME="${WEB_CONFIG_NAME:-$DEFAULT_WEB_CONFIG_NAME}"
 HOST_NAME_BINDING="${HOST_NAME_BINDING:-$DEFAULT_HOST_NAME_BINDING}"
 APP_INSIGHTS_NAME="${APP_INSIGHTS_NAME:-$DEFAULT_APP_INSIGHTS_NAME}"
-LOCATION="${LOCATION:-$DEFAULT_LOCATION}"
 
 # DATABASE_LOCATION_NAME="${DATABASE_LOCATION_NAME:-$DEFAULT_DATABASE_LOCATION_NAME}"
 # DATABASE_SERVER_NAME="${DATABASE_SERVER_NAME:-$DEFAULT_DATABASE_SERVER_NAME}"
