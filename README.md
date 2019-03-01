@@ -36,7 +36,7 @@ The high level steps for these pipelines:
 
 ## Connect to Azure Devops Services API
 In order to create build and release pipelines the Azure DevOps Services REST API must be used [API Documentation](https://docs.microsoft.com/en-us/rest/api/azure/devops/?view=azure-devops-rest-5.0)
-### Authorize requests
+### Authorize requests for Azure 
 A personal access token (PAT) is required to authorize API requests to grant a PAT follow these steps
 1. Go to https://dev.azure.com/{yourorganization} to get to the DevOps organization homepage
 1. Click on your user icon in the top right corner and click the security tab from the dropdown menu
@@ -46,4 +46,10 @@ A personal access token (PAT) is required to authorize API requests to grant a P
 sample command (username is normally the email address of the user)
 
 ```curl -u username:<personalaccesstoken> "https://dev.azure.com/{organization}/_apis/projects?api-version=5.0"```
+
+### Authorize requests for Github
+A PAT for the Azure pipeline to access github must be created and added to the project
+1. Sign into https://github.com/settings/tokens
+1. Click generate new token with the scopes -- repo, read:user, user:email, admin:repo_hook
+1. Copy and store the token in a secure location
 
