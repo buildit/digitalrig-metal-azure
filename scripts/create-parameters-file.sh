@@ -8,11 +8,11 @@ DEFAULT_WEB_CONFIG_NAME="RigWebAppConfig"
 DEFAULT_HOST_NAME_BINDING="rigcontainerapp.azurewebsites.net"
 DEFAULT_APP_INSIGHTS_NAME="RigAppInsights"
 
-DEFAULT_DATABASE_LOCATION_NAME="Central US"
-DEFAULT_DATABASE_SERVER_NAME="***REMOVED***testservername"
-DEFAULT_DATABASE_DB_NAME="testdatabase"
-DEFAULT_DATABASE_ADMIN_USERNAME="azuresqladmin"
-DEFAULT_DATABASE_ADMIN_PASSWORD="***REMOVED***"
+# DEFAULT_DATABASE_LOCATION_NAME="Central US"
+# DEFAULT_DATABASE_SERVER_NAME="***REMOVED***testservername"
+# DEFAULT_DATABASE_DB_NAME="testdatabase"
+# DEFAULT_DATABASE_ADMIN_USERNAME="azuresqladmin"
+# DEFAULT_DATABASE_ADMIN_PASSWORD="***REMOVED***"
 
 DEFAULT_LOCATION="Central US"
 DEFAULT_RESOURCEGROUP_NAME="builditSandbox"
@@ -45,8 +45,8 @@ do
     read -p "Github Personal Access Token (check readme for instructions to get): " GITPAT
 done
 read -p "Base Resource Name (\"$DEFAULT_RESOURCEGROUP_NAME\"): " RESOURCEGROUP_NAME
-HASH=$( head /dev/urandom | tr -dc A-Za-z0-9 | head -c 6 ; echo '')
-RESOURCEGROUP_NAME=$DEFAULT_RESOURCEGROUP_NAME$HASH
+# HASH=$( head /dev/urandom | tr -dc A-Za-z0-9 | head -c 6 ; echo '')
+RESOURCEGROUP_NAME=$DEFAULT_RESOURCEGROUP_NAME
 
 # read -p "sites_RigContainerApp_name (\"$DEFAULT_CONTAINER_APP_NAME\"): " CONTAINER_APP_NAME
 # read -p "serverfarms_RigContainerPlan_name (\"$DEFAULT_CONTAINER_PLAN_NAME\"): " CONTAINER_PLAN_NAME
@@ -80,6 +80,8 @@ LOCATION="${LOCATION:-$DEFAULT_LOCATION}"
 # DATABASE_ADMIN_USERNAME="${DATABASE_ADMIN_USERNAME:-$DEFAULT_DATABASE_ADMIN_USERNAME}"
 # DATABASE_ADMIN_PASSWORD="${DATABASE_ADMIN_PASSWORD:-$DEFAULT_DATABASE_ADMIN_PASSWORD}"
 
+#get project id from given project name
+
 
 # Build the parameters.json file using the above parameters.
 PARAM_FILE="output/parameters.json"
@@ -98,6 +100,7 @@ sed -i "s/APP_INSIGHTS_NAME/${APP_INSIGHTS_NAME}/g" $PARAM_FILE
 # sed -i '' "s/DATABASE_ADMIN_USERNAME/${DATABASE_ADMIN_USERNAME}/g" $PARAM_FILE
 # sed -i '' "s/DATABASE_ADMIN_PASSWORD/${DATABASE_ADMIN_PASSWORD}/g" $PARAM_FILE
 
+sed -i "s/PROJECTID/${PROJECTID}/g" $PARAM_FILE
 sed -i "s/LOCATION/${LOCATION}/g" $PARAM_FILE
 sed -i "s/RESOURCEGROUP_NAME/${RESOURCEGROUP_NAME}/g" $PARAM_FILE
 sed -i "s/ORGNAME/${ORGNAME}/g" $PARAM_FILE

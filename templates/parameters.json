@@ -32,6 +32,9 @@
         "devops_proj_name": {
             "value":"PROJECTNAME"
         },
+        "devops_proj_id": {
+            "value":"PROJECTID"
+        },
         "devops_user_cred": {
             "value":"USERCRED"
         },
@@ -43,6 +46,18 @@
         },
         "gitPAT": {
             "value":"GITPAT"
+        },
+        "account_id": {
+            "value":"ACCOUNTID"
+        },
+        "account_name": {
+            "value":"ACCOUNTNAME"
+        },
+        "tenant_id": {
+            "value": "TENANTID"
+        },
+        "resourceGroupId": {
+            "value":"${RESOURCEGROUPID}"
         }
     }
 }

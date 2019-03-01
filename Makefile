@@ -16,8 +16,10 @@ create-resource-group:
 
 create-build-pipeline:
 	@echo "Create Build Pipeline"
-	@scripts/create-build-pipeline.sh
+	@scripts/createBuildPipeline/create-build-pipeline.sh
 
 create-deploy-pipeline:
 	@echo "Create Deploy Pipeline"
 	@scripts/create-deploy-pipeline.sh
+
+create-populateProject: create-parameters-file create-resource-group create-build-pipeline
