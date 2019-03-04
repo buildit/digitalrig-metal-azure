@@ -1,5 +1,5 @@
 {
-  "name":"test 3",
+  "name":"DASHBOARD_NAME",
   "widgets":[
     {
       "name":"Build History",
@@ -24,8 +24,7 @@
       "typeId":"Microsoft.VisualStudioOnline.Dashboards.BuildHistogramWidget",
       "configurationContributionId":"ms.vss-dashboards-web.Microsoft.VisualStudioOnline.Dashboards.BuildHistogramWidget.Configuration",
       "configurationContributionRelativeId":"Microsoft.VisualStudioOnline.Dashboards.BuildHistogramWidget.Configuration",
-      "isNameConfigurable":true,
-      "loadingImageUrl":"https://dev.azure.com/rigtest/_static/Widgets/sprintBurndown-buildChartLoading.png"
+      "isNameConfigurable":true
     },
     {
       "name":"Test Results Trend",
@@ -50,8 +49,7 @@
       "typeId":"Microsoft.VisualStudioTeamServices.Dashboards.TestResultsTrendWidget",
       "configurationContributionId":"ms.vss-test-web.Microsoft.VisualStudioTeamServices.Dashboards.TestResults.TrendWidget.Configuration",
       "configurationContributionRelativeId":"Microsoft.VisualStudioTeamServices.Dashboards.TestResults.TrendWidget.Configuration",
-      "isNameConfigurable":true,
-      "loadingImageUrl":"https://dev.azure.com/rigtest/_static/Widgets/TestManagement/TestResultTrendLoading.png"
+      "isNameConfigurable":true
     }
   ]
 }

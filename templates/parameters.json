@@ -18,22 +18,49 @@
             "value": "HOST_NAME_BINDING"
         },
         "location": {
-            "value": "DATABASE_LOCATION_NAME"
-        },
-        "serverName": {
-            "value": "DATABASE_SERVER_NAME"
-        },
-        "databaseName": {
-            "value": "DATABASE_DB_NAME"
-        },
-        "administratorLogin": {
-            "value": "DATABASE_ADMIN_USERNAME"
-        },
-        "administratorLoginPassword": {
-            "value": "DATABASE_ADMIN_PASSWORD"
+            "value": "LOCATION"
         },
         "appInsightsName": {
             "value": "APP_INSIGHTS_NAME"
+        },
+        "resourceGroupName": {
+            "value": "RESOURCEGROUP_NAME"
+        },
+        "devops_org_name": {
+            "value": "ORGNAME"
+        },
+        "devops_proj_name": {
+            "value":"PROJECTNAME"
+        },
+        "devops_proj_id": {
+            "value":"PROJECTID"
+        },
+        "devops_user": {
+            "value":"DEVOPSUSERNAME"
+        },
+        "devops_PAT": {
+            "value":"DEVOPSPAT"
+        },
+        "gitOrg": {
+            "value":"GITORG"
+        },
+        "gitRepo": {
+            "value":"GITREPO"
+        },
+        "gitPAT": {
+            "value":"GITPAT"
+        },
+        "subscription_id": {
+            "value":"SUBSCRIPTIONID"
+        },
+        "subscription_name": {
+            "value":"SUBSCRIPTIONNAME"
+        },
+        "tenant_id": {
+            "value": "TENANTID"
+        },
+        "resourceGroupId": {
+            "value":"${RESOURCEGROUPID}"
         }
     }
 }
