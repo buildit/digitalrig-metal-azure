@@ -151,7 +151,7 @@
           "branchesUrl": "https://api.github.com/repos/${gitOrg}/${gitRepo}/branches",
           "cloneUrl": "https://github.com/${gitOrg}/${gitRepo}.git",
           "connectedServiceId": "${gitServiceConnectionId}",
-          "defaultBranch": "azuredevops",
+          "defaultBranch": "master",
           "fullName": "${gitOrg}/${gitRepo}",
           "refsUrl": "https://api.github.com/repos/${gitOrg}/${gitRepo}/git/refs",
           "fetchDepth": "0",
@@ -161,7 +161,7 @@
         "type": "GitHub",
         "name": "${gitOrg}/${gitRepo}",
         "url": "https://github.com/${gitOrg}/${gitRepo}.git",
-        "defaultBranch": "azuredevops",
+        "defaultBranch": "master",
         "clean": "false",
         "checkoutSubmodules": false
     },

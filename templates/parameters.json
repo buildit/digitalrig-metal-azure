@@ -61,6 +61,36 @@
         },
         "resourceGroupId": {
             "value":"${RESOURCEGROUPID}"
+        },
+        "versionHash": {
+            "value":"VERSIONHASH"
+        },
+        "serviceConnectionId": {
+            "value":"SERVICECONNECTIONID"
+        },
+        "pipelineId": {
+            "value": "PIPELINEID"
+        },
+        "DO_Displayname": {
+            "value":"{DO_DISPLAYNAME}"
+        },
+        "DO_Url": {
+            "value":"{DO_URL}"
+        },
+        "DO_Href": {
+            "value":"{DO_HREF}"
+        },
+        "DO_Id": {
+            "value":"{DO_ID}"
+        },
+        "DO_Uniquename": {
+            "value":"{DO_UNIQUENAME}"
+        },
+        "DO_Imageurl": {
+            "value":"{DO_IMAGEURL}"
+        },
+        "DO_Descriptor":{
+            "value":"{DO_DESCRIPTOR}"
         }
     }
 }

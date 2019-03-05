@@ -2,6 +2,7 @@
 
 #hash to identifty build pipeline resources
 HASH=$( cat /dev/urandom | env LC_CTYPE=C tr -dc a-zA-Z0-9 | head -c 6 ; echo '')
+sed -i'' -e "s/VERSIONHASH/${HASH}/g" ./output/parameters.json
 DATAPATH=./scripts/createBuildPipeline/data
 OUTPUTPATH=./scripts/createBuildPipeline/outputs
 TEMPLATEPATH=./scripts/createBuildPipeline/templates
@@ -37,7 +38,6 @@ echo "creating service connection for build tasks"
 cp $TEMPLATEPATH/createServiceConnectionDataTemplate.json $DATAPATH/createServiceConnectionData.json
 SERVICECONNECTIONIDGEN=$(uuidgen)
 SERVICECONNECTIONNAME="Azure Service Connection-"$HASH
-echo "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/serviceendpoint/endpoints?api-version=5.0-preview.2"
 sed -i'' -e "s|\${serviceConnectionId}|$SERVICECONNECTIONIDGEN|; s|\${tennantId}|$TENNANTID|; s|\${resourceGroupId}|$RESOURCEGROUPID|; s|\${subscriptionId}|$SUBSCRIPTIONID|; s|\${subscriptionName}|$SUBSCRIPTIONNAME|; s|\${connectionName}|$SERVICECONNECTIONNAME|" $DATAPATH/createServiceConnectionData.json
 #user credentials should be form username:PAT and defined in config
 until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@$DATAPATH/createServiceConnectionData.json" "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/serviceendpoint/endpoints?api-version=5.0-preview.2" | jq '.' > $OUTPUTPATH/createServiceOutput.json); do
@@ -45,6 +45,7 @@ until $(curl -u $USERCRED --header "Content-Type: application/json" --request PO
     sleep 5
 done
 SERVICECONNECTIONID=$(jq -r '.id' < $OUTPUTPATH/createServiceOutput.json)
+sed -i'' -e "s/SERVICECONNECTIONID/${SERVICECONNECTIONID}/g" ./output/parameters.json
 sleep 30
 
 #create service connector for git integration
@@ -72,13 +73,14 @@ IMAGENAME="azureRig"
 LOWERRESOURCEGROUPNAME=$(echo "$RESOURCEGROUPNAME" | awk '{print tolower($0)}')
 REGISTRYNAME=$LOWERRESOURCEGROUPNAME"acr"
 REGISTRYADDRESS=$REGISTRYNAME".azurecr.io"
-PIPELINENAME="API Pipeline-"$HASH
+PIPELINENAME="API Pipeline CI-"$HASH
 sed -i'' -e " s|\${serviceConnectionId}|$SERVICECONNECTIONID|; s|\${groupName}|$RESOURCEGROUPNAME|; s|\${location}|$LOCATION|; s|\${registryName}|$REGISTRYNAME|; s|\${registryAddress}|$REGISTRYADDRESS|; s|\${registrySku}|$REGISTRYSKU|; s|\${imageName}|$IMAGENAME|; s|\${subscriptionId}|$SUBSCRIPTIONID|; s|\${resourceGroupId}|$RESOURCEGROUPID|; s|\${gitOrg}|$GITORG|; s|\${gitRepo}|$GITREPO|; s|\${gitServiceConnectionId}|$GITSERVICECONNECTIONID|; s|\${orgName}|$ORGNAME|; s|\${pipelineName}|$PIPELINENAME|; s|\${projectId}|$PROJECTID|; s|\${projectName}|$PROJECTNAME|" $DATAPATH/createBuildPipelineData.json
 until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@$DATAPATH/createBuildPipelineData.json" "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/build/definitions?api-version=5.0" | jq '.' > $OUTPUTPATH/createBuildOutput.json); do
     printf "wating to create pipeline"
     sleep 5
 done
 PIPELINEID=$(jq -r '.id' < $OUTPUTPATH/createBuildOutput.json)
+sed -i'' -e "s/PIPELINEID/${PIPELINEID}/g" ./output/parameters.json
 sleep 30
 
 #queue build pipeline
@@ -91,3 +93,22 @@ until $(curl -u $USERCRED --header "Content-Type: application/json" --request PO
     printf "waiting to queue build"
     sleep 5
 done
+sleep 10
+
+#get user info to populate owner fields of owner for pipeline
+DO_DISPLAYNAME=$(jq -r '.requestedFor.displayName' < $OUTPUTPATH/queueBuildOutput.json)
+DO_URL=$(jq -r '.requestedFor.url' < $OUTPUTPATH/queueBuildOutput.json)
+DO_HREF=$(jq -r '.requestedFor._links.avatar.href' < $OUTPUTPATH/queueBuildOutput.json)
+DO_ID=$(jq -r '.requestedFor.id' < $OUTPUTPATH/queueBuildOutput.json)
+DO_UNIQUENAME=$(jq -r '.requestedFor.uniqueName' < $OUTPUTPATH/queueBuildOutput.json)
+DO_IMAGEURL=$(jq -r '.requestedFor.imageUrl' < $OUTPUTPATH/queueBuildOutput.json)
+DO_DESCRIPTOR=$(jq -r '.requestedFor.descriptor' < $OUTPUTPATH/queueBuildOutput.json)
+
+#populate owner fields in parameters
+sed -i'' -e "s|\${DO_Displayname|$DO_DISPLAYNAME|g" ./output/parameters.json
+sed -i'' -e "s|\${DO_Url|$DO_URL|g" ./output/parameters.json
+sed -i'' -e "s|\${DO_Href|$DO_HREF|g" ./output/parameters.json
+sed -i'' -e "s|\${DO_Id|$DO_ID|g" ./output/parameters.json
+sed -i'' -e "s|\${DO_Uniquename|$DO_UNIQUENAME|g" ./output/parameters.json
+sed -i'' -e "s|\${DO_Imageurl|$DO_IMAGEURL|g" ./output/parameters.json
+sed -i'' -e "s|\${DO_Descriptor|$DO_DESCRIPTOR|g" ./output/parameters.json

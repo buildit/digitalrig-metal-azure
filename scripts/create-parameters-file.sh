@@ -88,6 +88,7 @@ APP_INSIGHTS_NAME="${APP_INSIGHTS_NAME:-$DEFAULT_APP_INSIGHTS_NAME}"
 
 # Build the parameters.json file using the above parameters.
 PARAM_FILE="output/parameters.json"
+[ -e $PARAM_FILE ] && rm $PARAM_FILE
 cp templates/parameters.json $PARAM_FILE
 #FIND A COMMAND THAT WORKS FOR BOTH LINUX AND MAC 
 sed -i'' -e "s/CONTAINER_APP_NAME/${CONTAINER_APP_NAME}/g" $PARAM_FILE

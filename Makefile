@@ -18,6 +18,10 @@ create-build-pipeline:
 	@echo "Create Build Pipeline"
 	@scripts/createBuildPipeline/create-build-pipeline.sh
 
+create-release-pipeline:
+	@echo "Create Release Pipeline"
+	@scripts/createReleasePipeline/create-release-pipeline.sh
+
 create-deploy-pipeline:
 	@echo "Create Deploy Pipeline"
 	@scripts/create-deploy-pipeline.sh
@@ -30,4 +34,6 @@ create-dashboard:
 	@echo "Create Dashboard"
 	@scripts/dashboard/create-build-dashboard.sh
 
-create-populateProject: create-parameters-file create-resource-group create-build-notification create-build-pipeline
+create-populateProject: create-parameters-file create-resource-group create-build-notification create-build-pipeline create-release-pipeline
+
+create-pipelines: create-build-pipeline create-release-pipeline
