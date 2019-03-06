@@ -47,6 +47,7 @@ done
 SERVICECONNECTIONID=$(jq -r '.id' < $OUTPUTPATH/createServiceOutput.json)
 sed -i'' -e "s/SERVICECONNECTIONID/${SERVICECONNECTIONID}/g" ./output/parameters.json
 sleep 30
+echo ""
 
 #create service connector for git integration
 echo "creating service connection for git integration"
@@ -62,6 +63,7 @@ until $(curl -u $USERCRED --header "Content-Type: application/json" --request PO
 done
 GITSERVICECONNECTIONID=$(jq -r '.id' < $OUTPUTPATH/createGitServiceOutput.json)
 sleep 30
+echo ""
 
 #create build pipeline
 echo "creating build pipeline"
@@ -82,6 +84,7 @@ done
 PIPELINEID=$(jq -r '.id' < $OUTPUTPATH/createBuildOutput.json)
 sed -i'' -e "s/PIPELINEID/${PIPELINEID}/g" ./output/parameters.json
 sleep 30
+echo ""
 
 #queue build pipeline
 echo "queueing build"
@@ -94,6 +97,7 @@ until $(curl -u $USERCRED --header "Content-Type: application/json" --request PO
     sleep 5
 done
 sleep 10
+echo ""
 
 #get user info to populate owner fields of owner for pipeline
 DO_DISPLAYNAME=$(jq -r '.requestedFor.displayName' < $OUTPUTPATH/queueBuildOutput.json)
@@ -105,10 +109,10 @@ DO_IMAGEURL=$(jq -r '.requestedFor.imageUrl' < $OUTPUTPATH/queueBuildOutput.json
 DO_DESCRIPTOR=$(jq -r '.requestedFor.descriptor' < $OUTPUTPATH/queueBuildOutput.json)
 
 #populate owner fields in parameters
-sed -i'' -e "s|\${DO_Displayname|$DO_DISPLAYNAME|g" ./output/parameters.json
-sed -i'' -e "s|\${DO_Url|$DO_URL|g" ./output/parameters.json
-sed -i'' -e "s|\${DO_Href|$DO_HREF|g" ./output/parameters.json
-sed -i'' -e "s|\${DO_Id|$DO_ID|g" ./output/parameters.json
-sed -i'' -e "s|\${DO_Uniquename|$DO_UNIQUENAME|g" ./output/parameters.json
-sed -i'' -e "s|\${DO_Imageurl|$DO_IMAGEURL|g" ./output/parameters.json
-sed -i'' -e "s|\${DO_Descriptor|$DO_DESCRIPTOR|g" ./output/parameters.json
+sed -i'' -e "s|\${DO_DISPLAYNAME}|$DO_DISPLAYNAME|g" ./output/parameters.json
+sed -i'' -e "s|\${DO_URL}|$DO_URL|g" ./output/parameters.json
+sed -i'' -e "s|\${DO_HREF}|$DO_HREF|g" ./output/parameters.json
+sed -i'' -e "s|\${DO_ID}|$DO_ID|g" ./output/parameters.json
+sed -i'' -e "s|\${DO_UNIQUENAME}|$DO_UNIQUENAME|g" ./output/parameters.json
+sed -i'' -e "s|\${DO_IMAGEURL}|$DO_IMAGEURL|g" ./output/parameters.json
+sed -i'' -e "s|\${DO_DESCRIPTOR}|$DO_DESCRIPTOR|g" ./output/parameters.json

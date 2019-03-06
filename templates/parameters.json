@@ -72,25 +72,25 @@
             "value": "PIPELINEID"
         },
         "DO_Displayname": {
-            "value":"{DO_DISPLAYNAME}"
+            "value":"${DO_DISPLAYNAME}"
         },
         "DO_Url": {
-            "value":"{DO_URL}"
+            "value":"${DO_URL}"
         },
         "DO_Href": {
-            "value":"{DO_HREF}"
+            "value":"${DO_HREF}"
         },
         "DO_Id": {
-            "value":"{DO_ID}"
+            "value":"${DO_ID}"
         },
         "DO_Uniquename": {
-            "value":"{DO_UNIQUENAME}"
+            "value":"${DO_UNIQUENAME}"
         },
         "DO_Imageurl": {
-            "value":"{DO_IMAGEURL}"
+            "value":"${DO_IMAGEURL}"
         },
         "DO_Descriptor":{
-            "value":"{DO_DESCRIPTOR}"
+            "value":"${DO_DESCRIPTOR}"
         }
     }
 }
