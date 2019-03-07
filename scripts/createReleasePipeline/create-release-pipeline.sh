@@ -19,8 +19,8 @@ DEVOPSOWNER=$(jq -r '.parameters.devops_owner.value' < ./output/parameters.json)
 USERCRED=$DEVOPSUSER:$DEVOPSPAT
 ORGNAME=$(jq -r '.parameters.devops_org_name.value' < ./output/parameters.json)
 PROJECTNAME=$(jq -r '.parameters.devops_proj_name.value' < ./output/parameters.json)
-SERVICECONNECTIONID=$(jq -r '.parameters.devops_azure_serviceconnection_id.value' < ./output/parameters.json)
-APPNAME=$(jq -r '.parameters.sites_RigContainerApp_name.value' < ./output/parameters.json)
+SERVICECONNECTIONID=$(jq -r '.parameters.serviceConnectionId.value' < ./output/parameters.json)
+APPNAME=$RESOURCEGROUPNAME"App" #$(jq -r '.parameters.sites_RigContainerApp_name.value' < ./output/parameters.json)
 PROJECTID=$(jq -r '.parameters.devops_proj_id.value' < ./output/parameters.json)
 PIPELINEID=$(jq -r '.parameters.pipelineId.value' < ./output/parameters.json)
 

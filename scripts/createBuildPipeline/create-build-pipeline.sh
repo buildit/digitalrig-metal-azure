@@ -105,10 +105,10 @@ DO_IMAGEURL=$(jq -r '.requestedFor.imageUrl' < $OUTPUTPATH/queueBuildOutput.json
 DO_DESCRIPTOR=$(jq -r '.requestedFor.descriptor' < $OUTPUTPATH/queueBuildOutput.json)
 
 #populate owner fields in parameters
-sed -i'' -e "s|\${DO_Displayname|$DO_DISPLAYNAME|g" ./output/parameters.json
-sed -i'' -e "s|\${DO_Url|$DO_URL|g" ./output/parameters.json
-sed -i'' -e "s|\${DO_Href|$DO_HREF|g" ./output/parameters.json
-sed -i'' -e "s|\${DO_Id|$DO_ID|g" ./output/parameters.json
-sed -i'' -e "s|\${DO_Uniquename|$DO_UNIQUENAME|g" ./output/parameters.json
-sed -i'' -e "s|\${DO_Imageurl|$DO_IMAGEURL|g" ./output/parameters.json
-sed -i'' -e "s|\${DO_Descriptor|$DO_DESCRIPTOR|g" ./output/parameters.json
+sed -i'' -e "s|\${DO_DISPLAYNAME}|$DO_DISPLAYNAME|g" ./output/parameters.json
+sed -i'' -e "s|\${DO_URL}|$DO_URL|g" ./output/parameters.json
+sed -i'' -e "s|\${DO_HREF}|$DO_HREF|g" ./output/parameters.json
+sed -i'' -e "s|\${DO_ID}|$DO_ID|g" ./output/parameters.json
+sed -i'' -e "s|\${DO_UNIQUENAME}|$DO_UNIQUENAME|g" ./output/parameters.json
+sed -i'' -e "s|\${DO_IMAGEURL}|$DO_IMAGEURL|g" ./output/parameters.json
+sed -i'' -e "s|\${DO_DESCRIPTOR}|$DO_DESCRIPTOR|g" ./output/parameters.json
