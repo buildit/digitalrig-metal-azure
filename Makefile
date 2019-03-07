@@ -10,7 +10,7 @@ create-parameters-file:
 	@echo "Create Parameters File"
 	@scripts/create-parameters-file.sh
 
-create-common-resource-group: create-parameters-file
+create-common-resource-group:
 	@echo "Create Common Resource Group"
 	@scripts/createCommonResourceGroup/create-common-resource-group.sh
 

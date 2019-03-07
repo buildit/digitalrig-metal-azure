@@ -63,10 +63,10 @@ az storage container create \
     --subscription $SUBSCRIPTION_ID
 
 
-echo 'https://${COMMON_STORAGEACCOUNT_NAME}.blob.core.windows.net/${CONTAINER_NAME}'
+# Saves the container URL and the storage account key in the parameters.json file.
+PARAM_FILE="output/parameters.json"
+COMMON_STORAGEACCOUNT_CONTAINER_URL="https://${COMMON_STORAGEACCOUNT_NAME}.blob.core.windows.net/${CONTAINER_NAME}"
+sed -i'' -e "s~COMMON_STORAGEACCOUNT_KEY~${COMMON_STORAGEACCOUNT_KEY}~g" $PARAM_FILE
+sed -i'' -e "s~COMMON_STORAGEACCOUNT_CONTAINER_URL~${COMMON_STORAGEACCOUNT_CONTAINER_URL}~g" $PARAM_FILE
 
-
-## Add output values to the parameters.json file.
-#PARAM_FILE="output/parameters.json"
-#sed -i'' -e "s|\${RESOURCEGROUPID}|$RESOURCEGROUPID|" $PARAM_FILE
 echo "Common Resource Group ${RESOURCEGROUP_NAME} created or exists!"
