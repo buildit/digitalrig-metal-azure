@@ -6,6 +6,7 @@
 FROM golang:latest as builder
 ARG STORAGE_ACCT_URL
 ARG STORAGE_ACCT_KEY
+ARG BUILD_NUMBER
 
 ENV bin_dir=/go/bin/
 RUN apt-get update && apt-get -y install openssl libcurl4-openssl-dev libunwind8 icu-devtools
@@ -24,7 +25,7 @@ RUN go test -v ./... | go-junit-report > TestReport.xml
 
  RUN azcopy \
      --source ./TestReport.xml \
-     --destination "${STORAGE_ACCT_URL}/TestReport.xml" \
+     --destination "${STORAGE_ACCT_URL}/TestReport_{BUILD_NUMBER}.xml" \
      --dest-key "${STORAGE_ACCT_KEY}"
 
 ############################
