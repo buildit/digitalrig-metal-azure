@@ -18,7 +18,12 @@ RUN mkdir /tmp/azcopy && \
 WORKDIR $GOPATH/src/github.com/buildit/slackbot
 ADD . $GOPATH/src/github.com/buildit/slackbot/
 RUN go get -u github.com/jstemmer/go-junit-report
-RUN go get -d ./...
+
+RUN go get -d -v github.com/kelseyhightower/envconfig
+RUN go get -d -v go.etcd.io/bbolt
+RUN go get -d -v github.com/nlopes/slack
+RUN go get -d -v github.com/gorilla/mux
+
 RUN go build -o ${bin_dir}/bot-server.sh ./cmd/bot-server/main.go
 RUN go test ./... | go-junit-report > TestReport.xml
 
