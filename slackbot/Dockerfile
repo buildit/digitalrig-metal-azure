@@ -24,7 +24,7 @@ RUN go test -v ./... | go-junit-report > TestReport.xml
 
  RUN azcopy \
      --source ./TestReport.xml \
-     --destination "${STORAGE_ACCT_URL}" \
+     --destination "${STORAGE_ACCT_URL}/TestReport.xml" \
      --dest-key "${STORAGE_ACCT_KEY}"
 
 ############################
