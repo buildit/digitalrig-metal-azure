@@ -1,8 +1,8 @@
 #get list of release definitions
-curl -u $userCred "https://vsrm.dev.azure.com/$orgName/$projectName/_apis/release/releases?api-version=5.0" | jq -r '.'> releaseList.json
+curl -u $USERCRED "https://vsrm.dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/release/releases?api-version=5.0" | jq -r '.'> releaseList.json
 
 #get release definition to make example from
-curl -u $USERCRED "https://vsrm.dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/release/definitions/7?api-version=5.0" | jq -r '.'> getRelease7.json
+curl -u $USERCRED "https://vsrm.dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/release/definitions/37?api-version=5.0" | jq -r '.'> getRelease37.json
 
 #create new release definition
 curl -u $userCred \

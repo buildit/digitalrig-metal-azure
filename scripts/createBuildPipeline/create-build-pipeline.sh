@@ -35,10 +35,10 @@ IMAGENAME="azureImage"
 echo "creating service connection for build tasks"
 [ -e $DATAPATH/createServiceConnectionData.json ] && rm $DATAPATH/createServiceConnectionData.json
 [ -e $OUTPUTPATH/createServiceOutput.json ] && rm $OUTPUTPATH/createServiceOutput.json
-cp $TEMPLATEPATH/createServiceConnectionDataTemplate.json $DATAPATH/createServiceConnectionData.json
+cp $TEMPLATEPATH/createServiceConnectionSubscriptionTemplate.json $DATAPATH/createServiceConnectionData.json
 SERVICECONNECTIONIDGEN=$(uuidgen)
 SERVICECONNECTIONNAME="Azure Service Connection-"$HASH
-sed -i'' -e "s|\${serviceConnectionId}|$SERVICECONNECTIONIDGEN|; s|\${tennantId}|$TENNANTID|; s|\${resourceGroupId}|$RESOURCEGROUPID|; s|\${subscriptionId}|$SUBSCRIPTIONID|; s|\${subscriptionName}|$SUBSCRIPTIONNAME|; s|\${connectionName}|$SERVICECONNECTIONNAME|" $DATAPATH/createServiceConnectionData.json
+sed -i'' -e "s|\${serviceConnectionId}|$SERVICECONNECTIONIDGEN|; s|\${tennantId}|$TENNANTID|; s|\${subscriptionId}|$SUBSCRIPTIONID|; s|\${subscriptionName}|$SUBSCRIPTIONNAME|; s|\${connectionName}|$SERVICECONNECTIONNAME|" $DATAPATH/createServiceConnectionData.json
 #user credentials should be form username:PAT and defined in config
 until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@$DATAPATH/createServiceConnectionData.json" "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/serviceendpoint/endpoints?api-version=5.0-preview.2" | jq '.' > $OUTPUTPATH/createServiceOutput.json); do
     printf "waiting to create service connection"
@@ -65,33 +65,40 @@ GITSERVICECONNECTIONID=$(jq -r '.id' < $OUTPUTPATH/createGitServiceOutput.json)
 sleep 30
 echo ""
 
-#create build pipeline
-echo "creating build pipeline"
-[ -e $DATAPATH/createBuildPipelineData.json ] && rm $DATAPATH/createBuildPipelineData.json
-[ -e $OUTPUTPATH/createBuildOutput.json ] && rm $OUTPUTPATH/createBuildOutput.json
-cp $TEMPLATEPATH/createBuildPipelineTemplate.json $DATAPATH/createBuildPipelineData.json
+#create build pipelines
+echo "creating build pipeline for dev"
+DATAFILE=createDevBuildPipelineData.json
+OUTPUTFILE=createDevBuildOutput.json
+[ -e $DATAPATH/$DATAFILE ] && rm $DATAPATH/$DATAFILE
+[ -e $OUTPUTPATH/$OUTPUTFILE ] && rm $OUTPUTPATH/$OUTPUTFILE
+cp $TEMPLATEPATH/createBuildPipelineTemplate.json $DATAPATH/$DATAFILE
 REGISTRYSKU="basic"
-IMAGENAME="azureRig"
+BASEIMAGENAME="azureRig"
 LOWERRESOURCEGROUPNAME=$(echo "$RESOURCEGROUPNAME" | awk '{print tolower($0)}')
 REGISTRYNAME=$LOWERRESOURCEGROUPNAME"acr"
 REGISTRYADDRESS=$REGISTRYNAME".azurecr.io"
-PIPELINENAME="API Pipeline CI-"$HASH
-sed -i'' -e " s|\${serviceConnectionId}|$SERVICECONNECTIONID|; s|\${groupName}|$RESOURCEGROUPNAME|; s|\${location}|$LOCATION|; s|\${registryName}|$REGISTRYNAME|; s|\${registryAddress}|$REGISTRYADDRESS|; s|\${registrySku}|$REGISTRYSKU|; s|\${imageName}|$IMAGENAME|; s|\${subscriptionId}|$SUBSCRIPTIONID|; s|\${resourceGroupId}|$RESOURCEGROUPID|; s|\${gitOrg}|$GITORG|; s|\${gitRepo}|$GITREPO|; s|\${gitServiceConnectionId}|$GITSERVICECONNECTIONID|; s|\${orgName}|$ORGNAME|; s|\${pipelineName}|$PIPELINENAME|; s|\${projectId}|$PROJECTID|; s|\${projectName}|$PROJECTNAME|" $DATAPATH/createBuildPipelineData.json
-until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@$DATAPATH/createBuildPipelineData.json" "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/build/definitions?api-version=5.0" | jq '.' > $OUTPUTPATH/createBuildOutput.json); do
+
+STAGENAME="DEV"
+PIPELINENAME="$STAGENAME Pipeline CI-"$HASH
+IMAGENAME=$BASEIMAGENAME$STAGENAME
+BRANCH="feature/ARI-43-Create-Release-Pipeline"
+sed -i'' -e " s|\${serviceConnectionId}|$SERVICECONNECTIONID|; s|\${groupName}|$RESOURCEGROUPNAME|; s|\${location}|$LOCATION|; s|\${registryName}|$REGISTRYNAME|; s|\${registryAddress}|$REGISTRYADDRESS|; s|\${registrySku}|$REGISTRYSKU|; s|\${imageName}|$IMAGENAME|; s|\${subscriptionId}|$SUBSCRIPTIONID|; s|\${resourceGroupId}|$RESOURCEGROUPID|; s|\${gitOrg}|$GITORG|; s|\${gitRepo}|$GITREPO|; s|\${gitServiceConnectionId}|$GITSERVICECONNECTIONID|; s|\${orgName}|$ORGNAME|; s|\${pipelineName}|$PIPELINENAME|; s|\${projectId}|$PROJECTID|; s|\${projectName}|$PROJECTNAME|; s|\${branch}|$BRANCH|" $DATAPATH/$DATAFILE
+until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@$DATAPATH/$DATAFILE" "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/build/definitions?api-version=5.0" | jq '.' > $OUTPUTPATH/$OUTPUTFILE); do
     printf "wating to create pipeline"
     sleep 5
 done
-PIPELINEID=$(jq -r '.id' < $OUTPUTPATH/createBuildOutput.json)
-sed -i'' -e "s/PIPELINEID/${PIPELINEID}/g" ./output/parameters.json
+DEVPIPELINEID=$(jq -r '.id' < $OUTPUTPATH/$OUTPUTFILE)
+sed -i'' -e "s/DEVPIPELINEID/${DEVPIPELINEID}/g" ./output/parameters.json
+sed -i'' -e "s/DEVPIPELINENAME/${PIPELINENAME}/g" ./output/parameters.json
 sleep 30
 echo ""
 
-#queue build pipeline
+#queue dev build pipeline
 echo "queueing build"
 [ -e $DATAPATH/queueBuildData.json ] && rm $DATAPATH/queueBuildData.json
 [ -e $OUTPUTPATH/queueBuildOutput.json ] && rm $OUTPUTPATH/queueBuildOutput.json
 cp $TEMPLATEPATH/queueBuildDataTemplate.json $DATAPATH/queueBuildData.json
-sed -i'' -e " s|\${pipelineId}|$PIPELINEID|; s|\${pipelineName}|$PIPELINENAME|; s|\${projectId}|$PROJECTID|; s|\${projectName}|$PROJECTNAME|; s|\${orgName}|$ORGNAME|" $DATAPATH/queueBuildData.json
+sed -i'' -e " s|\${pipelineId}|$DEVPIPELINEID|; s|\${pipelineName}|$PIPELINENAME|; s|\${projectId}|$PROJECTID|; s|\${projectName}|$PROJECTNAME|; s|\${orgName}|$ORGNAME|" $DATAPATH/queueBuildData.json
 until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@$DATAPATH/queueBuildData.json" "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/build/builds?api-version=5.0" | jq '.' > $OUTPUTPATH/queueBuildOutput.json); do
     printf "waiting to queue build"
     sleep 5
@@ -99,20 +106,29 @@ done
 sleep 10
 echo ""
 
-#get user info to populate owner fields of owner for pipeline
-DO_DISPLAYNAME=$(jq -r '.requestedFor.displayName' < $OUTPUTPATH/queueBuildOutput.json)
-DO_URL=$(jq -r '.requestedFor.url' < $OUTPUTPATH/queueBuildOutput.json)
-DO_HREF=$(jq -r '.requestedFor._links.avatar.href' < $OUTPUTPATH/queueBuildOutput.json)
-DO_ID=$(jq -r '.requestedFor.id' < $OUTPUTPATH/queueBuildOutput.json)
-DO_UNIQUENAME=$(jq -r '.requestedFor.uniqueName' < $OUTPUTPATH/queueBuildOutput.json)
-DO_IMAGEURL=$(jq -r '.requestedFor.imageUrl' < $OUTPUTPATH/queueBuildOutput.json)
-DO_DESCRIPTOR=$(jq -r '.requestedFor.descriptor' < $OUTPUTPATH/queueBuildOutput.json)
+echo "creating production pipeline"
+DATAFILE=createProdBuildPipelineData.json
+OUTPUTFILE=createProdBuildOutput.json
+[ -e $DATAPATH/$DATAFILE ] && rm $DATAPATH/$DATAFILE
+[ -e $OUTPUTPATH/$OUTPUTFILE ] && rm $OUTPUTPATH/$OUTPUTFILE
+cp $TEMPLATEPATH/createBuildPipelineTemplate.json $DATAPATH/$DATAFILE
 
+STAGENAME="PROD"
+PIPELINENAME="$STAGENAME Pipeline CI-"$HASH
+IMAGENAME=$BASEIMAGENAME$STAGENAME
+BRANCH="master"
+sed -i'' -e " s|\${serviceConnectionId}|$SERVICECONNECTIONID|; s|\${groupName}|$RESOURCEGROUPNAME|; s|\${location}|$LOCATION|; s|\${registryName}|$REGISTRYNAME|; s|\${registryAddress}|$REGISTRYADDRESS|; s|\${registrySku}|$REGISTRYSKU|; s|\${imageName}|$IMAGENAME|; s|\${subscriptionId}|$SUBSCRIPTIONID|; s|\${resourceGroupId}|$RESOURCEGROUPID|; s|\${gitOrg}|$GITORG|; s|\${gitRepo}|$GITREPO|; s|\${gitServiceConnectionId}|$GITSERVICECONNECTIONID|; s|\${orgName}|$ORGNAME|; s|\${pipelineName}|$PIPELINENAME|; s|\${projectId}|$PROJECTID|; s|\${projectName}|$PROJECTNAME|; s|\${branch}|$BRANCH|" $DATAPATH/$DATAFILE
+until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@$DATAPATH/$DATAFILE" "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/build/definitions?api-version=5.0" | jq '.' > $OUTPUTPATH/$OUTPUTFILE); do
+    printf "wating to create pipeline"
+    sleep 5
+done
+PRODPIPELINEID=$(jq -r '.id' < $OUTPUTPATH/$OUTPUTFILE)
+sed -i'' -e "s/PRODPIPELINEID/${PRODPIPELINEID}/g" ./output/parameters.json
+sed -i'' -e "s/PRODPIPELINENAME/${PIPELINENAME}/g" ./output/parameters.json
+sleep 30
+echo ""
+
+#get user info to populate owner fields of owner for pipeline
+OWNER_ID=$(jq -r '.requestedFor.id' < $OUTPUTPATH/queueBuildOutput.json)
 #populate owner fields in parameters
-sed -i'' -e "s|\${DO_DISPLAYNAME}|$DO_DISPLAYNAME|g" ./output/parameters.json
-sed -i'' -e "s|\${DO_URL}|$DO_URL|g" ./output/parameters.json
-sed -i'' -e "s|\${DO_HREF}|$DO_HREF|g" ./output/parameters.json
-sed -i'' -e "s|\${DO_ID}|$DO_ID|g" ./output/parameters.json
-sed -i'' -e "s|\${DO_UNIQUENAME}|$DO_UNIQUENAME|g" ./output/parameters.json
-sed -i'' -e "s|\${DO_IMAGEURL}|$DO_IMAGEURL|g" ./output/parameters.json
-sed -i'' -e "s|\${DO_DESCRIPTOR}|$DO_DESCRIPTOR|g" ./output/parameters.json
+sed -i'' -e "s|\${OWNER_ID}|$OWNER_ID|g" ./output/parameters.json

@@ -1,282 +1,232 @@
 {
-    "isDeleted": false,
-    "variables": {},
-    "variableGroups": [],
-    "environments": [
-      {
-        "id": 1,
-        "name": "Integration",
-        "rank": 1,
-        "owner": {
-          "displayName": "${DO_DisplayName}",
-          "url": "${DO_URL}",
-          "_links": {
-            "avatar": {
-              "href": "${DO_HREF}"
-            }
-          },
-          "id": "${DO_ID}",
-          "uniqueName": "${DO_UNIQUENAME}",
-          "imageUrl": "${DO_ImageURL}",
-          "descriptor": "${DO_Descriptor}"
-        },
-        "variables": {},
-        "variableGroups": [],
-        "preDeployApprovals": {
-          "approvals": [
-            {
-              "rank": 1,
-              "isAutomated": true,
-              "isNotificationOn": false,
-              "id": 1
-            }
-          ],
-          "approvalOptions": {
-            "requiredApproverCount": null,
-            "releaseCreatorCanBeApprover": false,
-            "autoTriggeredAndPreviousEnvironmentApprovedCanBeSkipped": false,
-            "enforceIdentityRevalidation": false,
-            "timeoutInMinutes": 0,
-            "executionOrder": "beforeGates"
-          }
-        },
-        "deployStep": {
-          "id": 2
-        },"postDeployApprovals": {
-          "approvals": [
-            {
-              "rank": 1,
-              "isAutomated": true,
-              "isNotificationOn": false,
-              "id": 3
-            }
-          ],
-          "approvalOptions": {
-            "requiredApproverCount": null,
-            "releaseCreatorCanBeApprover": false,
-            "autoTriggeredAndPreviousEnvironmentApprovedCanBeSkipped": false,
-            "enforceIdentityRevalidation": false,
-            "timeoutInMinutes": 0,
-            "executionOrder": "afterSuccessfulGates"
-          }
-        },
-        "deployPhases": [
+  "isDeleted": false,
+  "variables": {},
+  "variableGroups": [],
+  "environments": [
+    {
+      "id": 1,
+      "name": "Integration",
+      "rank": 1,
+      "owner": {
+        "id": "${OWNER_ID}"
+      },
+      "variables": {},
+      "variableGroups": [],
+      "preDeployApprovals": {
+        "approvals": [
           {
-            "deploymentInput": {
-              "parallelExecution": {
-                "parallelExecutionType": "none"
-              },
-              "skipArtifactsDownload": false,
-              "artifactsDownloadInput": {
-                "downloadInputs": []
-              },
-              "queueId": 6,
-              "demands": [],
-              "enableAccessToken": false,
-              "timeoutInMinutes": 0,
-              "jobCancelTimeoutInMinutes": 1,
-              "condition": "succeeded()",
-              "overrideInputs": {}
-            },
             "rank": 1,
-            "phaseType": "agentBasedDeployment",
-            "name": "Run on agent",
-            "refName": null,
-            "workflowTasks": [
-              {
-                "environment": {},
-                "taskId": "94a74903-f93f-4075-884f-dc11f34058b4",
-                "version": "2.*",
-                "name": "Azure Deployment:Create Or Update App Service",
-                "refName": "",
-                "enabled": true,
-                "alwaysRun": false,
-                "continueOnError": false,
-                "timeoutInMinutes": 0,
-                "definitionType": "task",
-                "overrideInputs": {},
-                "condition": "succeeded()",
-                "inputs": {
-                  "ConnectedServiceName": "${serviceConnectionId}",
-                  "action": "Create Or Update Resource Group",
-                  "resourceGroupName": "${resourceGroupName}",
-                  "location": "${location}",
-                  "templateLocation": "URL of the file",
-                  "csmFileLink": "https://raw.githubusercontent.com/Microsoft/devops-project-samples/057f6cc268a62922d012067d069d58684e967d0a/armtemplates/webapp-containers/container-webapp-template.json",
-                  "csmParametersFileLink": "",
-                  "csmFile": "",
-                  "csmParametersFile": "",
-                  "overrideParameters": "-webAppName \"${appName}\" -hostingPlanName \"${appName}-plan\" -appInsightsLocation \"East US\" -sku \"S1 Standard\" -registryName \"${registryName}\" -registryLocation \"${location}\" -registrySku \"${registrySku}\" -imageName ${imageName}:$(Build.BuildId)",
-                  "deploymentMode": "Incremental",
-                  "enableDeploymentPrerequisites": "None",
-                  "deploymentGroupEndpoint": "",
-                  "project": "",
-                  "deploymentGroupName": "",
-                  "copyAzureVMTags": "true",
-                  "runAgentServiceAsUser": "false",
-                  "userName": "",
-                  "password": "",
-                  "outputVariable": "",
-                  "deploymentName": "",
-                  "deploymentOutputs": "",
-                  "addSpnToEnvironment": "false"
-                }
-              },
-              {
-                "environment": {},
-                "taskId": "497d490f-eea7-4f2b-ab94-48d9c1acdcb1",
-                "version": "4.*",
-                "name": "Azure App Service Deploy: ${appName}",
-                "refName": "",
-                "enabled": true,
-                "alwaysRun": false,
-                "continueOnError": false,
-                "timeoutInMinutes": 0,
-                "definitionType": "task",
-                "overrideInputs": {},
-                "condition": "succeeded()",
-                "inputs": {
-                  "ConnectionType": "AzureRM",
-                  "ConnectedServiceName": "${serviceConnectionId}",
-                  "PublishProfilePath": "$(System.DefaultWorkingDirectory)/**/*.pubxml",
-                  "PublishProfilePassword": "",
-                  "WebAppKind": "webAppContainer",
-                  "WebAppName": "${appName}",
-                  "DeployToSlotOrASEFlag": "false",
-                  "ResourceGroupName": "",
-                  "SlotName": "production",
-                  "DockerNamespace": "${registryName}.azurecr.io",
-                  "DockerRepository": "${imageName}",
-                  "DockerImageTag": "$(Build.BuildId)",
-                  "VirtualApplication": "",
-                  "Package": "$(System.DefaultWorkingDirectory)/**/*.zip",
-                  "RuntimeStack": "",
-                  "RuntimeStackFunction": "",
-                  "StartupCommand": "",
-                  "ScriptType": "",
-                  "InlineScript": ":: You can provide your deployment commands here. One command per line.",
-                  "ScriptPath": "",
-                  "WebConfigParameters": "",
-                  "AppSettings": "",
-                  "ConfigurationSettings": "",
-                  "UseWebDeploy": "false",
-                  "DeploymentType": "webDeploy",
-                  "TakeAppOfflineFlag": "true",
-                  "SetParametersFile": "",
-                  "RemoveAdditionalFilesFlag": "false",
-                  "ExcludeFilesFromAppDataFlag": "true",
-                  "AdditionalArguments": "-retryAttempts:6 -retryInterval:10000",
-                  "RenameFilesFlag": "true",
-                  "XmlTransformation": "false",
-                  "XmlVariableSubstitution": "false",
-                  "JSONFiles": ""
-                }
-              }
-            ]
+            "isAutomated": true,
+            "isNotificationOn": false,
+            "id": 1
           }
         ],
-        "environmentOptions": {
-          "emailNotificationType": "OnlyOnFailure",
-          "emailRecipients": "release.environment.owner;release.creator",
-          "skipArtifactsDownload": false,
+        "approvalOptions": {
+          "requiredApproverCount": null,
+          "releaseCreatorCanBeApprover": false,
+          "autoTriggeredAndPreviousEnvironmentApprovedCanBeSkipped": false,
+          "enforceIdentityRevalidation": false,
           "timeoutInMinutes": 0,
-          "enableAccessToken": false,
-          "publishDeploymentStatus": true,
-          "badgeEnabled": false,
-          "autoLinkWorkItems": false,
-          "pullRequestDeploymentEnabled": false
-        },
-        "demands": [],
-        "conditions": [
+          "executionOrder": "beforeGates"
+        }
+      },
+      "deployStep": {
+        "id": 2
+      },"postDeployApprovals": {
+        "approvals": [
           {
-            "name": "ReleaseStarted",
-            "conditionType": "event",
-            "value": ""
+            "rank": 1,
+            "isAutomated": true,
+            "isNotificationOn": false,
+            "id": 3
           }
         ],
-        "executionPolicy": {
-          "concurrencyCount": 1,
-          "queueDepthCount": 0
-        },
-        "schedules": [],
-        "retentionPolicy": {
-          "daysToKeep": 30,
-          "releasesToKeep": 3,
-          "retainBuild": true
-        },
-        "processParameters": {},
-        "properties": {},
-        "preDeploymentGates": {
-          "id": 0,
-          "gatesOptions": null,
-          "gates": []
-        },
-        "postDeploymentGates": {
-          "id": 0,
-          "gatesOptions": null,
-          "gates": []
-        },
-        "environmentTriggers": []
+        "approvalOptions": {
+          "requiredApproverCount": null,
+          "releaseCreatorCanBeApprover": false,
+          "autoTriggeredAndPreviousEnvironmentApprovedCanBeSkipped": false,
+          "enforceIdentityRevalidation": false,
+          "timeoutInMinutes": 0,
+          "executionOrder": "afterSuccessfulGates"
         }
-    ],
-    "artifacts": [
-      {
-        "sourceId": "${projectId}:${pipelineId}",
-        "type": "Build",
-        "alias": "API Pipeline-${versionHash}",
-        "definitionReference": {
-          "defaultVersionBranch": {
-            "id": "",
-            "name": ""
+      },
+      "deployPhases": [
+        {
+          "deploymentInput": {
+            "parallelExecution": {
+              "parallelExecutionType": "none"
+            },
+            "skipArtifactsDownload": false,
+            "artifactsDownloadInput": {
+              "downloadInputs": []
+            },
+            "queueId": 6,
+            "demands": [],
+            "enableAccessToken": false,
+            "timeoutInMinutes": 0,
+            "jobCancelTimeoutInMinutes": 1,
+            "condition": "succeeded()",
+            "overrideInputs": {}
           },
-          "defaultVersionSpecific": {
-            "id": "",
-            "name": ""
-          },
-          "defaultVersionTags": {
-            "id": "",
-            "name": ""
-          },
-          "defaultVersionType": {
-            "id": "latestType",
-            "name": "Latest"
-          },
-          "definition": {
-            "id": "${pipelineId}",
-            "name": "API Pipeline-${versionHash}"
-          },
-          "project": {
-            "id": "${projectId}",
-            "name": "BuilditAzureRig"
-          },
-          "artifactSourceDefinitionUrl": {
-            "id": "https://dev.azure.com/${orgName}/_permalink/_build/index?collectionId=$(System.CollectionId)&projectId=${projectId}&definitionId=${pipelineId}",
-            "name": ""
-          }
+          "rank": 1,
+          "phaseType": "agentBasedDeployment",
+          "name": "Run on agent",
+          "refName": null,
+          "workflowTasks": [
+            {
+              "environment": {},
+              "taskId": "46e4be58-730b-4389-8a2f-ea10b3e5e815",
+              "version": "1.*",
+              "name": "Azure CLI ",
+              "refName": "",
+              "enabled": true,
+              "alwaysRun": false,
+              "continueOnError": false,
+              "timeoutInMinutes": 0,
+              "definitionType": "task",
+              "overrideInputs": {},
+              "condition": "succeeded()",
+              "inputs": {
+                "connectedServiceNameARM": "${serviceConnectionId}",
+                "scriptLocation": "scriptPath",
+                "scriptPath": "$(Build.Repository.LocalPath)/scripts/createReleasePipeline/bashScripts/createResourceGroup.sh",
+                "inlineScript": "",
+                "args": " ${resourceGroupName} ${location} ",
+                "addSpnToEnvironment": "false",
+                "useGlobalConfig": "false",
+                "cwd": "",
+                "failOnStandardError": "false"
+              }
+            },
+            {
+              "environment": {},
+              "taskId": "46e4be58-730b-4389-8a2f-ea10b3e5e815",
+              "version": "1.*",
+              "name": "Azure CLI: create or update web app service container",
+              "refName": "",
+              "enabled": true,
+              "alwaysRun": false,
+              "continueOnError": false,
+              "timeoutInMinutes": 0,
+              "definitionType": "task",
+              "overrideInputs": {},
+              "condition": "succeeded()",
+              "inputs": {
+                "connectedServiceNameARM": "${serviceConnectionId}",
+                "scriptLocation": "scriptPath",
+                "scriptPath": "$(Build.Repository.LocalPath)/scripts/createReleasePipeline/bashScripts/createAppContainer.sh",
+                "inlineScript": "",
+                "args": "${resourceGroupName} ${appName} ${registryName}.azurecr.io ${imageName}:$(Build.BuildId)",
+                "addSpnToEnvironment": "false",
+                "useGlobalConfig": "false",
+                "cwd": "",
+                "failOnStandardError": "false"
+              }
+            }
+          ]
+        }
+      ],
+      "environmentOptions": {
+        "emailNotificationType": "OnlyOnFailure",
+        "emailRecipients": "release.environment.owner;release.creator",
+        "skipArtifactsDownload": false,
+        "timeoutInMinutes": 0,
+        "enableAccessToken": false,
+        "publishDeploymentStatus": true,
+        "badgeEnabled": false,
+        "autoLinkWorkItems": false,
+        "pullRequestDeploymentEnabled": false
+      },
+      "demands": [],
+      "conditions": [
+        {
+          "name": "ReleaseStarted",
+          "conditionType": "event",
+          "value": ""
+        }
+      ],
+      "executionPolicy": {
+        "concurrencyCount": 1,
+        "queueDepthCount": 0
+      },
+      "schedules": [],
+      "retentionPolicy": {
+        "daysToKeep": 30,
+        "releasesToKeep": 3,
+        "retainBuild": true
+      },
+      "processParameters": {},
+      "properties": {},
+      "preDeploymentGates": {
+        "id": 0,
+        "gatesOptions": null,
+        "gates": []
+      },
+      "postDeploymentGates": {
+        "id": 0,
+        "gatesOptions": null,
+        "gates": []
+      },
+      "environmentTriggers": []
+      }
+  ],
+  "artifacts": [
+    {
+      "sourceId": "${projectId}:${pipelineId}",
+      "type": "Build",
+      "alias": "${sourcePipelineName}",
+      "definitionReference": {
+        "defaultVersionBranch": {
+          "id": "",
+          "name": ""
         },
-        "isPrimary": true,
-        "isRetained": false
-      }
-    ],
-    "triggers": [
-      {
-        "artifactAlias": "API Pipeline-${versionHash}",
-        "triggerConditions": [],
-        "triggerType": "artifactSource"
-      }
-    ],
-    "releaseNameFormat": "Release-$(rev:r)",
-    "tags": [],
-    "pipelineProcess": {
-      "type": "designer"
-    },
-    "properties": {
-      "DefinitionCreationSource": {
-        "$type": "System.String",
-        "$value": "ReleaseNew"
-      }
-    },
-    "name": "${pipelineName}",
-    "path": "\\"
-  }
-  
+        "defaultVersionSpecific": {
+          "id": "",
+          "name": ""
+        },
+        "defaultVersionTags": {
+          "id": "",
+          "name": ""
+        },
+        "defaultVersionType": {
+          "id": "latestType",
+          "name": "Latest"
+        },
+        "definition": {
+          "id": "${pipelineId}",
+          "name": "${sourcePipelineName}"
+        },
+        "project": {
+          "id": "${projectId}",
+          "name": "BuilditAzureRig"
+        },
+        "artifactSourceDefinitionUrl": {
+          "id": "https://dev.azure.com/${orgName}/_permalink/_build/index?collectionId=$(System.CollectionId)&projectId=${projectId}&definitionId=${pipelineId}",
+          "name": ""
+        }
+      },
+      "isPrimary": true,
+      "isRetained": false
+    }
+  ],
+  "triggers": [
+    {
+      "artifactAlias": "${sourcePipelineName}",
+      "triggerConditions": [],
+      "triggerType": "artifactSource"
+    }
+  ],
+  "releaseNameFormat": "Release-$(rev:r)",
+  "tags": [],
+  "pipelineProcess": {
+    "type": "designer"
+  },
+  "properties": {
+    "DefinitionCreationSource": {
+      "$type": "System.String",
+      "$value": "ReleaseNew"
+    }
+  },
+  "name": "${pipelineName}",
+  "path": "\\"
+}

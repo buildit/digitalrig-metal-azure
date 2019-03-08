@@ -68,29 +68,20 @@
         "serviceConnectionId": {
             "value":"SERVICECONNECTIONID"
         },
-        "pipelineId": {
-            "value": "PIPELINEID"
+        "devPipelineId": {
+            "value": "DEVPIPELINEID"
         },
-        "DO_Displayname": {
-            "value":"${DO_DISPLAYNAME}"
+        "devPipelineName": {
+            "value": "DEVPIPELINENAME"
         },
-        "DO_Url": {
-            "value":"${DO_URL}"
+        "prodPipelineId":{
+            "value":"PRODPIPELINEID"
         },
-        "DO_Href": {
-            "value":"${DO_HREF}"
+        "prodPipelineName":{
+            "value":"PRODPIPELINENAME"
         },
-        "DO_Id": {
-            "value":"${DO_ID}"
-        },
-        "DO_Uniquename": {
-            "value":"${DO_UNIQUENAME}"
-        },
-        "DO_Imageurl": {
-            "value":"${DO_IMAGEURL}"
-        },
-        "DO_Descriptor":{
-            "value":"${DO_DESCRIPTOR}"
+        "ownerId": {
+            "value":"${OWNER_ID}"
         }
     }
 }
