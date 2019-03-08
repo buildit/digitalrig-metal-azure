@@ -89,7 +89,7 @@
               "inputs": {
                 "connectedServiceNameARM": "${serviceConnectionId}",
                 "scriptLocation": "scriptPath",
-                "scriptPath": "$(Build.Repository.LocalPath)/scripts/createReleasePipeline/bashScripts/createResourceGroup.sh",
+                "scriptPath": "scripts/createReleasePipeline/bashScripts/createResourceGroup.sh",
                 "inlineScript": "",
                 "args": " ${resourceGroupName} ${location} ",
                 "addSpnToEnvironment": "false",
@@ -114,7 +114,7 @@
               "inputs": {
                 "connectedServiceNameARM": "${serviceConnectionId}",
                 "scriptLocation": "scriptPath",
-                "scriptPath": "$(Build.Repository.LocalPath)/scripts/createReleasePipeline/bashScripts/createAppContainer.sh",
+                "scriptPath": "scripts/createReleasePipeline/bashScripts/createAppContainer.sh",
                 "inlineScript": "",
                 "args": "${resourceGroupName} ${appName} ${registryName}.azurecr.io ${imageName}:$(Build.BuildId)",
                 "addSpnToEnvironment": "false",
