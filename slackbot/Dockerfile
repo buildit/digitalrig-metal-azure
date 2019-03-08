@@ -22,7 +22,7 @@ RUN go get -d -v ./...
 RUN go build -v -o ${bin_dir}/bot-server.sh ./cmd/bot-server/main.go
 RUN go test -v ./... | go-junit-report > TestReport.xml
 
- RUN azcopy --quiet \
+ RUN azcopy \
      --source ./TestReport.xml \
      --destination "${STORAGE_ACCT_URL}" \
      --dest-key "${STORAGE_ACCT_KEY}"
