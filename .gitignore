@@ -1,6 +1,6 @@
 secrets
 /localtemp*
 test.config
-**/data*
+**/data
 **/outputs*
 .DS_Store
