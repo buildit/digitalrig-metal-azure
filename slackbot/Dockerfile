@@ -32,8 +32,8 @@ RUN go test -v ./... | go-junit-report > TestReport.xml
 # STAGE 2 Build small image with only binary
 ############################
 
-# FROM golang:1.10-alpine
-# ENV bin_dir=/go/bin/
-# COPY --from=builder ${bin_dir}/bot-server.sh /go/bin/bot-server.sh
-# RUN cd ${bin_dir} && ls
-# ENTRYPOINT ["/go/bin/bot-server.sh"]
+FROM golang:1.10-alpine
+ENV bin_dir=/go/bin/
+COPY --from=builder ${bin_dir}/bot-server.sh /go/bin/bot-server.sh
+RUN cd ${bin_dir} && ls
+ENTRYPOINT ["/go/bin/bot-server.sh"]
