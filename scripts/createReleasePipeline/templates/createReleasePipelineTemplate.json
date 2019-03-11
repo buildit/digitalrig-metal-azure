@@ -88,9 +88,9 @@
               "condition": "succeeded()",
               "inputs": {
                 "connectedServiceNameARM": "${serviceConnectionId}",
-                "scriptLocation": "scriptPath",
+                "scriptLocation": "inlineScript",
                 "scriptPath": "createResourceGroup.sh",
-                "inlineScript": "",
+                "inlineScript": "az group create --name $1 --location $2",
                 "args": " ${resourceGroupName} ${location} ",
                 "addSpnToEnvironment": "false",
                 "useGlobalConfig": "false",
@@ -113,8 +113,8 @@
               "condition": "succeeded()",
               "inputs": {
                 "connectedServiceNameARM": "${serviceConnectionId}",
-                "scriptLocation": "scriptPath",
-                "scriptPath": "createAppContainer.sh",
+                "scriptLocation": "inlineScript",
+                "scriptPath": "az appservice plan create --resource-group $1 \\\n--name $2-plan \\\n--is-linux \\\n--sku B1\n\naz webapp create --resource-group $1 \\\n--plan $2-plan \\\n--name $2 \\\n--runtime \"python|2.7\"\n\naz webapp config container set --resource-group $1 \\\n--name $2 \\\n--docker-custom-image-name $3/$4 \\\n--docker-registry-server-url https://$3",
                 "inlineScript": "",
                 "args": "${resourceGroupName} ${appName} ${registryName}.azurecr.io ${imageName}:$(Build.BuildId)",
                 "addSpnToEnvironment": "false",

@@ -1,6 +1,6 @@
 create-build-notification:
 	@echo "Create Build Notification"
-	@scripts/slack_notifications/create-build-notification.sh
+	# @scripts/slack_notifications/create-build-notification.sh
 
 create-build-dashboard:
 	@echo "Create Build Dashboard"
