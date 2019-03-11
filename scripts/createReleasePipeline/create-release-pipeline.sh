@@ -42,6 +42,7 @@ PIPELINENAME="$STAGE Pipeline-"$VERSIONHASH
 SOURCEPIPELINEID=$(jq -r '.parameters.devPipelineId.value' < ./output/parameters.json)
 SOURCEPIPELINENAME=$(jq -r '.parameters.devPipelineName.value' < ./output/parameters.json)
 IMAGENAME=$BASEIMAGENAME$STAGE
+IMAGENAME=$(echo "$IMAGENAME" | awk '{print tolower($0)}')
 APPNAME=$BASEAPPNAME$STAGE
 RESOURCEGROUPNAME=$BASERESOURCEGROUPNAME$STAGE
 sed -i'' -e " s|\${serviceConnectionId}|$SERVICECONNECTIONID|g; s|\${resourceGroupName}|$RESOURCEGROUPNAME|g; s|\${location}|$LOCATION|g; s|\${registryName}|$REGISTRYNAME|g; s|\${appName}|$APPNAME|g; s|\${registrySku}|$REGISTRYSKU|g; s|\${imageName}|$IMAGENAME|g; s|\${orgName}|$ORGNAME|g; s|\${pipelineName}|$PIPELINENAME|g; s|\${pipelineId}|$SOURCEPIPELINEID|g" $DATAPATH/$DATAFILE
@@ -63,6 +64,7 @@ PIPELINENAME="$STAGE Pipeline-"$VERSIONHASH
 SOURCEPIPELINEID=$(jq -r '.parameters.prodPipelineId.value' < ./output/parameters.json)
 SOURCEPIPELINENAME=$(jq -r '.parameters.prodPipelineName.value' < ./output/parameters.json)
 IMAGENAME=$BASEIMAGENAME$STAGE
+IMAGENAME=$(echo "$IMAGENAME" | awk '{print tolower($0)}')
 APPNAME=$BASEAPPNAME$STAGE
 RESOURCEGROUPNAME=$BASERESOURCEGROUPNAME$STAGE
 sed -i'' -e " s|\${serviceConnectionId}|$SERVICECONNECTIONID|g; s|\${resourceGroupName}|$RESOURCEGROUPNAME|g; s|\${location}|$LOCATION|g; s|\${registryName}|$REGISTRYNAME|g; s|\${appName}|$APPNAME|g; s|\${registrySku}|$REGISTRYSKU|g; s|\${imageName}|$IMAGENAME|g; s|\${orgName}|$ORGNAME|g; s|\${pipelineName}|$PIPELINENAME|g; s|\${pipelineId}|$SOURCEPIPELINEID|g" $DATAPATH/$DATAFILE

@@ -81,6 +81,7 @@ REGISTRYADDRESS=$REGISTRYNAME".azurecr.io"
 STAGENAME="DEV"
 PIPELINENAME="$STAGENAME Pipeline CI-"$HASH
 IMAGENAME=$BASEIMAGENAME$STAGENAME
+IMAGENAME=$(echo "$IMAGENAME" | awk '{print tolower($0)}')
 BRANCH="feature/ARI-43-Create-Release-Pipeline"
 sed -i'' -e " s|\${serviceConnectionId}|$SERVICECONNECTIONID|; s|\${groupName}|$RESOURCEGROUPNAME|; s|\${location}|$LOCATION|; s|\${registryName}|$REGISTRYNAME|; s|\${registryAddress}|$REGISTRYADDRESS|; s|\${registrySku}|$REGISTRYSKU|; s|\${imageName}|$IMAGENAME|; s|\${subscriptionId}|$SUBSCRIPTIONID|; s|\${resourceGroupId}|$RESOURCEGROUPID|; s|\${gitOrg}|$GITORG|; s|\${gitRepo}|$GITREPO|; s|\${gitServiceConnectionId}|$GITSERVICECONNECTIONID|; s|\${orgName}|$ORGNAME|; s|\${pipelineName}|$PIPELINENAME|; s|\${projectId}|$PROJECTID|; s|\${projectName}|$PROJECTNAME|; s|\${branch}|$BRANCH|" $DATAPATH/$DATAFILE
 until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@$DATAPATH/$DATAFILE" "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/build/definitions?api-version=5.0" | jq '.' > $OUTPUTPATH/$OUTPUTFILE); do
@@ -116,6 +117,7 @@ cp $TEMPLATEPATH/createBuildPipelineTemplate.json $DATAPATH/$DATAFILE
 STAGENAME="PROD"
 PIPELINENAME="$STAGENAME Pipeline CI-"$HASH
 IMAGENAME=$BASEIMAGENAME$STAGENAME
+IMAGENAME=$(echo "$IMAGENAME" | awk '{print tolower($0)}')
 BRANCH="master"
 sed -i'' -e " s|\${serviceConnectionId}|$SERVICECONNECTIONID|; s|\${groupName}|$RESOURCEGROUPNAME|; s|\${location}|$LOCATION|; s|\${registryName}|$REGISTRYNAME|; s|\${registryAddress}|$REGISTRYADDRESS|; s|\${registrySku}|$REGISTRYSKU|; s|\${imageName}|$IMAGENAME|; s|\${subscriptionId}|$SUBSCRIPTIONID|; s|\${resourceGroupId}|$RESOURCEGROUPID|; s|\${gitOrg}|$GITORG|; s|\${gitRepo}|$GITREPO|; s|\${gitServiceConnectionId}|$GITSERVICECONNECTIONID|; s|\${orgName}|$ORGNAME|; s|\${pipelineName}|$PIPELINENAME|; s|\${projectId}|$PROJECTID|; s|\${projectName}|$PROJECTNAME|; s|\${branch}|$BRANCH|" $DATAPATH/$DATAFILE
 until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@$DATAPATH/$DATAFILE" "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/build/definitions?api-version=5.0" | jq '.' > $OUTPUTPATH/$OUTPUTFILE); do
