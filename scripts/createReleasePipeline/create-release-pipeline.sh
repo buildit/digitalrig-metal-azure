@@ -54,6 +54,7 @@ done
 
 echo "creating prod release pipeline"
 DATAFILE=createProdReleasePipelineData.json
+TEMPLATEFILE=createProdReleasePipelineTemplate.json
 OUTPUTFILE=createProdReleaseOutput.json
 [ -e $DATAPATH/$DATAFILE ] && rm $DATAPATH/$DATAFILE
 [ -e $OUTPUTPATH/$OUTPUTFILE ] && rm $OUTPUTPATH/$OUTPUTFILE
@@ -67,8 +68,10 @@ IMAGENAME=$BASEIMAGENAME$STAGE
 IMAGENAME=$(echo "$IMAGENAME" | awk '{print tolower($0)}')
 APPNAME=$BASEAPPNAME$STAGE
 RESOURCEGROUPNAME=$BASERESOURCEGROUPNAME$STAGE
+STAGE1="STAGE"
+STAGE2="PROD"
 sed -i'' -e " s|\${serviceConnectionId}|$SERVICECONNECTIONID|g; s|\${resourceGroupName}|$RESOURCEGROUPNAME|g; s|\${location}|$LOCATION|g; s|\${registryName}|$REGISTRYNAME|g; s|\${appName}|$APPNAME|g; s|\${registrySku}|$REGISTRYSKU|g; s|\${imageName}|$IMAGENAME|g; s|\${orgName}|$ORGNAME|g; s|\${pipelineName}|$PIPELINENAME|g; s|\${pipelineId}|$SOURCEPIPELINEID|g" $DATAPATH/$DATAFILE
-sed -i'' -e " s|\${OWNER_ID}|$OWNER_ID|g; s|\${sourcePipelineName}|$SOURCEPIPELINENAME|g; s|\${projectId}|$PROJECTID|g" $DATAPATH/$DATAFILE
+sed -i'' -e " s|\${OWNER_ID}|$OWNER_ID|g; s|\${sourcePipelineName}|$SOURCEPIPELINENAME|g; s|\${projectId}|$PROJECTID|g; s|\${stage1}|$STAGE1|g; s|\${stage2}|$STAGE2|g" $DATAPATH/$DATAFILE
 until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@$DATAPATH/$DATAFILE" "https://vsrm.dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/release/definitions?api-version=5.0" | jq '.' > $OUTPUTPATH/createProdReleaseOutput.json); do
     printf "wating to create pipeline"
     sleep 5
