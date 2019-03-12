@@ -28,9 +28,6 @@ RUN go get -d -v github.com/gorilla/mux
 RUN go build -o ${bin_dir}/bot-server.sh ./cmd/bot-server/main.go
 RUN go test ./... | go-junit-report > TestReport.xml
 
-RUN echo TESTREPORT.XML
-RUN cat TestReport.xml
-
  RUN azcopy \
      --source ./TestReport.xml \
      --destination "${STORAGE_ACCT_URL}/TestReport_${BUILD_NUMBER}.xml" \

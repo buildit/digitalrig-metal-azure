@@ -10,9 +10,6 @@ export destination_file=${WORKING_DIRECTORY}/TestReport.xml
 echo "Downloading the file..."
 az storage blob download --container-name $container_name --name $blob_name --file $destination_file --output table
 
-echo destination_file
-cat $destination_file
-
 echo "Done"
 
 echo $(ls)
