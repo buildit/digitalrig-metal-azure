@@ -68,6 +68,9 @@
         "commonResourceGroupLocation": {
             "value": "COMMON_RESOURCEGROUP_LOCATION"
         },
+        "commonStorageAccountName": {
+            "value": "COMMON_STORAGEACCOUNT_NAME"
+        },
         "commonStorageAccountKey": {
             "value": "COMMON_STORAGEACCOUNT_KEY"
         },

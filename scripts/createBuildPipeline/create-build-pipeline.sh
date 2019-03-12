@@ -25,6 +25,9 @@ PROJECTID=$(jq -r '.parameters.devops_proj_id.value' < ./output/parameters.json)
 GITPAT=$(jq -r '.parameters.gitPAT.value' < ./output/parameters.json)
 GITORG=$(jq -r '.parameters.gitOrg.value' < ./output/parameters.json)
 GITREPO=$(jq -r '.parameters.gitRepo.value' < ./output/parameters.json)
+COMMON_STORAGEACCOUNT_NAME=$(jq -r '.parameters.commonStorageAccountName.value' < ./output/parameters.json)
+COMMON_STORAGEACCOUNT_KEY=$(jq -r '.parameters.commonStorageAccountKey.value' < ./output/parameters.json)
+COMMON_STORAGEACCOUNT_CONTAINER_URL=$(jq -r '.parameters.commonStorageAccountContainerUrl.value' < ./output/parameters.json)
 
 #values that might change in future
 REGISTRYSKU="basic"
@@ -73,7 +76,7 @@ LOWERRESOURCEGROUPNAME=$(echo "$RESOURCEGROUPNAME" | awk '{print tolower($0)}')
 REGISTRYNAME=$LOWERRESOURCEGROUPNAME"acr"
 REGISTRYADDRESS=$REGISTRYNAME".azurecr.io"
 PIPELINENAME="API Pipeline-"$HASH
-sed -i'' -e " s|\${serviceConnectionId}|$SERVICECONNECTIONID|; s|\${groupName}|$RESOURCEGROUPNAME|; s|\${location}|$LOCATION|; s|\${registryName}|$REGISTRYNAME|; s|\${registryAddress}|$REGISTRYADDRESS|; s|\${registrySku}|$REGISTRYSKU|; s|\${imageName}|$IMAGENAME|; s|\${subscriptionId}|$SUBSCRIPTIONID|; s|\${resourceGroupId}|$RESOURCEGROUPID|; s|\${gitOrg}|$GITORG|; s|\${gitRepo}|$GITREPO|; s|\${gitServiceConnectionId}|$GITSERVICECONNECTIONID|; s|\${orgName}|$ORGNAME|; s|\${pipelineName}|$PIPELINENAME|; s|\${projectId}|$PROJECTID|; s|\${projectName}|$PROJECTNAME|" $DATAPATH/createBuildPipelineData.json
+sed -i'' -e " s|\${serviceConnectionId}|$SERVICECONNECTIONID|; s|\${groupName}|$RESOURCEGROUPNAME|; s|\${location}|$LOCATION|; s|\${registryName}|$REGISTRYNAME|; s|\${registryAddress}|$REGISTRYADDRESS|; s|\${registrySku}|$REGISTRYSKU|; s|\${imageName}|$IMAGENAME|; s|\${subscriptionId}|$SUBSCRIPTIONID|; s|\${resourceGroupId}|$RESOURCEGROUPID|; s|\${gitOrg}|$GITORG|; s|\${gitRepo}|$GITREPO|; s|\${gitServiceConnectionId}|$GITSERVICECONNECTIONID|; s|\${orgName}|$ORGNAME|; s|\${pipelineName}|$PIPELINENAME|; s|\${projectId}|$PROJECTID|; s|\${projectName}|$PROJECTNAME|; s|STORAGE_ACCOUNT_KEY|$COMMON_STORAGEACCOUNT_KEY|; s|STORAGE_ACCOUNT_NAME|$COMMON_STORAGEACCOUNT_NAME|; s|STORAGE_ACCOUNT_URL|$COMMON_STORAGEACCOUNT_CONTAINER_URL|" $DATAPATH/createBuildPipelineData.json
 until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@$DATAPATH/createBuildPipelineData.json" "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/build/definitions?api-version=5.0" | jq '.' > $OUTPUTPATH/createBuildOutput.json); do
     printf "wating to create pipeline"
     sleep 5
