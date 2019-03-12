@@ -29,14 +29,14 @@
     "docker.imageTag": {
       "value": "unstable-$(Build.BuildId)"
     },
-    "STORAGE_ACCT_KEY": {
-      "value": "1Gl/rMgUMSvtDssnMRTLISoYTOvPF+JzqjYauiM1ynHEvjEU+xm2s993wCRSbSFX6WjVk74a020AyH0IXje4cw=="
+    "storageAccount.key": {
+      "value": "STORAGE_ACCOUNT_KEY"
     },
-    "STORAGE_ACCT_NAME": {
-      "value": "buildtest016commonstgacc"
+    "storageAccount.name": {
+      "value": "STORAGE_ACCOUNT_NAME"
     },
-    "STORAGE_ACCT_URL": {
-      "value": "https://buildtest016commonstgacc.blob.core.windows.net/test-results"
+    "storageAccount.url": {
+      "value": "STORAGE_ACCOUNT_URL"
     }
   },
     "buildNumberFormat": "$(date:yyyyMMdd)$(rev:.r)",
@@ -64,7 +64,7 @@
                 "azureContainerRegistry": "${registryAddress}",
                 "command": "Build an image",
                 "dockerFile": "slackbot/Dockerfile",
-                "arguments": "--no-cache --build-arg STORAGE_ACCT_URL=\"$(STORAGE_ACCT_URL)\" --build-arg STORAGE_ACCT_KEY=\"$(STORAGE_ACCT_KEY)\" --build-arg BUILD_NUMBER=\"$(Build.BuildNumber)\" ",
+                "arguments": "--no-cache --build-arg STORAGE_ACCT_URL=\"$(storageAccount.url)\" --build-arg STORAGE_ACCT_KEY=\"$(storageAccount.key)\" --build-arg BUILD_NUMBER=\"$(Build.BuildNumber)\" ",
                 "useDefaultContext": "true",
                 "buildContext": "",
                 "pushMultipleImages": "false",
@@ -140,30 +140,30 @@
               }
             },
             {
-              "environment": {
-                
+              "environment":{
+  
               },
-              "enabled": true,
-              "continueOnError": false,
-              "alwaysRun": false,
-              "displayName": "Azure CLI-Download Test Results",
-              "timeoutInMinutes": 0,
-              "condition": "succeeded()",
-              "task": {
-                "id": "46e4be58-730b-4389-8a2f-ea10b3e5e815",
-                "versionSpec": "1.*",
-                "definitionType": "task"
+              "enabled":true,
+              "continueOnError":false,
+              "alwaysRun":false,
+              "displayName":"Download Test Report",
+              "timeoutInMinutes":0,
+              "condition":"succeeded()",
+              "task":{
+                "id":"46e4be58-730b-4389-8a2f-ea10b3e5e815",
+                "versionSpec":"1.*",
+                "definitionType":"task"
               },
-              "inputs": {
-                "connectedServiceNameARM": "8748186a-2414-4027-888e-2a237f3bd450",
-                "scriptLocation": "inlineScript",
-                "scriptPath": "",
-                "inlineScript": "export AZURE_STORAGE_ACCOUNT=$1\nexport AZURE_STORAGE_KEY=$2\nexport BUILD_NUMBER=$3\n\nexport container_name=test-results\nexport blob_name=\"TestReport_${BUILD_NUMBER}.xml\"\nexport destination_file=$(System.DefaultWorkingDirectory)/TestReport.xml\n\necho \"Downloading the file...\"\naz storage blob download --container-name $container_name --name $blob_name --file $destination_file --output table\n\necho \"Done\"\n\necho $(ls)",
-                "args": "$(STORAGE_ACCT_NAME) $(STORAGE_ACCT_KEY) $(Build.BuildNumber)",
-                "addSpnToEnvironment": "false",
-                "useGlobalConfig": "false",
-                "cwd": "",
-                "failOnStandardError": "false"
+              "inputs":{
+                "connectedServiceNameARM":"8748186a-2414-4027-888e-2a237f3bd450",
+                "scriptLocation":"scriptPath",
+                "scriptPath":"scripts/createBuildPipeline/download-test-report.sh",
+                "inlineScript":"",
+                "args":"$(storageAccount.name) $(storageAccount.key) $(Build.BuildNumber) $(System.DefaultWorkingDirectory)",
+                "addSpnToEnvironment":"false",
+                "useGlobalConfig":"false",
+                "cwd":"",
+                "failOnStandardError":"false"
               }
             },
             {
@@ -310,7 +310,7 @@
           "branchesUrl": "https://api.github.com/repos/${gitOrg}/${gitRepo}/branches",
           "cloneUrl": "https://github.com/${gitOrg}/${gitRepo}.git",
           "connectedServiceId": "${gitServiceConnectionId}",
-          "defaultBranch": "azuredevops",
+          "defaultBranch": "feature/ARI-63-common-resource-group",
           "fullName": "${gitOrg}/${gitRepo}",
           "refsUrl": "https://api.github.com/repos/${gitOrg}/${gitRepo}/git/refs",
           "fetchDepth": "0",
@@ -320,7 +320,7 @@
         "type": "GitHub",
         "name": "${gitOrg}/${gitRepo}",
         "url": "https://github.com/${gitOrg}/${gitRepo}.git",
-        "defaultBranch": "azuredevops",
+        "defaultBranch": "feature/ARI-63-common-resource-group",
         "clean": "false",
         "checkoutSubmodules": false
     },
