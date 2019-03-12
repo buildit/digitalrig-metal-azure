@@ -26,7 +26,7 @@ RUN go get -d -v github.com/nlopes/slack
 RUN go get -d -v github.com/gorilla/mux
 
 RUN go build -o ${bin_dir}/bot-server.sh ./cmd/bot-server/main.go
-RUN go test ./... | go-junit-report > TestReport.xml
+RUN go test -v ./... | go-junit-report > TestReport.xml
 
  RUN azcopy \
      --source ./TestReport.xml \
