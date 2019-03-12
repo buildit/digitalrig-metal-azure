@@ -3,38 +3,46 @@
 # STAGE 1 build Golang executable binary
 ############################
 
-FROM golang:1.10 as builder
+FROM golang:1.10-alpine AS builder
+ENV bin_dir=/go/bin/
+RUN apk update && apk add --no-cache openssl openssh curl bash git openssh libcurl
+WORKDIR $GOPATH/src/github.com/buildit/slackbot
+ADD . $GOPATH/src/github.com/buildit/slackbot/
+RUN go get -d -v ./...
+RUN go build -v -o ${bin_dir}/bot-server.sh ./cmd/bot-server/main.go
+RUN go get -u github.com/jstemmer/go-junit-report
+RUN mkdir /go/TestResults
+RUN go test -v ./... | go-junit-report > /go/TestResults/TestReport.xml
+
+
+############################
+# STAGE 2 Upload test results to Azure
+############################
+
+FROM microsoft/dotnet:latest as tester
+
 ARG STORAGE_ACCT_URL
 ARG STORAGE_ACCT_KEY
 ARG BUILD_NUMBER
 
-ENV bin_dir=/go/bin/
-RUN apt-get update && apt-get -y install openssl libcurl4-openssl-dev libunwind8 icu-devtools
-RUN apt-get update && apt-get -y install rsync libunwind8
+RUN apt-get update && apt-get -y install rsync --no-install-recommends apt-utils
 RUN mkdir /tmp/azcopy && \
-     wget -O /tmp/azcopy/azcopy.tar.gz https://aka.ms/downloadazcopylinux64 &&  \
-     tar -xf /tmp/azcopy/azcopy.tar.gz -C /tmp/azcopy &&  \
-     /tmp/azcopy/install.sh
+    wget -O /tmp/azcopy/azcopy.tar.gz https://aka.ms/downloadazcopyprlinux &&  \
+    tar -xf /tmp/azcopy/azcopy.tar.gz -C /tmp/azcopy &&  \
+    /tmp/azcopy/install.sh
 
-WORKDIR $GOPATH/src/github.com/buildit/slackbot
-ADD . $GOPATH/src/github.com/buildit/slackbot/
-RUN go get -u github.com/jstemmer/go-junit-report
+RUN rm -rf /tmp/azcopy
 
-RUN go get -d -v github.com/kelseyhightower/envconfig
-RUN go get -d -v go.etcd.io/bbolt
-RUN go get -d -v github.com/nlopes/slack
-RUN go get -d -v github.com/gorilla/mux
+COPY --from=builder /go/TestResults/TestReport.xml ./TestReport.xml
 
-RUN go build -o ${bin_dir}/bot-server.sh ./cmd/bot-server/main.go
-RUN go test ./... | go-junit-report > TestReport.xml
-
- RUN azcopy \
+RUN azcopy \
      --source ./TestReport.xml \
      --destination "${STORAGE_ACCT_URL}/TestReport_${BUILD_NUMBER}.xml" \
      --dest-key "${STORAGE_ACCT_KEY}"
 
+
 ############################
-# STAGE 2 Build small image with only binary
+# STAGE 3 Build small image with only binary
 ############################
 
 FROM golang:1.10-alpine
