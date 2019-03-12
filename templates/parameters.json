@@ -62,6 +62,9 @@
         "resourceGroupId": {
             "value":"${RESOURCEGROUPID}"
         },
+        "commonResourceGroupId": {
+            "value": "COMMON_RESOURCEGROUP_ID"
+        },
         "commonResourceGroupName": {
             "value": "COMMON_RESOURCEGROUP_NAME"
         },

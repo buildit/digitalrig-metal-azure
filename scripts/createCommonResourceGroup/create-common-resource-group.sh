@@ -38,7 +38,7 @@ if [[ -z $LOGININFO ]]; then LOGININFO=$(az login); fi
 
 # Create or get info for Resource Group.
 RESOURCEINFO=$(az group create --name $RESOURCEGROUP_NAME --location "$RESOURCEGROUP_LOCATION")
-RESOURCEGROUPID=$(echo "$RESOURCEINFO" | jq -r '.id')
+COMMON_RESOURCEGROUP_ID=$(echo "$RESOURCEINFO" | jq -r '.id')
 
 
 # Executes a Deployment to create the resources.
@@ -67,6 +67,7 @@ az storage container create \
 # Saves the container URL and the storage account key in the parameters.json file.
 PARAM_FILE="output/parameters.json"
 COMMON_STORAGEACCOUNT_CONTAINER_URL="https://${COMMON_STORAGEACCOUNT_NAME}.blob.core.windows.net/${CONTAINER_NAME}"
+sed -i'' -e "s~COMMON_RESOURCEGROUP_ID~${COMMON_RESOURCEGROUP_ID}~g" $PARAM_FILE
 sed -i'' -e "s~COMMON_STORAGEACCOUNT_NAME~${COMMON_STORAGEACCOUNT_NAME}~g" $PARAM_FILE
 sed -i'' -e "s~COMMON_STORAGEACCOUNT_KEY~${COMMON_STORAGEACCOUNT_KEY}~g" $PARAM_FILE
 sed -i'' -e "s~COMMON_STORAGEACCOUNT_CONTAINER_URL~${COMMON_STORAGEACCOUNT_CONTAINER_URL}~g" $PARAM_FILE

@@ -25,6 +25,7 @@ PROJECTID=$(jq -r '.parameters.devops_proj_id.value' < ./output/parameters.json)
 GITPAT=$(jq -r '.parameters.gitPAT.value' < ./output/parameters.json)
 GITORG=$(jq -r '.parameters.gitOrg.value' < ./output/parameters.json)
 GITREPO=$(jq -r '.parameters.gitRepo.value' < ./output/parameters.json)
+COMMON_RESOURCEGROUP_ID=$(jq -r '.parameters.commonResourceGroupId.value' < ./output/parameters.json)
 COMMON_STORAGEACCOUNT_NAME=$(jq -r '.parameters.commonStorageAccountName.value' < ./output/parameters.json)
 COMMON_STORAGEACCOUNT_KEY=$(jq -r '.parameters.commonStorageAccountKey.value' < ./output/parameters.json)
 COMMON_STORAGEACCOUNT_CONTAINER_URL=$(jq -r '.parameters.commonStorageAccountContainerUrl.value' < ./output/parameters.json)
@@ -42,7 +43,7 @@ cp $TEMPLATEPATH/createServiceConnectionDataTemplate.json $DATAPATH/createServic
 SERVICECONNECTIONIDGEN=$(uuidgen)
 SERVICECONNECTIONNAME="Azure Service Connection-"$HASH
 echo "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/serviceendpoint/endpoints?api-version=5.0-preview.2"
-sed -i'' -e "s|\${serviceConnectionId}|$SERVICECONNECTIONIDGEN|; s|\${tennantId}|$TENNANTID|; s|\${resourceGroupId}|$RESOURCEGROUPID|; s|\${subscriptionId}|$SUBSCRIPTIONID|; s|\${subscriptionName}|$SUBSCRIPTIONNAME|; s|\${connectionName}|$SERVICECONNECTIONNAME|" $DATAPATH/createServiceConnectionData.json
+sed -i'' -e "s|\${serviceConnectionId}|$SERVICECONNECTIONIDGEN|; s|\${tennantId}|$TENNANTID|; s|\${resourceGroupId}|$COMMON_RESOURCEGROUP_ID|; s|\${subscriptionId}|$SUBSCRIPTIONID|; s|\${subscriptionName}|$SUBSCRIPTIONNAME|; s|\${connectionName}|$SERVICECONNECTIONNAME|" $DATAPATH/createServiceConnectionData.json
 #user credentials should be form username:PAT and defined in config
 until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@$DATAPATH/createServiceConnectionData.json" "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/serviceendpoint/endpoints?api-version=5.0-preview.2" | jq '.' > $OUTPUTPATH/createServiceOutput.json); do
     printf "waiting to create service connection"
