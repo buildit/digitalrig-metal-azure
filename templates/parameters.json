@@ -76,6 +76,9 @@
         },
         "commonStorageAccountContainerUrl": {
             "value": "COMMON_STORAGEACCOUNT_CONTAINER_URL"
+        },
+        "commonContainerRegistryUrl": {
+            "value": "COMMON_CONTAINERREGISTRY_URL"
         }
     }
 }
