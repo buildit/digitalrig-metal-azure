@@ -18,7 +18,6 @@ cp $TEMPLATEPATH/createCommonResourceGroupTemplate.json $DATAPATH/createCommonRe
 SUBSCRIPTION_ID=$(jq -r '.parameters.subscription_id.value' < ./output/parameters.json)
 RESOURCEGROUP_NAME=$(jq -r '.parameters.commonResourceGroupName.value' < ./output/parameters.json)
 RESOURCEGROUP_LOCATION=$(jq -r '.parameters.commonResourceGroupLocation.value' < ./output/parameters.json)
-GIT_BRANCH=$(jq -r '.parameters.gitBranch.value' < ./output/parameters.json)
 
 PARAM_FILE="${DATAPATH}/createCommonResourceGroupData.json"
 LOWER_RESOURCEGROUP_NAME=$(echo "$RESOURCEGROUP_NAME" | awk '{print tolower($0)}')
@@ -56,23 +55,11 @@ STORAGEACCOUNT_KEYINFO=$(az storage account keys list \
 COMMON_STORAGEACCOUNT_KEY=$(echo $STORAGEACCOUNT_KEYINFO | jq -r '.[] | select(.keyName == "key1") | .value')
 
 
-# Creates a new storage blob container.
-CLEAN_GIT_BRANCH=$(echo "${GIT_BRANCH//\//-}" | awk '{print tolower($0)}')
-CONTAINER_NAME="${CLEAN_GIT_BRANCH}-test-results"
-az storage container create \
-    --name $CONTAINER_NAME \
-    --account-key $COMMON_STORAGEACCOUNT_KEY \
-    --account-name $COMMON_STORAGEACCOUNT_NAME \
-    --subscription $SUBSCRIPTION_ID
-
-
 # Saves the container URL and the storage account key in the parameters.json file.
 PARAM_FILE="output/parameters.json"
-COMMON_STORAGEACCOUNT_CONTAINER_URL="https://${COMMON_STORAGEACCOUNT_NAME}.blob.core.windows.net/${CONTAINER_NAME}"
 sed -i'' -e "s~COMMON_RESOURCEGROUP_ID~${COMMON_RESOURCEGROUP_ID}~g" $PARAM_FILE
 sed -i'' -e "s~COMMON_STORAGEACCOUNT_NAME~${COMMON_STORAGEACCOUNT_NAME}~g" $PARAM_FILE
 sed -i'' -e "s~COMMON_STORAGEACCOUNT_KEY~${COMMON_STORAGEACCOUNT_KEY}~g" $PARAM_FILE
-sed -i'' -e "s~COMMON_STORAGEACCOUNT_CONTAINER_URL~${COMMON_STORAGEACCOUNT_CONTAINER_URL}~g" $PARAM_FILE
 sed -i'' -e "s~COMMON_CONTAINERREGISTRY_URL~${COMMON_CONTAINERREGISTRY_URL}~g" $PARAM_FILE
 
 echo "Common Resource Group ${RESOURCEGROUP_NAME} created or exists!"

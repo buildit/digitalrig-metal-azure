@@ -25,17 +25,29 @@ PROJECTID=$(jq -r '.parameters.devops_proj_id.value' < ./output/parameters.json)
 GITPAT=$(jq -r '.parameters.gitPAT.value' < ./output/parameters.json)
 GITORG=$(jq -r '.parameters.gitOrg.value' < ./output/parameters.json)
 GITREPO=$(jq -r '.parameters.gitRepo.value' < ./output/parameters.json)
-GITBRANCH=$(jq -r '.parameters.gitBranch.value' < ./output/parameters.json)
+GITBRANCH=$1
 COMMON_RESOURCEGROUP_ID=$(jq -r '.parameters.commonResourceGroupId.value' < ./output/parameters.json)
 COMMON_STORAGEACCOUNT_NAME=$(jq -r '.parameters.commonStorageAccountName.value' < ./output/parameters.json)
 COMMON_STORAGEACCOUNT_KEY=$(jq -r '.parameters.commonStorageAccountKey.value' < ./output/parameters.json)
-COMMON_STORAGEACCOUNT_CONTAINER_URL=$(jq -r '.parameters.commonStorageAccountContainerUrl.value' < ./output/parameters.json)
 COMMON_CONTAINERREGISTRY_URL=$(jq -r '.parameters.commonContainerRegistryUrl.value' < ./output/parameters.json)
-COMMON_CONTAINERREGISTRY_IMAGETAG_PREFIX=$(jq -r '.parameters.commonContainerRegistryImageTagPrefix.value' < ./output/parameters.json)
 
 #values that might change in future
 REGISTRYSKU="basic"
 IMAGENAME="azureImage"
+
+#creates an blob storage container to save the TestResult.xml files
+CLEAN_GIT_BRANCH=$(echo "${GITBRANCH//\//-}" | awk '{print tolower($0)}')
+CONTAINER_NAME="${CLEAN_GIT_BRANCH}-test-results"
+az storage container create \
+    --name $CONTAINER_NAME \
+    --account-key $COMMON_STORAGEACCOUNT_KEY \
+    --account-name $COMMON_STORAGEACCOUNT_NAME \
+    --subscription $SUBSCRIPTIONID
+COMMON_STORAGEACCOUNT_CONTAINER_URL="https://${COMMON_STORAGEACCOUNT_NAME}.blob.core.windows.net/${CONTAINER_NAME}"
+
+#get the image tag prefix according to the branch name.
+COMMON_CONTAINERREGISTRY_IMAGETAG_PREFIX="unstable-"
+if [ "${GITBRANCH}" == "master" ]; then COMMON_CONTAINERREGISTRY_IMAGETAG_PREFIX=""; fi
 
 #import values into createServiceConnectionData.json
 echo "creating service connection for build tasks"

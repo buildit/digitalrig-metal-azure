@@ -50,9 +50,6 @@
         "gitPAT": {
             "value":"GITPAT"
         },
-        "gitBranch": {
-            "value":"GITBRANCH"
-        },
         "subscription_id": {
             "value":"SUBSCRIPTIONID"
         },
@@ -80,14 +77,8 @@
         "commonStorageAccountKey": {
             "value": "COMMON_STORAGEACCOUNT_KEY"
         },
-        "commonStorageAccountContainerUrl": {
-            "value": "COMMON_STORAGEACCOUNT_CONTAINER_URL"
-        },
         "commonContainerRegistryUrl": {
             "value": "COMMON_CONTAINERREGISTRY_URL"
-        },
-        "commonContainerRegistryImageTagPrefix": {
-            "value": "COMMON_CONTAINERREGISTRY_IMAGETAG_PREFIX"
         }
     }
 }

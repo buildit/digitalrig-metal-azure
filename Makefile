@@ -20,7 +20,8 @@ create-resource-group:
 
 create-build-pipeline:
 	@echo "Create Build Pipeline"
-	@scripts/createBuildPipeline/create-build-pipeline.sh
+	@scripts/createBuildPipeline/create-build-pipeline.sh master
+	@scripts/createBuildPipeline/create-build-pipeline.sh feature/ARI-63-common-resource-group
 
 create-deploy-pipeline:
 	@echo "Create Deploy Pipeline"
