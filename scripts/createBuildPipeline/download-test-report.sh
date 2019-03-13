@@ -4,14 +4,11 @@ export CONTAINER_NAME=$3
 export BUILD_NUMBER=$4
 export WORKING_DIRECTORY=$5
 
-export container_name=CONTAINER_NAME
+export container_name=${CONTAINER_NAME}
 export blob_name="TestReport_${BUILD_NUMBER}.xml"
 export destination_file=${WORKING_DIRECTORY}/TestReport.xml
 
 echo "Downloading the file..."
-echo ${container_name}
-echo ${blob_name}
-echo ${destination_file}
 az storage blob download --container-name $container_name --name $blob_name --file $destination_file --output table
 
 echo "Done"
