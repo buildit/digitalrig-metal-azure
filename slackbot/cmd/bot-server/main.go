@@ -23,7 +23,7 @@ func main() {
 	router.HandleFunc("/slash", bot_server.ListenAndServeSlash).Methods("POST")
 	router.HandleFunc("/interactions", bot_server.ListenAndServeInteractions).Methods("POST")
 	fmt.Println("[INFO] Server listening")
-	log.Fatal(http.ListenAndServe(":4390", router))
+	log.Fatal(http.ListenAndServe(":80", router))
 	defer database.CloseDB()
 
 }

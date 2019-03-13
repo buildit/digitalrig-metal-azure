@@ -25,10 +25,29 @@ PROJECTID=$(jq -r '.parameters.devops_proj_id.value' < ./output/parameters.json)
 GITPAT=$(jq -r '.parameters.gitPAT.value' < ./output/parameters.json)
 GITORG=$(jq -r '.parameters.gitOrg.value' < ./output/parameters.json)
 GITREPO=$(jq -r '.parameters.gitRepo.value' < ./output/parameters.json)
+GITBRANCH=$1
+COMMON_RESOURCEGROUP_ID=$(jq -r '.parameters.commonResourceGroupId.value' < ./output/parameters.json)
+COMMON_STORAGEACCOUNT_NAME=$(jq -r '.parameters.commonStorageAccountName.value' < ./output/parameters.json)
+COMMON_STORAGEACCOUNT_KEY=$(jq -r '.parameters.commonStorageAccountKey.value' < ./output/parameters.json)
+COMMON_CONTAINERREGISTRY_URL=$(jq -r '.parameters.commonContainerRegistryUrl.value' < ./output/parameters.json)
 
 #values that might change in future
 REGISTRYSKU="basic"
 IMAGENAME="azureImage"
+
+#creates an blob storage container to save the TestResult.xml files
+CLEAN_GIT_BRANCH=$(echo "${GITBRANCH//\//-}" | awk '{print tolower($0)}')
+COMMON_STORAGEACCOUNT_CONTAINER_NAME="${CLEAN_GIT_BRANCH}-test-results"
+az storage container create \
+    --name $COMMON_STORAGEACCOUNT_CONTAINER_NAME \
+    --account-key $COMMON_STORAGEACCOUNT_KEY \
+    --account-name $COMMON_STORAGEACCOUNT_NAME \
+    --subscription $SUBSCRIPTIONID
+COMMON_STORAGEACCOUNT_CONTAINER_URL="https://${COMMON_STORAGEACCOUNT_NAME}.blob.core.windows.net/${COMMON_STORAGEACCOUNT_CONTAINER_NAME}"
+
+#get the image tag prefix according to the branch name.
+COMMON_CONTAINERREGISTRY_IMAGETAG_PREFIX="unstable-"
+if [ "${GITBRANCH}" == "master" ]; then COMMON_CONTAINERREGISTRY_IMAGETAG_PREFIX=""; fi
 
 #import values into createServiceConnectionData.json
 echo "creating service connection for build tasks"
@@ -38,7 +57,7 @@ cp $TEMPLATEPATH/createServiceConnectionDataTemplate.json $DATAPATH/createServic
 SERVICECONNECTIONIDGEN=$(uuidgen)
 SERVICECONNECTIONNAME="Azure Service Connection-"$HASH
 echo "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/serviceendpoint/endpoints?api-version=5.0-preview.2"
-sed -i'' -e "s|\${serviceConnectionId}|$SERVICECONNECTIONIDGEN|; s|\${tennantId}|$TENNANTID|; s|\${resourceGroupId}|$RESOURCEGROUPID|; s|\${subscriptionId}|$SUBSCRIPTIONID|; s|\${subscriptionName}|$SUBSCRIPTIONNAME|; s|\${connectionName}|$SERVICECONNECTIONNAME|" $DATAPATH/createServiceConnectionData.json
+sed -i'' -e "s|\${serviceConnectionId}|$SERVICECONNECTIONIDGEN|; s|\${tennantId}|$TENNANTID|; s|\${resourceGroupId}|$COMMON_RESOURCEGROUP_ID|; s|\${subscriptionId}|$SUBSCRIPTIONID|; s|\${subscriptionName}|$SUBSCRIPTIONNAME|; s|\${connectionName}|$SERVICECONNECTIONNAME|" $DATAPATH/createServiceConnectionData.json
 #user credentials should be form username:PAT and defined in config
 until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@$DATAPATH/createServiceConnectionData.json" "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/serviceendpoint/endpoints?api-version=5.0-preview.2" | jq '.' > $OUTPUTPATH/createServiceOutput.json); do
     printf "waiting to create service connection"
@@ -71,9 +90,8 @@ REGISTRYSKU="basic"
 IMAGENAME="azureRig"
 LOWERRESOURCEGROUPNAME=$(echo "$RESOURCEGROUPNAME" | awk '{print tolower($0)}')
 REGISTRYNAME=$LOWERRESOURCEGROUPNAME"acr"
-REGISTRYADDRESS=$REGISTRYNAME".azurecr.io"
 PIPELINENAME="API Pipeline-"$HASH
-sed -i'' -e " s|\${serviceConnectionId}|$SERVICECONNECTIONID|; s|\${groupName}|$RESOURCEGROUPNAME|; s|\${location}|$LOCATION|; s|\${registryName}|$REGISTRYNAME|; s|\${registryAddress}|$REGISTRYADDRESS|; s|\${registrySku}|$REGISTRYSKU|; s|\${imageName}|$IMAGENAME|; s|\${subscriptionId}|$SUBSCRIPTIONID|; s|\${resourceGroupId}|$RESOURCEGROUPID|; s|\${gitOrg}|$GITORG|; s|\${gitRepo}|$GITREPO|; s|\${gitServiceConnectionId}|$GITSERVICECONNECTIONID|; s|\${orgName}|$ORGNAME|; s|\${pipelineName}|$PIPELINENAME|; s|\${projectId}|$PROJECTID|; s|\${projectName}|$PROJECTNAME|" $DATAPATH/createBuildPipelineData.json
+sed -i'' -e " s|\${serviceConnectionId}|$SERVICECONNECTIONID|; s|\${groupName}|$RESOURCEGROUPNAME|; s|\${location}|$LOCATION|; s|\${registryName}|$REGISTRYNAME|; s|\${registryAddress}|$COMMON_CONTAINERREGISTRY_URL|; s|\${commonContainerRegistryImageTagPrefix}|$COMMON_CONTAINERREGISTRY_IMAGETAG_PREFIX|; s|\${registrySku}|$REGISTRYSKU|; s|\${imageName}|$IMAGENAME|; s|\${subscriptionId}|$SUBSCRIPTIONID|; s|\${resourceGroupId}|$RESOURCEGROUPID|; s|\${gitOrg}|$GITORG|; s|\${gitRepo}|$GITREPO|; s|\${gitBranch}|$GITBRANCH|; s|\${gitServiceConnectionId}|$GITSERVICECONNECTIONID|; s|\${orgName}|$ORGNAME|; s|\${pipelineName}|$PIPELINENAME|; s|\${projectId}|$PROJECTID|; s|\${projectName}|$PROJECTNAME|; s|STORAGE_ACCOUNT_KEY|$COMMON_STORAGEACCOUNT_KEY|; s|STORAGE_ACCOUNT_NAME|$COMMON_STORAGEACCOUNT_NAME|; s|STORAGE_ACCOUNT_URL|$COMMON_STORAGEACCOUNT_CONTAINER_URL|; s|STORAGE_ACCOUNT_CONTAINER_NAME|$COMMON_STORAGEACCOUNT_CONTAINER_NAME|" $DATAPATH/createBuildPipelineData.json
 until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@$DATAPATH/createBuildPipelineData.json" "https://dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/build/definitions?api-version=5.0" | jq '.' > $OUTPUTPATH/createBuildOutput.json); do
     printf "wating to create pipeline"
     sleep 5

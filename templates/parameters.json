@@ -62,17 +62,23 @@
         "resourceGroupId": {
             "value":"${RESOURCEGROUPID}"
         },
+        "commonResourceGroupId": {
+            "value": "COMMON_RESOURCEGROUP_ID"
+        },
         "commonResourceGroupName": {
             "value": "COMMON_RESOURCEGROUP_NAME"
         },
         "commonResourceGroupLocation": {
             "value": "COMMON_RESOURCEGROUP_LOCATION"
         },
+        "commonStorageAccountName": {
+            "value": "COMMON_STORAGEACCOUNT_NAME"
+        },
         "commonStorageAccountKey": {
             "value": "COMMON_STORAGEACCOUNT_KEY"
         },
-        "commonStorageAccountContainerUrl": {
-            "value": "COMMON_STORAGEACCOUNT_CONTAINER_URL"
+        "commonContainerRegistryUrl": {
+            "value": "COMMON_CONTAINERREGISTRY_URL"
         }
     }
 }
