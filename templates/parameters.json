@@ -83,12 +83,6 @@
         "ownerId": {
             "value":"${OWNER_ID}"
         },
-        "commonResourceGroupName": {
-            "value": "COMMON_RESOURCEGROUP_NAME"
-        },
-        "commonResourceGroupLocation": {
-            "value": "COMMON_RESOURCEGROUP_LOCATION"
-        },
         "commonStorageAccountKey": {
             "value": "COMMON_STORAGEACCOUNT_KEY"
         },
