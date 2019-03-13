@@ -18,6 +18,7 @@ cp $TEMPLATEPATH/createCommonResourceGroupTemplate.json $DATAPATH/createCommonRe
 SUBSCRIPTION_ID=$(jq -r '.parameters.subscription_id.value' < ./output/parameters.json)
 RESOURCEGROUP_NAME=$(jq -r '.parameters.commonResourceGroupName.value' < ./output/parameters.json)
 RESOURCEGROUP_LOCATION=$(jq -r '.parameters.commonResourceGroupLocation.value' < ./output/parameters.json)
+GIT_BRANCH=$(jq -r '.parameters.gitBranch.value' < ./output/parameters.json)
 
 PARAM_FILE="${DATAPATH}/createCommonResourceGroupData.json"
 LOWER_RESOURCEGROUP_NAME=$(echo "$RESOURCEGROUP_NAME" | awk '{print tolower($0)}')
@@ -56,7 +57,7 @@ COMMON_STORAGEACCOUNT_KEY=$(echo $STORAGEACCOUNT_KEYINFO | jq -r '.[] | select(.
 
 
 # Creates a new storage blob container.
-CONTAINER_NAME="test-results"
+CONTAINER_NAME="${GIT_BRANCH}-test-results"
 az storage container create \
     --name $CONTAINER_NAME \
     --account-key $COMMON_STORAGEACCOUNT_KEY \
