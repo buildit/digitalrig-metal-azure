@@ -37,6 +37,9 @@
     },
     "storageAccount.url": {
       "value": "STORAGE_ACCOUNT_URL"
+    },
+    "storageAccount.containerName": {
+      "value": "STORAGE_ACCOUNT_CONTAINER_NAME"
     }
   },
     "buildNumberFormat": "$(date:yyyyMMdd)$(rev:.r)",
@@ -159,7 +162,7 @@
                 "scriptLocation":"scriptPath",
                 "scriptPath":"scripts/createBuildPipeline/download-test-report.sh",
                 "inlineScript":"",
-                "args":"$(storageAccount.name) $(storageAccount.key) $(Build.BuildNumber) $(System.DefaultWorkingDirectory)",
+                "args":"$(storageAccount.name) $(storageAccount.key) $(storageAccount.containerName) $(Build.BuildNumber) $(System.DefaultWorkingDirectory)",
                 "addSpnToEnvironment":"false",
                 "useGlobalConfig":"false",
                 "cwd":"",
@@ -267,7 +270,7 @@
                 "arguments": "",
                 "pushMultipleImages": "false",
                 "tagMultipleImages": "false",
-                "imageName": "$(docker.imageBase):unstable-latest",
+                "imageName": "$(docker.imageBase):${commonContainerRegistryImageTagPrefix}latest",
                 "imageNamesPath": "",
                 "qualifyImageName": "true",
                 "includeSourceTags": "false",
