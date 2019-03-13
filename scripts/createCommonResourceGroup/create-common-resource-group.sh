@@ -57,7 +57,8 @@ COMMON_STORAGEACCOUNT_KEY=$(echo $STORAGEACCOUNT_KEYINFO | jq -r '.[] | select(.
 
 
 # Creates a new storage blob container.
-CONTAINER_NAME="${GIT_BRANCH}-test-results"
+CLEAN_GIT_BRANCH=$(echo "${GIT_BRANCH//\//-}" | awk '{print tolower($0)}')
+CONTAINER_NAME="${CLEAN_GIT_BRANCH}-test-results"
 az storage container create \
     --name $CONTAINER_NAME \
     --account-key $COMMON_STORAGEACCOUNT_KEY \
