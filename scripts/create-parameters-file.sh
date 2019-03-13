@@ -23,7 +23,6 @@ GITORG="buildit"
 GITREPO="digitalrig-metal-azure"
 
 
-
 # Read the parameter values from the command line.
 echo
 echo "Please fill in the config settings to store in your parameters.json"
@@ -51,6 +50,8 @@ done
 read -p "Base Resource Name (\"$DEFAULT_RESOURCEGROUP_NAME\"): " RESOURCEGROUP_NAME
 # HASH=$( head /dev/urandom | tr -dc A-Za-z0-9 | head -c 6 ; echo '')
 RESOURCEGROUP_NAME="${RESOURCEGROUP_NAME:-$DEFAULT_RESOURCEGROUP_NAME}"
+COMMON_RESOURCEGROUP_NAME="${RESOURCEGROUP_NAME}Common"
+COMMON_RESOURCEGROUP_LOCATION=$LOCATION
 
 # read -p "sites_RigContainerApp_name (\"$DEFAULT_CONTAINER_APP_NAME\"): " CONTAINER_APP_NAME
 # read -p "serverfarms_RigContainerPlan_name (\"$DEFAULT_CONTAINER_PLAN_NAME\"): " CONTAINER_PLAN_NAME
@@ -103,6 +104,9 @@ sed -i'' -e "s/APP_INSIGHTS_NAME/${APP_INSIGHTS_NAME}/g" $PARAM_FILE
 # sed -i '' "s/DATABASE_DB_NAME/${DATABASE_DB_NAME}/g" $PARAM_FILE
 # sed -i '' "s/DATABASE_ADMIN_USERNAME/${DATABASE_ADMIN_USERNAME}/g" $PARAM_FILE
 # sed -i '' "s/DATABASE_ADMIN_PASSWORD/${DATABASE_ADMIN_PASSWORD}/g" $PARAM_FILE
+
+sed -i'' -e "s/COMMON_RESOURCEGROUP_NAME/${COMMON_RESOURCEGROUP_NAME}/g" $PARAM_FILE
+sed -i'' -e "s/COMMON_RESOURCEGROUP_LOCATION/${COMMON_RESOURCEGROUP_LOCATION}/g" $PARAM_FILE
 
 sed -i'' -e "s/PROJECTID/${PROJECTID}/g" $PARAM_FILE
 sed -i'' -e "s/LOCATION/${LOCATION}/g" $PARAM_FILE

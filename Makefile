@@ -1,6 +1,6 @@
 create-build-notification:
 	@echo "Create Build Notification"
-	# @scripts/slack_notifications/create-build-notification.sh
+	@scripts/slack_notifications/create-build-notification.sh
 
 create-build-dashboard:
 	@echo "Create Build Dashboard"
@@ -9,6 +9,10 @@ create-build-dashboard:
 create-parameters-file:
 	@echo "Create Parameters File"
 	@scripts/create-parameters-file.sh
+
+create-common-resource-group:
+	@echo "Create Common Resource Group"
+	@scripts/createCommonResourceGroup/create-common-resource-group.sh
 
 create-resource-group:
 	@echo "Create Resource Group"
@@ -34,6 +38,5 @@ create-dashboard:
 	@echo "Create Dashboard"
 	@scripts/dashboard/create-build-dashboard.sh
 
-create-populateProject: create-parameters-file create-resource-group create-build-notification create-build-pipeline create-release-pipeline
+create-populateProject: create-parameters-file create-common-resource-group create-resource-group create-build-notification create-build-pipeline create-release-pipeline
 
-create-pipelines: create-build-pipeline create-release-pipeline
