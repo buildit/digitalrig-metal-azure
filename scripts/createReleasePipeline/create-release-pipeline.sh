@@ -36,7 +36,7 @@ REGISTRYNAME=$LOWERRESOURCEGROUPNAME"acr"
 REGISTRYADDRESS=$REGISTRYNAME".azurecr.io"
 
 STAGE="DEV"
-PIPELINENAME="$STAGE Pipeline-"$VERSIONHASH
+PIPELINENAME="$STAGE New Pipeline-"$VERSIONHASH
 SOURCEPIPELINEID=$(jq -r '.parameters.devPipelineId.value' < ./output/parameters.json)
 SOURCEPIPELINENAME=$(jq -r '.parameters.devPipelineName.value' < ./output/parameters.json)
 IMAGENAME="azurerig"
@@ -59,11 +59,10 @@ OUTPUTFILE=createProdReleaseOutput.json
 cp $TEMPLATEPATH/$TEMPLATEFILE $DATAPATH/$DATAFILE
 
 STAGE="PROD"
-PIPELINENAME="$STAGE Pipeline-"$VERSIONHASH
+PIPELINENAME="$STAGE New Pipeline-"$VERSIONHASH
 SOURCEPIPELINEID=$(jq -r '.parameters.prodPipelineId.value' < ./output/parameters.json)
 SOURCEPIPELINENAME=$(jq -r '.parameters.prodPipelineName.value' < ./output/parameters.json)
-IMAGENAME=$BASEIMAGENAME$STAGE
-IMAGENAME=$(echo "$IMAGENAME" | awk '{print tolower($0)}')
+IMAGENAME="azurerig"
 APPNAME=$BASEAPPNAME
 RESOURCEGROUPNAME=$BASERESOURCEGROUPNAME$STAGE
 STAGE1="STAGE"
