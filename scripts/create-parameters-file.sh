@@ -59,6 +59,7 @@ sed -i'' -e "s/GITORG/${GITORG}/g" $PARAM_FILE
 sed -i'' -e "s/GITREPO/${GITREPO}/g" $PARAM_FILE
 sed -i'' -e "s/GITPAT/${GITPAT}/g" $PARAM_FILE
 
+
 # Display an output message and end the script.
 echo "Saved parameters.json!"
 echo

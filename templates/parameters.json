@@ -83,11 +83,14 @@
         "ownerId": {
             "value":"${OWNER_ID}"
         },
+        "commonStorageAccountName": {
+            "value": "COMMON_STORAGEACCOUNT_NAME"
+        },
         "commonStorageAccountKey": {
             "value": "COMMON_STORAGEACCOUNT_KEY"
         },
-        "commonStorageAccountContainerUrl": {
-            "value": "COMMON_STORAGEACCOUNT_CONTAINER_URL"
+        "commonContainerRegistryName": {
+            "value": "COMMON_CONTAINERREGISTRY_NAME"
         }
     }
 }

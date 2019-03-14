@@ -39,13 +39,11 @@ sed -i'' -e "s/COMMON_RESOURCEGROUP_LOCATION/${RESOURCEGROUP_LOCATION}/g" $DATA_
 RESOURCEINFO=$(az group create --name $RESOURCEGROUP_NAME --location "$RESOURCEGROUP_LOCATION")
 RESOURCEGROUPID=$(echo "$RESOURCEINFO" | jq -r '.id')
 
-
 # Executes a Deployment to create the resources.
 az group deployment create \
     --name "${RESOURCEGROUP_NAME}Deployment001" \
     --resource-group "$RESOURCEGROUP_NAME" \
     --template-file "$DATA_FILE"
-
 
 # Gets the Storage Account Key
 STORAGEACCOUNT_KEYINFO=$(az storage account keys list \
@@ -53,20 +51,12 @@ STORAGEACCOUNT_KEYINFO=$(az storage account keys list \
     --account-name "$COMMON_STORAGEACCOUNT_NAME")
 COMMON_STORAGEACCOUNT_KEY=$(echo $STORAGEACCOUNT_KEYINFO | jq -r '.[] | select(.keyName == "key1") | .value')
 
-# Creates a new storage blob container.
-CONTAINER_NAME="test-results"
-az storage container create \
-    --name $CONTAINER_NAME \
-    --account-key $COMMON_STORAGEACCOUNT_KEY \
-    --account-name $COMMON_STORAGEACCOUNT_NAME \
-    --subscription $SUBSCRIPTIONID
-
 
 # Saves the container URL and the storage account key in the parameters.json file.
 PARAM_FILE="output/parameters.json"
-COMMON_STORAGEACCOUNT_CONTAINER_URL="https://${COMMON_STORAGEACCOUNT_NAME}.blob.core.windows.net/${CONTAINER_NAME}"
+sed -i'' -e "s~COMMON_STORAGEACCOUNT_NAME~${COMMON_STORAGEACCOUNT_NAME}~g" $PARAM_FILE
 sed -i'' -e "s~COMMON_STORAGEACCOUNT_KEY~${COMMON_STORAGEACCOUNT_KEY}~g" $PARAM_FILE
-sed -i'' -e "s~COMMON_STORAGEACCOUNT_CONTAINER_URL~${COMMON_STORAGEACCOUNT_CONTAINER_URL}~g" $PARAM_FILE
+sed -i'' -e "s~COMMON_CONTAINERREGISTRY_NAME~${COMMON_CONTAINERREGISTRY_NAME}~g" $PARAM_FILE
 
 sed -i'' -e "s/SUBSCRIPTIONID/${SUBSCRIPTIONID}/g" $PARAM_FILE
 sed -i'' -e "s/SUBSCRIPTIONNAME/${SUBSCRIPTIONNAME}/g" $PARAM_FILE
