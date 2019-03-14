@@ -39,8 +39,13 @@ The high level steps for these pipelines:
 
 ## Azure DevOps Release Pipeline
 
-1. Create the deployment enviornment resource group (if not exists)
-1. Create or Update the WepApp service container
+Each environment  
+1. Creates the deployment environment resource group (if not exists)
+1. Creates or Updates the WepApp service container
+
+An integration environment is triggered to be created after a successful build from a development branch
+
+A change to the master branch triggers the creation of a staging environment and upon passing an approval gate a production environment is created with the image that passed staging
 
 ## Connect to Azure Devops Services API
 
