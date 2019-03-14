@@ -19,6 +19,7 @@ func main() {
 	}
 
 	router := mux.NewRouter()
+	router.HandleFunc("/", bot_server.ListenAndServeHome)
 	router.HandleFunc("/events", bot_server.ListenAndServeEvents).Methods("POST")
 	router.HandleFunc("/slash", bot_server.ListenAndServeSlash).Methods("POST")
 	router.HandleFunc("/interactions", bot_server.ListenAndServeInteractions).Methods("POST")

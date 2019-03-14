@@ -24,6 +24,11 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 
+func ListenAndServeHome(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Hello from the slackbot"))
+	return
+}
+
 func ListenAndServeSlash(w http.ResponseWriter, r *http.Request) {
 	s, err := slack.SlashCommandParse(r)
 	if err != nil {

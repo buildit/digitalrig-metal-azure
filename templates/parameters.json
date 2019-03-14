@@ -62,14 +62,26 @@
         "resourceGroupId": {
             "value":"${RESOURCEGROUPID}"
         },
-        "commonResourceGroupId": {
-            "value": "COMMON_RESOURCEGROUP_ID"
+        "versionHash": {
+            "value":"VERSIONHASH"
         },
-        "commonResourceGroupName": {
-            "value": "COMMON_RESOURCEGROUP_NAME"
+        "serviceConnectionId": {
+            "value":"SERVICECONNECTIONID"
         },
-        "commonResourceGroupLocation": {
-            "value": "COMMON_RESOURCEGROUP_LOCATION"
+        "devPipelineId": {
+            "value": "DEVPIPELINEID"
+        },
+        "devPipelineName": {
+            "value": "DEVPIPELINENAME"
+        },
+        "prodPipelineId":{
+            "value":"PRODPIPELINEID"
+        },
+        "prodPipelineName":{
+            "value":"PRODPIPELINENAME"
+        },
+        "ownerId": {
+            "value":"${OWNER_ID}"
         },
         "commonStorageAccountName": {
             "value": "COMMON_STORAGEACCOUNT_NAME"
@@ -77,8 +89,8 @@
         "commonStorageAccountKey": {
             "value": "COMMON_STORAGEACCOUNT_KEY"
         },
-        "commonContainerRegistryUrl": {
-            "value": "COMMON_CONTAINERREGISTRY_URL"
+        "commonContainerRegistryName": {
+            "value": "COMMON_CONTAINERREGISTRY_NAME"
         }
     }
 }

@@ -7,7 +7,6 @@ TEMPLATEPATH=./scripts/slack_notifications/templates/
 
 mkdir -p $DATAPATH
 mkdir -p $OUTPUTPATH
-mkdir -p $TEMPLATEPATH
 
 # Get parameters from parameter.json file.
 USERNAME=$(jq -r '.parameters.devops_user.value' < ./output/parameters.json)
@@ -24,9 +23,9 @@ DATA_FILE="${DATAPATH}buildNotificationData.json"
 OUTPUT_FILE="${OUTPUTPATH}createBuildNotificationOutput.json"
 cp $TEMPLATE_FILE $DATA_FILE
 
-sed -i '' -e "s/PROJECT_ID/${PROJECT_ID}/g" $DATA_FILE
-sed -i '' -e "s/SUBSCRIPTION_ID/${SUBSCRIPTION_ID}/g" $DATA_FILE
-sed -i '' -e "s~SLACK_HOOK_URL~${SLACK_HOOK_URL}~g" $DATA_FILE
+sed -i'' -e "s/PROJECT_ID/${PROJECT_ID}/g" $DATA_FILE
+sed -i'' -e "s/SUBSCRIPTION_ID/${SUBSCRIPTION_ID}/g" $DATA_FILE
+sed -i'' -e "s~SLACK_HOOK_URL~${SLACK_HOOK_URL}~g" $DATA_FILE
 
 echo "${USERNAME}:${PAT}"
 echo ${PROJECT_URL}/_apis/hooks/subscriptions?api-version=5.0
