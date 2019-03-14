@@ -20,8 +20,7 @@ create-resource-group:
 
 create-build-pipeline:
 	@echo "Create Build Pipeline"
-	@scripts/createBuildPipeline/create-build-pipeline.sh master
-	@scripts/createBuildPipeline/create-build-pipeline.sh feature/ARI-63-common-resource-group
+	@scripts/createBuildPipeline/create-build-pipeline.sh dev
 
 create-release-pipeline:
 	@echo "Create Release Pipeline"
@@ -39,5 +38,5 @@ create-dashboard:
 	@echo "Create Dashboard"
 	@scripts/dashboard/create-build-dashboard.sh
 
-create-populateProject: create-parameters-file create-common-resource-group create-resource-group create-build-notification create-build-pipeline create-release-pipeline
+create-populateProject: create-parameters-file create-common-resource-group create-build-notification create-build-pipeline create-release-pipeline
 
