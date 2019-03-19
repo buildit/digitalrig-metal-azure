@@ -89,7 +89,6 @@
               "inputs": {
                 "connectedServiceNameARM": "${serviceConnectionId}",
                 "scriptLocation": "inlineScript",
-                "scriptPath": "createResourceGroup.sh",
                 "inlineScript": "az group create --name $1 --location $2",
                 "args": " ${resourceGroupName} ${location} ",
                 "addSpnToEnvironment": "false",
@@ -113,8 +112,8 @@
               "condition": "succeeded()",
               "inputs": {
                 "connectedServiceNameARM": "${serviceConnectionId}",
-                "scriptLocation": "inlineScript",
-                "scriptPath": "",
+                "scriptLocation": "scriptPath",
+                "scriptPath": "$(System.DefaultWorkingDirectory)/_buildit_digitalrig-metal-azure/scripts/createReleasePipeline/bashScripts/CreateResources.sh",
                 "inlineScript": "",
                 "args": "${resourceGroupName} ${appName} ${registryName}.azurecr.io ${imageName}:unstable-latest",
                 "addSpnToEnvironment": "false",

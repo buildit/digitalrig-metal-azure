@@ -69,14 +69,14 @@ echo "Common Resource Group ${RESOURCEGROUP_NAME} created or exists!"
 DEPLOY_SCRIPTS_CONTAINER_NAME="deploy-scripts"
 az storage container create \
     --name $DEPLOY_SCRIPTS_CONTAINER_NAME \
-    --account-key $COMMON_STORAGEACCOUNT_KEY \
     --account-name $COMMON_STORAGEACCOUNT_NAME \
+    --account-key $COMMON_STORAGEACCOUNT_KEY \
     --subscription $SUBSCRIPTIONID
 
 #Upload the release scripts.
-az storage blob upload -f ../createReleasePipeline/bashScripts/createResources.sh -c DEPLOY_SCRIPTS_CONTAINER_NAME -n createResources.sh
-    --account-key $COMMON_STORAGEACCOUNT_KEY \
+az storage blob upload -f ./scripts/createReleasePipeline/bashScripts/createResources.sh -c $DEPLOY_SCRIPTS_CONTAINER_NAME -n createResources.sh \
     --account-name $COMMON_STORAGEACCOUNT_NAME \
+    --account-key $COMMON_STORAGEACCOUNT_KEY \
     --subscription $SUBSCRIPTIONID
 
 
