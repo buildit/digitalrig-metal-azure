@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/buildit/slackbot/pkg/util"
 	"github.com/nlopes/slack"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"math/rand"
 	"sort"
 	"strconv"
