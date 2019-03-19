@@ -64,3 +64,21 @@ sed -i'' -e "s/TENANTID/${TENANTID}/g" $PARAM_FILE
 sed -i'' -e "s|\${RESOURCEGROUPID}|$RESOURCEGROUPID|" $PARAM_FILE
 
 echo "Common Resource Group ${RESOURCEGROUP_NAME} created or exists!"
+
+#Create the storage container that contains release scripts.
+DEPLOY_SCRIPTS_CONTAINER_NAME="deploy-scripts"
+az storage container create \
+    --name $DEPLOY_SCRIPTS_CONTAINER_NAME \
+    --account-key $COMMON_STORAGEACCOUNT_KEY \
+    --account-name $COMMON_STORAGEACCOUNT_NAME \
+    --subscription $SUBSCRIPTIONID
+
+#Upload the release scripts.
+az storage blob upload -f ../createReleasePipeline/bashScripts/createResources.sh -c DEPLOY_SCRIPTS_CONTAINER_NAME -n createResources.sh
+    --account-key $COMMON_STORAGEACCOUNT_KEY \
+    --account-name $COMMON_STORAGEACCOUNT_NAME \
+    --subscription $SUBSCRIPTIONID
+
+
+
+
