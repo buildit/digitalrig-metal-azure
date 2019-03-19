@@ -2,7 +2,7 @@ Build, Test, and Run Slackbot Container
 
 
     cd <workspace>/slackbot  
-	docker build -t slackbot:latest .  
+	DOCKER_BUILDKIT=1 docker build --target=final -t slackbot:latest .  
 	docker run -d -p 4390:4390 -e SLACKBOT_OAUTHTOKEN="<oauthtoken>" -e SLACKBOT_VERIFICATIONTOKEN="<verificationtoken>" slackbot:latest  
 
   
