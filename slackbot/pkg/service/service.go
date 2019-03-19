@@ -1,4 +1,4 @@
-package bot_server
+package service
 
 import (
 	"bytes"
