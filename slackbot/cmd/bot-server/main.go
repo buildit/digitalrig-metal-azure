@@ -1,11 +1,10 @@
 package main
 
 import (
-	"fmt"
-	"github.com/buildit/slackbot/pkg/bot-server"
 	"github.com/buildit/slackbot/pkg/database"
+	"github.com/buildit/slackbot/pkg/service"
 	"github.com/gorilla/mux"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 )
 
@@ -17,14 +16,14 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer database.CloseDB()
 
 	router := mux.NewRouter()
-	router.HandleFunc("/", bot_server.ListenAndServeHome)
-	router.HandleFunc("/events", bot_server.ListenAndServeEvents).Methods("POST")
-	router.HandleFunc("/slash", bot_server.ListenAndServeSlash).Methods("POST")
-	router.HandleFunc("/interactions", bot_server.ListenAndServeInteractions).Methods("POST")
-	fmt.Println("[INFO] Server listening")
+	router.HandleFunc("/", service.ListenAndServeHome)
+	router.HandleFunc("/events", service.ListenAndServeEvents).Methods("POST")
+	router.HandleFunc("/slash", service.ListenAndServeSlash).Methods("POST")
+	router.HandleFunc("/interactions", service.ListenAndServeInteractions).Methods("POST")
+	log.Println("Server listening")
 	log.Fatal(http.ListenAndServe(":80", router))
-	defer database.CloseDB()
 
 }

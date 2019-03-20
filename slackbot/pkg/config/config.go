@@ -2,7 +2,7 @@ package config
 
 import (
 	"github.com/kelseyhightower/envconfig"
-	"log"
+	log "github.com/sirupsen/logrus"
 )
 
 // Config contains environment variables used to configure the app

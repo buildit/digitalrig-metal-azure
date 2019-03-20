@@ -3,8 +3,8 @@ package database
 import (
 	"fmt"
 	"github.com/buildit/slackbot/pkg/config"
+	log "github.com/sirupsen/logrus"
 	"go.etcd.io/bbolt"
-	"log"
 )
 
 var (
