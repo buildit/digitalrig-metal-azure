@@ -118,7 +118,7 @@
                 "connectedServiceNameARM": "${serviceConnectionId}",
                 "scriptLocation": "scriptPath",
                 "scriptPath": "",
-                "inlineScript": "$(System.DefaultWorkingDirectory)/_buildit_digitalrig-metal-azure/scripts/createReleasePipeline/bashScripts/CreateResources.sh",
+                "inlineScript": "$(System.DefaultWorkingDirectory)/_buildit_digitalrig-metal-azure/scripts/createReleasePipeline/bashScripts/createResources.sh",
                 "args": "${resourceGroupName} ${appName} ${registryName}.azurecr.io ${imageName}:stable-latest",
                 "addSpnToEnvironment": "false",
                 "useGlobalConfig": "false",
@@ -283,7 +283,7 @@
                 "inputs": {
                   "connectedServiceNameARM": "${serviceConnectionId}",
                   "scriptLocation": "scriptPath",
-                  "scriptPath": "$(System.DefaultWorkingDirectory)/_buildit_digitalrig-metal-azure/scripts/createReleasePipeline/bashScripts/CreateResources.sh",
+                  "scriptPath": "$(System.DefaultWorkingDirectory)/_buildit_digitalrig-metal-azure/scripts/createReleasePipeline/bashScripts/createResources.sh",
                   "inlineScript": "",
                   "args": "${resourceGroupName} ${appName} ${registryName}.azurecr.io ${imageName}:stable-latest",
                   "addSpnToEnvironment": "false",
