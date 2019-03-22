@@ -13,7 +13,7 @@ type Config struct {
 }
 
 type AppInsightsConfig struct {
-	InstrumentationKey string `default:"2b55b26a-ac69-4fb6-8bb3-c6fe2cb70958"`
+	InstrumentationKey string
 }
 
 var Env Config
