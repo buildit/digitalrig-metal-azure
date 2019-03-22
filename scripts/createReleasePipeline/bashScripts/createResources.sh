@@ -33,7 +33,7 @@ INSTRUMENTATION_KEY=$(az resource show -g $1 -n $2-appinsights --resource-type "
 az webapp config appsettings set \
     --resource-group $1 \
     --name $2 \
-    --settings instrumentationKey=$INSTRUMENTATION_KEY 
+    --settings APPINSIGHTS_INSTRUMENTATIONKEY=$INSTRUMENTATION_KEY 
 
 
 

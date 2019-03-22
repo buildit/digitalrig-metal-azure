@@ -2,6 +2,38 @@
 
 This repository contains a series of bash scripts and JSON templates used to create and maintain a simple Rig implementation on Azure. The technologies used for this Rig implementation consist primarily of PaaS offerings in Azure as well managed Azure DevOps pipelines. 
 
+## Prerequisites
+
+### Authorize requests for Azure 
+
+A Personal Access Token (PAT) is required to authorize API requests. To grant a PAT follow these steps:
+
+1. Go to https://dev.azure.com/{organization} to get to the DevOps organization homepage.
+1. Click on your user icon in the top right corner and click the security tab from the dropdown menu.
+1. Click new token and provide a unique name and access scope.
+1. Copy and store the token in a secure location.
+
+sample command (username is normally the email address of the user)
+{personalaccesstoken} is the PAT obtained from the steps above.
+{organization} is the name of the organization implementing the rig.
+
+```curl -u username:{personalaccesstoken} "https://dev.azure.com/{organization}/_apis/projects?api-version=5.0"```
+
+### Authorize requests for Github
+
+A PAT for the Azure pipeline to access github must be created and added to the project:
+
+1. Sign into https://github.com/settings/tokens .
+1. Click generate new token with the scopes -- repo, read:user, user:email, admin:repo_hook .
+1. Copy and store the token in a secure location.
+
+## Running the Rig
+
+1. Clone this repository
+1. run the command: make create-populateProject
+1. Respond to the step by step prompts for parameter values
+1. Resource Group and Pipelines will be created and a build will be kicked off (may take a few minutes) 
+
 ## Assumptions
 
 1. The hosted application is containerized
@@ -50,29 +82,6 @@ A change to the master branch triggers the creation of a staging environment and
 ## Connect to Azure Devops Services API
 
 In order to create build and release pipelines, the Azure DevOps Services REST API must be used [API Documentation](https://docs.microsoft.com/en-us/rest/api/azure/devops/?view=azure-devops-rest-5.0)
-
-### Authorize requests for Azure 
-
-A Personal Access Token (PAT) is required to authorize API requests. To grant a PAT follow these steps:
-
-1. Go to https://dev.azure.com/{organization} to get to the DevOps organization homepage.
-1. Click on your user icon in the top right corner and click the security tab from the dropdown menu.
-1. Click new token and provide a unique name and access scope.
-1. Copy and store the token in a secure location.
-
-sample command (username is normally the email address of the user)
-{personalaccesstoken} is the PAT obtained from the steps above.
-{organization} is the name of the organization implementing the rig.
-
-```curl -u username:{personalaccesstoken} "https://dev.azure.com/{organization}/_apis/projects?api-version=5.0"```
-
-### Authorize requests for Github
-
-A PAT for the Azure pipeline to access github must be created and added to the project:
-
-1. Sign into https://github.com/settings/tokens .
-1. Click generate new token with the scopes -- repo, read:user, user:email, admin:repo_hook .
-1. Copy and store the token in a secure location.
 
 ## Required Parameters
 
