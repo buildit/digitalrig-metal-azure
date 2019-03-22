@@ -16,6 +16,7 @@ FROM microsoft/dotnet:latest AS azcopier
 ARG STORAGE_ACCT_URL
 ARG STORAGE_ACCT_KEY
 ARG BUILD_NUMBER
+RUN apt-get update && apt-get -y install rsync --no-install-recommends apt-utils
 RUN mkdir /tmp/azcopy && \
     wget -O /tmp/azcopy/azcopy.tar.gz https://aka.ms/downloadazcopyprlinux &&  \
     tar -xf /tmp/azcopy/azcopy.tar.gz -C /tmp/azcopy &&  \
