@@ -176,8 +176,8 @@
       "alias": "_buildit_digitalrig-metal-azure",
       "definitionReference": {
         "branch": {
-          "id": "feature/AFR-53-App-Insights",
-          "name": "feature/AFR-53-App-Insights"
+          "id": "master",
+          "name": "master"
         },
         "checkoutNestedSubmodules": {
           "id": "True",
