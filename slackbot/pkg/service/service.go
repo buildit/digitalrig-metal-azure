@@ -75,23 +75,23 @@ func ListenAndServeSlash(w http.ResponseWriter, r *http.Request) {
 func ListenAndServeInteractions(w http.ResponseWriter, r *http.Request) {
 	buf, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		log.Error("Failed to read request body: %s", err)
+		log.Errorf("Failed to read request body: %s", err)
 		w.WriteHeader(http.StatusInternalServerError)
 	}
 
 	jsonStr, err := url.QueryUnescape(string(buf)[8:])
 	if err != nil {
-		log.Error("Failed to unescape request body: %s", err)
+		log.Errorf("Failed to unescape request body: %s", err)
 		w.WriteHeader(http.StatusInternalServerError)
 	}
 	var message slack.InteractionCallback
 	if err := json.Unmarshal([]byte(jsonStr), &message); err != nil {
-		log.Error("Failed to decode json message from slack: %s", jsonStr)
+		log.Errorf("Failed to decode json message from slack: %s", jsonStr)
 		w.WriteHeader(http.StatusInternalServerError)
 	}
 	// Only accept message from slack with valid token
 	if message.Token != config.Env.VerificationToken {
-		log.Error("Invalid token: %s", message.Token)
+		log.Errorf("Invalid token: %s", message.Token)
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
