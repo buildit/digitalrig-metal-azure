@@ -89,7 +89,6 @@
               "inputs": {
                 "connectedServiceNameARM": "${serviceConnectionId}",
                 "scriptLocation": "inlineScript",
-                "scriptPath": "createResourceGroup.sh",
                 "inlineScript": "az group create --name $1 --location $2",
                 "args": " ${resourceGroupName} ${location} ",
                 "addSpnToEnvironment": "false",
@@ -113,9 +112,9 @@
               "condition": "succeeded()",
               "inputs": {
                 "connectedServiceNameARM": "${serviceConnectionId}",
-                "scriptLocation": "inlineScript",
-                "scriptPath": "",
-                "inlineScript": "az appservice plan create --resource-group $1 \\\n--name $2-plan \\\n--is-linux \\\n--sku B1\n\naz webapp create --resource-group $1 \\\n--plan $2-plan \\\n--name $2 \\\n--runtime \"python|2.7\"\n\naz webapp config container set --resource-group $1 \\\n--name $2 \\\n--docker-custom-image-name $3/$4 \\\n--docker-registry-server-url https://$3",
+                "scriptLocation": "scriptPath",
+                "scriptPath": "$(System.DefaultWorkingDirectory)/_buildit_digitalrig-metal-azure/scripts/createReleasePipeline/bashScripts/createResources.sh",
+                "inlineScript": "",
                 "args": "${resourceGroupName} ${appName} ${registryName}.azurecr.io ${imageName}:unstable-latest",
                 "addSpnToEnvironment": "false",
                 "useGlobalConfig": "false",
@@ -171,6 +170,54 @@
       }
   ],
   "artifacts": [
+    {
+      "sourceId": "cee48beb-f0d3-4354-85eb-f4df096ae837:buildit/digitalrig-metal-azure",
+      "type": "GitHub",
+      "alias": "_buildit_digitalrig-metal-azure",
+      "definitionReference": {
+        "branch": {
+          "id": "master",
+          "name": "master"
+        },
+        "checkoutNestedSubmodules": {
+          "id": "True",
+          "name": "Any nested submodules within"
+        },
+        "checkoutSubmodules": {
+          "id": "",
+          "name": ""
+        },
+        "connection": {
+          "id": "cee48beb-f0d3-4354-85eb-f4df096ae837",
+          "name": "Github service connection-x3nuwb"
+        },
+        "defaultVersionSpecific": {
+          "id": "",
+          "name": ""
+        },
+        "defaultVersionType": {
+          "id": "latestFromBranchType",
+          "name": "Latest from the default branch"
+        },
+        "definition": {
+          "id": "buildit/digitalrig-metal-azure",
+          "name": "buildit/digitalrig-metal-azure"
+        },
+        "fetchDepth": {
+          "id": "",
+          "name": ""
+        },
+        "gitLfsSupport": {
+          "id": "",
+          "name": ""
+        },
+        "artifactSourceDefinitionUrl": {
+          "id": "https://github.com/buildit/digitalrig-metal-azure",
+          "name": ""
+        }
+      },
+      "isRetained": false
+    },
     {
       "sourceId": "${projectId}:${pipelineId}",
       "type": "Build",

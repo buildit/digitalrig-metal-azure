@@ -64,3 +64,8 @@ sed -i'' -e "s/TENANTID/${TENANTID}/g" $PARAM_FILE
 sed -i'' -e "s|\${RESOURCEGROUPID}|$RESOURCEGROUPID|" $PARAM_FILE
 
 echo "Common Resource Group ${RESOURCEGROUP_NAME} created or exists!"
+
+
+
+
+
