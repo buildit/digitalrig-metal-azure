@@ -200,7 +200,7 @@
               "testResultsFiles": "TestReport.xml",
               "searchFolder": "$(System.DefaultWorkingDirectory)",
               "mergeTestResults": "false",
-              "failTaskOnFailedTests": "false",
+              "failTaskOnFailedTests": "true",
               "testRunTitle": "",
               "platform": "",
               "configuration": "",
