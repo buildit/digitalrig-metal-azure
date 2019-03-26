@@ -33,5 +33,5 @@ func main() {
 	router.HandleFunc("/slash", service.ListenAndServeSlash).Methods("POST")
 	router.HandleFunc("/interactions", service.ListenAndServeInteractions).Methods("POST")
 	log.Println("Server listening")
-	log.Fatal(http.ListenAndServe(":80", router))
+	log.Fatal(http.ListenAndServe(":4390", router))
 }
