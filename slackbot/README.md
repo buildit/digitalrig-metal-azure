@@ -3,7 +3,7 @@ Build, Test, and Run Slackbot Container
 
     cd <workspace>/slackbot  
 	DOCKER_BUILDKIT=1 docker build --target=final -t slackbot:latest .  
-	docker run -d -p 4390:4390 -e SLACKBOT_OAUTHTOKEN="<oauthtoken>" -e SLACKBOT_VERIFICATIONTOKEN="<verificationtoken>" slackbot:latest  
+	docker run -d -p 4390:4390 -e APPSETTING_SLACKBOT_OAUTHTOKEN="<oauthtoken>" -e APPSETTING_SLACKBOT_VERIFICATIONTOKEN="<verificationtoken>" slackbot:latest  
 
   
 The two tokens that are passed into the app are used to verify API requests.  Both tokens are registered with Slack for the app and will be sent with API requests. However, each serve a different purpose. The Verification token is used to validate Domain changes in slack. When the event url is changed [here](https://api.slack.com/apps/AG29FUH1U/event-subscriptions?), the bot will handle the request and echo the token back to validate communication.  The Oauth token is used by the app to validate all other API requests coming from Slack. 
