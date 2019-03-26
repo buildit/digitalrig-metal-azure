@@ -29,6 +29,12 @@ func ListenAndServeHome(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+func ListenAndServeError(w http.ResponseWriter, r *http.Request) {
+	log.Error("/error endpoint hit")
+	w.Write([]byte("Error logged from the slackbot"))
+	return
+}
+
 func ListenAndServeSlash(w http.ResponseWriter, r *http.Request) {
 	s, err := slack.SlashCommandParse(r)
 	if err != nil {

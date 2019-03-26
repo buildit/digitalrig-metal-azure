@@ -87,6 +87,7 @@ func main() {
 
 	router := mux.NewRouter()
 	router.HandleFunc("/", service.ListenAndServeHome)
+	router.HandleFunc("/error", service.ListenAndServeError)
 	router.HandleFunc("/events", service.ListenAndServeEvents).Methods("POST")
 	router.HandleFunc("/slash", service.ListenAndServeSlash).Methods("POST")
 	router.HandleFunc("/interactions", service.ListenAndServeInteractions).Methods("POST")
