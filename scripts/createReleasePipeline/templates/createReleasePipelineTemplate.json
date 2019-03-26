@@ -1,6 +1,22 @@
 {
   "isDeleted": false,
-  "variables": {},
+  "variables": {
+    "docker.imageBase": {
+      "value": "${imageName}"
+    },
+    "storageAccount.containerName": {
+      "value": "STORAGE_ACCOUNT_CONTAINER_NAME"
+    },
+    "storageAccount.key": {
+      "value": "STORAGE_ACCOUNT_KEY"
+    },
+    "storageAccount.url": {
+      "value": "STORAGE_ACCOUNT_URL"
+    },
+    "storageAccount.name": {
+      "value": "STORAGE_ACCOUNT_NAME"
+    }
+  },
   "variableGroups": [],
   "environments": [
     {
@@ -120,6 +136,102 @@
                 "useGlobalConfig": "false",
                 "cwd": "",
                 "failOnStandardError": "false"
+              }
+            },
+            {
+              "environment": {},
+              "taskId": "e28912f1-0114-4464-802a-a3a35437fd16",
+              "version": "1.*",
+              "name": "Build an image",
+              "refName": "",
+              "enabled": true,
+              "alwaysRun": false,
+              "continueOnError": false,
+              "timeoutInMinutes": 0,
+              "definitionType": "task",
+              "overrideInputs": {},
+              "condition": "succeeded()",
+              "inputs": {
+                "containerregistrytype": "Azure Container Registry",
+                "dockerRegistryEndpoint": "",
+                "azureSubscriptionEndpoint": "${serviceConnectionId}",
+                "azureContainerRegistry": "${registryAddress}",
+                "command": "Build an image",
+                "dockerFile": "$(System.DefaultWorkingDirectory)/$(Build.DefinitionName)/Source Code/Dockerfile_e2e_test",
+                "arguments": "--no-cache --build-arg STORAGE_ACCT_URL=\"$(storageAccount.url)\" --build-arg STORAGE_ACCT_KEY=\"$(storageAccount.key)\" --build-arg BUILD_NUMBER=\"$(Build.BuildNumber)\" ",
+                "pushMultipleImages": "false",
+                "tagMultipleImages": "false",
+                "imageName": "$(docker.imageBase):e2e-test-$(Build.BuildId)",
+                "imageNamesPath": "",
+                "qualifyImageName": "true",
+                "includeSourceTags": "false",
+                "includeLatestTag": "false",
+                "addDefaultLabels": "true",
+                "useDefaultContext": "true",
+                "buildContext": "",
+                "imageDigestFile": "",
+                "containerName": "",
+                "ports": "",
+                "volumes": "",
+                "envVars": "",
+                "workingDirectory": "",
+                "entrypointOverride": "",
+                "containerCommand": "",
+                "runInBackground": "true",
+                "restartPolicy": "no",
+                "maxRestartRetries": "",
+                "dockerHostEndpoint": "",
+                "enforceDockerNamingConvention": "true",
+                "memoryLimit": ""
+              }
+            },
+            {
+              "environment": {},
+              "taskId": "46e4be58-730b-4389-8a2f-ea10b3e5e815",
+              "version": "1.*",
+              "name": "Download E2E Test Report ",
+              "refName": "",
+              "enabled": true,
+              "alwaysRun": false,
+              "continueOnError": false,
+              "timeoutInMinutes": 0,
+              "definitionType": "task",
+              "overrideInputs": {},
+              "condition": "succeeded()",
+              "inputs": {
+                "connectedServiceNameARM": "${serviceConnectionId}",
+                "scriptLocation": "inlineScript",
+                "inlineScript": "export AZURE_STORAGE_ACCOUNT=$1\nexport AZURE_STORAGE_KEY=$2\nexport CONTAINER_NAME=$3\nexport BUILD_NUMBER=$4\nexport WORKING_DIRECTORY=$5\n\nexport container_name=${CONTAINER_NAME}\nexport blob_name=\"E2E_TestReport_${BUILD_NUMBER}.xml\"\nexport destination_file=${WORKING_DIRECTORY}/TestReport.xml\n\necho \"Downloading the file...\"\naz storage blob download --container-name $container_name --name $blob_name --file $destination_file --output table\n",
+                "args": "$(storageAccount.name) $(storageAccount.key) $(storageAccount.containerName) $(Build.BuildNumber) $(System.DefaultWorkingDirectory)",
+                "addSpnToEnvironment": "false",
+                "useGlobalConfig": "false",
+                "cwd": "",
+                "failOnStandardError": "false"
+              }
+            },
+            {
+              "environment": {},
+              "taskId": "0b0f01ed-7dde-43ff-9cbb-e48954daf9b1",
+              "version": "2.*",
+              "name": "Publish Test Results TestReport.xml",
+              "refName": "",
+              "enabled": true,
+              "alwaysRun": false,
+              "continueOnError": false,
+              "timeoutInMinutes": 0,
+              "definitionType": "task",
+              "overrideInputs": {},
+              "condition": "succeeded()",
+              "inputs": {
+                "testRunner": "JUnit",
+                "testResultsFiles": "TestReport.xml",
+                "searchFolder": "$(System.DefaultWorkingDirectory)",
+                "mergeTestResults": "false",
+                "failTaskOnFailedTests": "false",
+                "testRunTitle": "",
+                "platform": "",
+                "configuration": "",
+                "publishRunAttachments": "true"
               }
             }
           ]
