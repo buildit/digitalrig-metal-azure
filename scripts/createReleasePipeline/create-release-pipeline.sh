@@ -49,8 +49,8 @@ RESOURCEGROUPNAME=$BASERESOURCEGROUPNAME$STAGE
 STAGE_LOWERCASE=$(echo "$STAGE" | awk '{print tolower($0)}')
 COMMON_STORAGEACCOUNT_CONTAINER_NAME="$STAGE_LOWERCASE-test-results"
 COMMON_STORAGEACCOUNT_CONTAINER_URL="https://${COMMON_STORAGEACCOUNT_NAME}.blob.core.windows.net/${COMMON_STORAGEACCOUNT_CONTAINER_NAME}"
-
-SLACKBOT_HELLO_URL="https://builditsandboxdemoappdev.azurewebsites.net/"
+APPNAME_LOWERCASE=$(echo "$APPNAME" | awk '{print tolower($0)}')
+SLACKBOT_HELLO_URL="https://${APPNAME_LOWERCASE}.azurewebsites.net/"
 
 sed -i'' -e " s|\${serviceConnectionId}|$SERVICECONNECTIONID|g; s|\${resourceGroupName}|$RESOURCEGROUPNAME|g; s|\${location}|$LOCATION|g; s|\${registryName}|$REGISTRYNAME|g; s|\${registryAddress}|$REGISTRYADDRESS|g; s|\${appName}|$APPNAME|g; s|\${registrySku}|$REGISTRYSKU|g; s|\${imageName}|$IMAGENAME|g; s|\${orgName}|$ORGNAME|g; s|\${pipelineName}|$PIPELINENAME|g; s|\${pipelineId}|$SOURCEPIPELINEID|g" $DATAPATH/$DATAFILE
 sed -i'' -e " s|\${OWNER_ID}|$OWNER_ID|g; s|\${sourcePipelineName}|$SOURCEPIPELINENAME|g; s|\${projectId}|$PROJECTID|g" $DATAPATH/$DATAFILE
