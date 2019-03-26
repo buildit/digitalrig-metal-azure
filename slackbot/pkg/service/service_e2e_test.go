@@ -3,10 +3,12 @@ package service
 import "net/http"
 import "io/ioutil"
 import "testing"
+import "os"
 
 func TestE2ESlackbotHelloWorldMessage(t *testing.T) {
 	// Call the slackbot end point.
-	httpResponse, err := http.Get("https://builditsandboxdemoappdev.azurewebsites.net/")
+	helloWorldUrl := os.Getenv("SLACKBOT_HELLO_URL")
+	httpResponse, err := http.Get(helloWorldUrl)
 	if err != nil {
 		panic(err)
 	}

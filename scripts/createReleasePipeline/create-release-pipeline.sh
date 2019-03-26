@@ -50,9 +50,11 @@ STAGE_LOWERCASE=$(echo "$STAGE" | awk '{print tolower($0)}')
 COMMON_STORAGEACCOUNT_CONTAINER_NAME="$STAGE_LOWERCASE-test-results"
 COMMON_STORAGEACCOUNT_CONTAINER_URL="https://${COMMON_STORAGEACCOUNT_NAME}.blob.core.windows.net/${COMMON_STORAGEACCOUNT_CONTAINER_NAME}"
 
+SLACKBOT_HELLO_URL="https://builditsandboxdemoappdev.azurewebsites.net/"
+
 sed -i'' -e " s|\${serviceConnectionId}|$SERVICECONNECTIONID|g; s|\${resourceGroupName}|$RESOURCEGROUPNAME|g; s|\${location}|$LOCATION|g; s|\${registryName}|$REGISTRYNAME|g; s|\${registryAddress}|$REGISTRYADDRESS|g; s|\${appName}|$APPNAME|g; s|\${registrySku}|$REGISTRYSKU|g; s|\${imageName}|$IMAGENAME|g; s|\${orgName}|$ORGNAME|g; s|\${pipelineName}|$PIPELINENAME|g; s|\${pipelineId}|$SOURCEPIPELINEID|g" $DATAPATH/$DATAFILE
 sed -i'' -e " s|\${OWNER_ID}|$OWNER_ID|g; s|\${sourcePipelineName}|$SOURCEPIPELINENAME|g; s|\${projectId}|$PROJECTID|g" $DATAPATH/$DATAFILE
-sed -i'' -e " s|STORAGE_ACCOUNT_KEY|$COMMON_STORAGEACCOUNT_KEY|g; s|STORAGE_ACCOUNT_NAME|$COMMON_STORAGEACCOUNT_NAME|g; s|STORAGE_ACCOUNT_URL|$COMMON_STORAGEACCOUNT_CONTAINER_URL|g; s|STORAGE_ACCOUNT_CONTAINER_NAME|$COMMON_STORAGEACCOUNT_CONTAINER_NAME|g;" $DATAPATH/$DATAFILE
+sed -i'' -e " s|STORAGE_ACCOUNT_KEY|$COMMON_STORAGEACCOUNT_KEY|g; s|STORAGE_ACCOUNT_NAME|$COMMON_STORAGEACCOUNT_NAME|g; s|STORAGE_ACCOUNT_URL|$COMMON_STORAGEACCOUNT_CONTAINER_URL|g; s|STORAGE_ACCOUNT_CONTAINER_NAME|$COMMON_STORAGEACCOUNT_CONTAINER_NAME|g; s|SLACKBOT_HELLOWORLD_URL|$SLACKBOT_HELLO_URL|g;" $DATAPATH/$DATAFILE
 until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@$DATAPATH/$DATAFILE" "https://vsrm.dev.azure.com/$ORGNAME/$PROJECTNAME/_apis/release/definitions?api-version=5.0" | jq '.' > $OUTPUTPATH/createDevReleaseOutput.json); do
     printf "wating to create pipeline"
     sleep 5
