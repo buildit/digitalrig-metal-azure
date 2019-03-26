@@ -1,3 +1,5 @@
+// +build e2e_tests
+
 package service
 
 import "net/http"
