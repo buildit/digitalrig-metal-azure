@@ -9,7 +9,7 @@ RUN go get -d -v ./...
 RUN go get -u github.com/jstemmer/go-junit-report
 RUN mkdir /go/TestResults
 RUN export SLACKBOT_HELLO_URL=${SLACKBOT_HELLO_URL}
-RUN go test -v ./... -run E2E | go-junit-report > /go/TestResults/TestReport.xml 
+RUN go test -v ./... -run="E2E" | go-junit-report > /go/TestResults/TestReport.xml 
 
 ############################
 # STAGE 2 Upload test results to Azure

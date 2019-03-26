@@ -11,7 +11,7 @@ ADD . $GOPATH/src/github.com/buildit/slackbot/
 RUN go get -d -v ./...
 RUN go get -u github.com/jstemmer/go-junit-report
 RUN mkdir /go/TestResults
-RUN go test -v ./... -run ^((?!E2E).)*$ | go-junit-report > /go/TestResults/TestReport.xml
+RUN go test -v ./... -run="^((?!E2E).)*$" | go-junit-report > /go/TestResults/TestReport.xml
 RUN GOOS=linux GOARCH=amd64 go build -v -o /go/bin/bot-server.sh ./cmd/bot-server/main.go
 
 ############################
