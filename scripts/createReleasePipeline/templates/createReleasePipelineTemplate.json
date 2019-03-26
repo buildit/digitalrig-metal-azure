@@ -288,8 +288,8 @@
       "alias": "_buildit_digitalrig-metal-azure",
       "definitionReference": {
         "branch": {
-          "id": "master",
-          "name": "master"
+          "id": "dev",
+          "name": "dev"
         },
         "checkoutNestedSubmodules": {
           "id": "True",
