@@ -1,0 +1,13 @@
+{
+    "name": "${projectName}",
+    "description": null,
+    "visibility": "private",
+    "capabilities" : {
+        "versioncontrol" : {
+            "sourceControlType" : "git"
+        },
+        "processTemplate" : {
+            "templateTypeId" : "adcc42ab-9882-485e-a3ed-7678f01f66bc"
+        }
+    }
+}

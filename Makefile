@@ -38,5 +38,9 @@ create-dashboard:
 	@echo "Create Dashboard"
 	@scripts/dashboard/create-build-dashboard.sh
 
+create-project:
+	@echo "Creating Project"
+	@scripts/createProject/create-project.sh
+
 create-populateProject: create-parameters-file create-common-resource-group create-build-notification create-build-pipeline create-release-pipeline
 
