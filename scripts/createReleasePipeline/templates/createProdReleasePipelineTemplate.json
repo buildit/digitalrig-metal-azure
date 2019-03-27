@@ -208,7 +208,7 @@
               "inputs": {
                 "connectedServiceNameARM": "${serviceConnectionId}",
                 "scriptLocation":"scriptPath",
-                "scriptPath":"$(System.DefaultWorkingDirectory)/_${gitOrg}_${gitRepo}/scripts/createReleasePipeline/download-test-report.sh",
+                "scriptPath":"$(System.DefaultWorkingDirectory)/_${gitOrg}_buildit_digitalrig-metal-azure/scripts/createReleasePipeline/download-test-report.sh",
                 "inlineScript":"",
                 "args": "$(storageAccount.name) $(storageAccount.key) $(storageAccount.containerName) $(Build.BuildNumber) $(System.DefaultWorkingDirectory)",
                 "addSpnToEnvironment": "false",
@@ -471,7 +471,7 @@
                 "inputs": {
                   "connectedServiceNameARM": "${serviceConnectionId}",
                   "scriptLocation":"scriptPath",
-                  "scriptPath":"$(System.DefaultWorkingDirectory)/_${gitOrg}_${gitRepo}/scripts/createReleasePipeline/download-test-report.sh",
+                  "scriptPath":"$(System.DefaultWorkingDirectory)/_buildit_digitalrig-metal-azure/scripts/createReleasePipeline/download-test-report.sh",
                   "inlineScript":"",
                   "args": "$(storageAccount.name) $(storageAccount.key) $(storageAccount.containerName) $(Build.BuildNumber) $(System.DefaultWorkingDirectory)",
                   "addSpnToEnvironment": "false",
@@ -555,9 +555,9 @@
   ],
   "artifacts": [
     {
-      "sourceId": "${gitHubServiceConnectionId}:${gitOrg}/${gitRepo}",
+      "sourceId": "${gitHubServiceConnectionId}:${gitOrg}/_buildit_digitalrig-metal-azure",
       "type": "GitHub",
-      "alias": "_${gitOrg}_${gitRepo}",
+      "alias": "_${gitOrg}_buildit_digitalrig-metal-azure",
       "definitionReference": {
         "branch": {
           "id": "master",
@@ -584,8 +584,8 @@
           "name": "Latest from the default branch"
         },
         "definition": {
-          "id": "${gitOrg}/${gitRepo}",
-          "name": "${gitOrg}/${gitRepo}"
+          "id": "${gitOrg}/_buildit_digitalrig-metal-azure",
+          "name": "${gitOrg}/_buildit_digitalrig-metal-azure"
         },
         "fetchDepth": {
           "id": "",
@@ -596,7 +596,7 @@
           "name": ""
         },
         "artifactSourceDefinitionUrl": {
-          "id": "https://github.com/${gitOrg}/${gitRepo}",
+          "id": "https://github.com/${gitOrg}/_buildit_digitalrig-metal-azure",
           "name": ""
         }
       },
