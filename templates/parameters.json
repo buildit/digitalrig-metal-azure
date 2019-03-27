@@ -69,7 +69,7 @@
             "value":"SERVICECONNECTIONID"
         },
         "gitHubServiceConnectionId": {
-            "value":"GITHUBSERVICECONNECTIONID"
+            "value":"GITHUBSERVICECONNID"
         },
         "gitHubServiceConnectionName": {
             "value":"GITHUBSERVICECONNECTIONNAME"
