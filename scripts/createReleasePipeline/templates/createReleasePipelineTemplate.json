@@ -305,7 +305,7 @@
         },
         "connection": {
           "id": "${serviceConnectionId}",
-          "name": "Github service connection"
+          "name": "${serviceConnectionName}"
         },
         "defaultVersionSpecific": {
           "id": "",

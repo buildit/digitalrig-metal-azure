@@ -68,6 +68,9 @@
         "serviceConnectionId": {
             "value":"SERVICECONNECTIONID"
         },
+        "serviceConnectionName": {
+            "value":"SERVICECONNECTIONNAME"
+        },
         "devPipelineId": {
             "value": "DEVPIPELINEID"
         },
