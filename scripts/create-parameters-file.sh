@@ -8,7 +8,7 @@ ORGNAME="BuilditAzureSandbox"
 PROJECTNAME="BuilditAzureRig"
 PROJECTID="7b202733-9515-4424-be96-5fb9e2ccc0f3"
 GITORG="buildit"
-GITREPO="digitalrig-metal-azure"
+GITREPO="slackbot"
 
 
 # Read the parameter values from the command line.

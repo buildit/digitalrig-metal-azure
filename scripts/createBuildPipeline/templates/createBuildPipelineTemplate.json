@@ -78,7 +78,7 @@
               "azureSubscriptionEndpoint": "${serviceConnectionId}",
               "azureContainerRegistry": "${registryAddress}",
               "command": "Build an image",
-              "dockerFile": "slackbot/Dockerfile",
+              "dockerFile": "Dockerfile",
               "arguments": "--no-cache --build-arg STORAGE_ACCT_URL=\"$(storageAccount.url)\" --build-arg STORAGE_ACCT_KEY=\"$(storageAccount.key)\" --build-arg BUILD_NUMBER=\"$(Build.BuildNumber)\" ",
               "useDefaultContext": "true",
               "buildContext": "",
