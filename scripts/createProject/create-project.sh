@@ -47,9 +47,14 @@ until $(curl -u $USERCRED --header "Content-Type: application/json" --request PO
     printf "waiting to create project"
     sleep 5
 done
-PROJECTID=$(jq -r '.id' < $OUTPUTPATH/$OUTPUTFILE)
 sleep 30
 echo ""
+OUTPUTFILE="getProject.json"
+until $(curl -u $USERCRED --request GET "https://dev.azure.com/$ORGNAME/_apis/projects/$PROJECTNAME?api-version=5.0" | jq '.' > $OUTPUTPATH/$OUTPUTFILE); do
+    printf "waiting to create project"
+    sleep 5
+done
+PROJECTID=$(jq -r '.id' < $OUTPUTPATH/$OUTPUTFILE)
 
 #set parameters
 PARAM_FILE="output/parameters.json"

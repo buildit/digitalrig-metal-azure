@@ -21,7 +21,7 @@ read -p "Location (\"$DEFAULT_LOCATION\"): " LOCATION
 LOCATION="${LOCATION:-$DEFAULT_LOCATION}"
 #if param file exists use existing valuesPROJECTNAME
 PARAM_FILE="output/parameters.json"
-if [-e $PARAM_FILE]
+if [ -e $PARAM_FILE ]
 then
     DEVOPSUSERNAME=$(jq -r '.parameters.devops_user.value' < ./output/parameters.json)
     DEVOPSPAT=$(jq -r '.parameters.devops_PAT.value' < ./output/parameters.json)

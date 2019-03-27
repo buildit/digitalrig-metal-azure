@@ -44,3 +44,4 @@ create-project:
 
 create-populateProject: create-parameters-file create-common-resource-group create-build-notification create-build-pipeline create-release-pipeline
 
+create-newProject: create-project create-parameters-file create-common-resource-group create-build-notification create-build-pipeline create-release-pipeline
