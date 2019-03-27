@@ -85,12 +85,11 @@ STAGE_LOWERCASE=$(echo "$STAGE" | awk '{print tolower($0)}')
 COMMON_STORAGEACCOUNT_CONTAINER_NAME="$STAGE_LOWERCASE-test-results"
 COMMON_STORAGEACCOUNT_CONTAINER_URL="https://${COMMON_STORAGEACCOUNT_NAME}.blob.core.windows.net/${COMMON_STORAGEACCOUNT_CONTAINER_NAME}"
 APPNAME_LOWERCASE=$(echo "$APPNAME" | awk '{print tolower($0)}')
-SLACKBOT_HELLO_URL="https://${APPNAME_LOWERCASE}.azurewebsites.net/"
 
 STAGE1="STAGE"
 STAGE2="PROD"
-STAGE1_LOWERCASE==$(echo "$STAGE1" | awk '{print tolower($0)}')
-STAGE2_LOWERCASE==$(echo "$STAGE2" | awk '{print tolower($0)}')
+STAGE1_LOWERCASE=$(echo "$STAGE1" | awk '{print tolower($0)}')
+STAGE2_LOWERCASE=$(echo "$STAGE2" | awk '{print tolower($0)}')
 STAGE1_SLACKBOT_HELLO_URL="https://${APPNAME_LOWERCASE}${STAGE1_LOWERCASE}.azurewebsites.net/"
 STAGE2_SLACKBOT_HELLO_URL="https://${APPNAME_LOWERCASE}${STAGE2_LOWERCASE}.azurewebsites.net/"
 
