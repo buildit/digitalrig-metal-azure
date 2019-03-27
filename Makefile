@@ -42,6 +42,10 @@ create-project:
 	@echo "Creating Project"
 	@scripts/createProject/create-project.sh
 
+teardown-project:
+	@echo "Tearing down project"
+	@scripts/teardown/teardown.sh
+
 create-populateProject: create-parameters-file create-common-resource-group create-build-notification create-build-pipeline create-release-pipeline
 
 create-newProject: create-project create-parameters-file create-common-resource-group create-build-notification create-build-pipeline create-release-pipeline

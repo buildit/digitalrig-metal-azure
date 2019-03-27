@@ -74,7 +74,7 @@ SOURCEPIPELINEID=$(jq -r '.parameters.prodPipelineId.value' < ./output/parameter
 SOURCEPIPELINENAME=$(jq -r '.parameters.prodPipelineName.value' < ./output/parameters.json)
 IMAGENAME="azurerig"
 APPNAME=$BASEAPPNAME
-RESOURCEGROUPNAME=$BASERESOURCEGROUPNAME$STAGE
+RESOURCEGROUPNAME=$BASERESOURCEGROUPNAME
 STAGE_LOWERCASE=$(echo "$STAGE" | awk '{print tolower($0)}')
 COMMON_STORAGEACCOUNT_CONTAINER_NAME="$STAGE_LOWERCASE-test-results"
 
