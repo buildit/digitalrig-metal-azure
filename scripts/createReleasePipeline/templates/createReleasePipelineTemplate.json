@@ -287,7 +287,7 @@
   ],
   "artifacts": [
     {
-      "sourceId": "${serviceConnectionId}:${gitOrg}/${gitRepo}",
+      "sourceId": "${gitHubServiceConnectionId}:${gitOrg}/${gitRepo}",
       "type": "GitHub",
       "alias": "_${gitOrg}_${gitRepo}",
       "definitionReference": {
@@ -304,8 +304,8 @@
           "name": ""
         },
         "connection": {
-          "id": "${serviceConnectionId}",
-          "name": "${serviceConnectionName}"
+          "id": "${gitHubServiceConnectionId}",
+          "name": "${gitHubServiceConnectionName}"
         },
         "defaultVersionSpecific": {
           "id": "",

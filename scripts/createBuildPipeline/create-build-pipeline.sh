@@ -77,7 +77,8 @@ until $(curl -u $USERCRED --header "Content-Type: application/json" --request PO
     sleep 5
 done
 GITSERVICECONNECTIONID=$(jq -r '.id' < $OUTPUTPATH/createGitServiceOutput.json)
-sed -i'' -e "s/SERVICECONNECTIONNAME/${GITSERVICECONNECTIONNAME}/g" ./output/parameters.json
+sed -i'' -e "s/GITHUBSERVICECONNECTIONID/${GITSERVICECONNECTIONID}/g" ./output/parameters.json
+sed -i'' -e "s/GITHUBSERVICECONNECTIONNAME/${GITSERVICECONNECTIONNAME}/g" ./output/parameters.json
 sleep 30
 echo ""
 
