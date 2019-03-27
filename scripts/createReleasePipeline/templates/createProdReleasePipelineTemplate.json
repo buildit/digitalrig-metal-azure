@@ -16,8 +16,11 @@
     "storageAccount.name": {
       "value": "STORAGE_ACCOUNT_NAME"
     },
-    "slackbot.HelloWorldUrl": {
-      "value": "SLACKBOT_HELLOWORLD_URL"
+    "stage1.slackbot.HelloWorldUrl": {
+      "value": "STAGE1_SLACKBOT_HELLOWORLD_URL"
+    },
+    "stage2.slackbot.HelloWorldUrl": {
+      "value": "STAGE2_SLACKBOT_HELLOWORLD_URL"
     }
   },
   "variableGroups": [],
@@ -165,7 +168,7 @@
                 "azureContainerRegistry": "${registryAddress}",
                 "command": "Build an image",
                 "dockerFile": "$(System.DefaultWorkingDirectory)/$(Build.DefinitionName)/Source Code/Dockerfile_e2e_test",
-                "arguments": "--no-cache --build-arg STORAGE_ACCT_URL=\"$(storageAccount.url)\" --build-arg STORAGE_ACCT_KEY=\"$(storageAccount.key)\" --build-arg BUILD_NUMBER=\"$(Build.BuildNumber)\" --build-arg SLACKBOT_HELLO_URL=\"$(slackbot.HelloWorldUrl)\" ",
+                "arguments": "--no-cache --build-arg STORAGE_ACCT_URL=\"$(storageAccount.url)\" --build-arg STORAGE_ACCT_KEY=\"$(storageAccount.key)\" --build-arg BUILD_NUMBER=\"$(Build.BuildNumber)\" --build-arg SLACKBOT_HELLO_URL=\"$(stage1.slackbot.HelloWorldUrl)\" ",
                 "pushMultipleImages": "false",
                 "tagMultipleImages": "false",
                 "imageName": "$(docker.imageBase):e2e-test-$(Build.BuildId)",
@@ -428,7 +431,7 @@
                   "azureContainerRegistry": "${registryAddress}",
                   "command": "Build an image",
                   "dockerFile": "$(System.DefaultWorkingDirectory)/$(Build.DefinitionName)/Source Code/Dockerfile_e2e_test",
-                  "arguments": "--no-cache --build-arg STORAGE_ACCT_URL=\"$(storageAccount.url)\" --build-arg STORAGE_ACCT_KEY=\"$(storageAccount.key)\" --build-arg BUILD_NUMBER=\"$(Build.BuildNumber)\" --build-arg SLACKBOT_HELLO_URL=\"$(slackbot.HelloWorldUrl)\" ",
+                  "arguments": "--no-cache --build-arg STORAGE_ACCT_URL=\"$(storageAccount.url)\" --build-arg STORAGE_ACCT_KEY=\"$(storageAccount.key)\" --build-arg BUILD_NUMBER=\"$(Build.BuildNumber)\" --build-arg SLACKBOT_HELLO_URL=\"$(stage2.slackbot.HelloWorldUrl)\" ",
                   "pushMultipleImages": "false",
                   "tagMultipleImages": "false",
                   "imageName": "$(docker.imageBase):e2e-test-$(Build.BuildId)",
