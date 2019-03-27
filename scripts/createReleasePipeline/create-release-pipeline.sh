@@ -55,7 +55,7 @@ SLACKBOT_HELLO_URL="https://${APPNAME_LOWERCASE}.azurewebsites.net/"
 GITORG=$(jq -r '.parameters.gitOrg.value' < ./output/parameters.json)
 GITREPO=$(jq -r '.parameters.gitRepo.value' < ./output/parameters.json)
 
-sed -i'' -e " s|\${serviceConnectionId}|$SERVICECONNECTIONID|g; s|${serviceConnectionName}|$SERVICECONNECTIONNAME|g; s|\${resourceGroupName}|$RESOURCEGROUPNAME|g; s|\${location}|$LOCATION|g; s|\${registryName}|$REGISTRYNAME|g; s|\${registryAddress}|$REGISTRYADDRESS|g; s|\${appName}|$APPNAME|g; s|\${registrySku}|$REGISTRYSKU|g; s|\${imageName}|$IMAGENAME|g; s|\${orgName}|$ORGNAME|g; s|\${pipelineName}|$PIPELINENAME|g; s|\${pipelineId}|$SOURCEPIPELINEID|g" $DATAPATH/$DATAFILE
+sed -i'' -e " s|\${serviceConnectionId}|$SERVICECONNECTIONID|g; s|\${serviceConnectionName}|$SERVICECONNECTIONNAME|g; s|\${resourceGroupName}|$RESOURCEGROUPNAME|g; s|\${location}|$LOCATION|g; s|\${registryName}|$REGISTRYNAME|g; s|\${registryAddress}|$REGISTRYADDRESS|g; s|\${appName}|$APPNAME|g; s|\${registrySku}|$REGISTRYSKU|g; s|\${imageName}|$IMAGENAME|g; s|\${orgName}|$ORGNAME|g; s|\${pipelineName}|$PIPELINENAME|g; s|\${pipelineId}|$SOURCEPIPELINEID|g" $DATAPATH/$DATAFILE
 sed -i'' -e " s|\${OWNER_ID}|$OWNER_ID|g; s|\${sourcePipelineName}|$SOURCEPIPELINENAME|g; s|\${projectId}|$PROJECTID|g" $DATAPATH/$DATAFILE
 sed -i'' -e " s|STORAGE_ACCOUNT_KEY|$COMMON_STORAGEACCOUNT_KEY|g; s|STORAGE_ACCOUNT_NAME|$COMMON_STORAGEACCOUNT_NAME|g; s|STORAGE_ACCOUNT_URL|$COMMON_STORAGEACCOUNT_CONTAINER_URL|g; s|STORAGE_ACCOUNT_CONTAINER_NAME|$COMMON_STORAGEACCOUNT_CONTAINER_NAME|g; s|SLACKBOT_HELLOWORLD_URL|$SLACKBOT_HELLO_URL|g;" $DATAPATH/$DATAFILE
 sed -i'' -e " s|\${gitOrg}|$GITORG|g; s|\${gitRepo}|$GITREPO|g;" $DATAPATH/$DATAFILE
