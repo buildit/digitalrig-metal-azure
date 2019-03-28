@@ -68,6 +68,12 @@
         "serviceConnectionId": {
             "value":"SERVICECONNECTIONID"
         },
+        "gitHubServiceConnectionId": {
+            "value":"GITHUBSERVICECONNID"
+        },
+        "gitHubServiceConnectionName": {
+            "value":"GITHUBSERVICECONNECTIONNAME"
+        },
         "devPipelineId": {
             "value": "DEVPIPELINEID"
         },

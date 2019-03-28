@@ -77,6 +77,8 @@ until $(curl -u $USERCRED --header "Content-Type: application/json" --request PO
     sleep 5
 done
 GITSERVICECONNECTIONID=$(jq -r '.id' < $OUTPUTPATH/createGitServiceOutput.json)
+sed -i'' -e "s/GITHUBSERVICECONNID/${GITSERVICECONNECTIONID}/g" ./output/parameters.json
+sed -i'' -e "s/GITHUBSERVICECONNECTIONNAME/${GITSERVICECONNECTIONNAME}/g" ./output/parameters.json
 sleep 30
 echo ""
 
@@ -120,6 +122,14 @@ until $(curl -u $USERCRED --header "Content-Type: application/json" --request PO
 done
 sleep 10
 echo ""
+
+#create storage account for stage
+COMMON_STORAGEACCOUNT_CONTAINER_NAME="stage-test-results"
+az storage container create \
+    --name $COMMON_STORAGEACCOUNT_CONTAINER_NAME \
+    --account-key $COMMON_STORAGEACCOUNT_KEY \
+    --account-name $COMMON_STORAGEACCOUNT_NAME \
+    --subscription $SUBSCRIPTIONID
 
 #create storage account for prod
 COMMON_STORAGEACCOUNT_CONTAINER_NAME="prod-test-results"
