@@ -7,3 +7,4 @@
 * [5. Use Azure App Service - Web Apps for Containers Linux](0005-use-azure-app-service-web-apps-for-containers-linux.md)
 * [6. Use Buildit Slackbot as our example application](0006-use-buildit-slackbot-as-our-example-application.md)
 * [7. Use Docker as the build manager](0007-use-docker-as-the-build-manager.md)
+* [8. Azure Rig assumes 1 dev and 1 master branch](0008-azure-rig-assumes-1-dev-and-1-master-branch.md)
