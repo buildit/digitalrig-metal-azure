@@ -16,7 +16,7 @@
     "storageAccount.name": {
       "value": "STORAGE_ACCOUNT_NAME"
     },
-    "APP_BASE_URL": {
+    "APP_URL": {
       "value": "APP_BASE_URL"
     }
   },
@@ -161,7 +161,7 @@
                 "azureContainerRegistry": "${registryAddress}",
                 "command": "Build an image",
                 "dockerFile": "$(System.DefaultWorkingDirectory)/$(Build.DefinitionName)/Source Code/Dockerfile_e2e_test",
-                "arguments": "--no-cache --build-arg STORAGE_ACCT_URL=\"$(storageAccount.url)\" --build-arg STORAGE_ACCT_KEY=\"$(storageAccount.key)\" --build-arg BUILD_NUMBER=\"$(Build.BuildNumber)\" --build-arg APP_BASE_URL=\"$(APP_BASE_URL)\" ",
+                "arguments": "--no-cache --build-arg STORAGE_ACCT_URL=\"$(storageAccount.url)\" --build-arg STORAGE_ACCT_KEY=\"$(storageAccount.key)\" --build-arg BUILD_NUMBER=\"$(Build.BuildNumber)\" --build-arg APP_URL=\"$(APP_URL)\" ",
                 "pushMultipleImages": "false",
                 "tagMultipleImages": "false",
                 "imageName": "$(docker.imageBase):e2e-test-$(Build.BuildId)",
