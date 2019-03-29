@@ -8,12 +8,12 @@ Accepted
 
 ## Context
 
-The issue motivating this decision, and any context that influences or constrains the decision.
+Rigs are only as valuable as the applications that run on them.  We need an application for which we can create pipelines.
 
 ## Decision
 
-The change that we're proposing or have agreed to implement.
+This rig will use the [Buildit Slackbot](https://github.com/buildit/slackbot/) as our first app to deploy on the Azure rig.
 
 ## Consequences
 
-What becomes easier or more difficult to do and any risks introduced by the change that will need to be mitigated.
+* Buildit Slackbot is written in Golang.  It's definitely not a first class platform in Azure.  It probably is a better candidate as a Serverless application as well.
