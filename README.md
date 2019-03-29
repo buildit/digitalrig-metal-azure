@@ -30,7 +30,7 @@ A PAT for the Azure pipeline to access github must be created and added to the p
 ## Running the Rig
 
 1. Clone this repository
-1. run the command: make create-populateProject
+1. run the command: `make create-populateProject`
 1. Respond to the step by step prompts for parameter values
 1. Resource Group and Pipelines will be created and a build will be kicked off (may take a few minutes)
 
