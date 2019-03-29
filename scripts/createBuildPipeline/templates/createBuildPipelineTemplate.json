@@ -170,7 +170,7 @@
               "definitionType":"task"
             },
             "inputs":{
-              "connectedServiceNameARM":"8748186a-2414-4027-888e-2a237f3bd450",
+              "connectedServiceNameARM":"${serviceConnectionId}",
               "scriptLocation":"inlineScript", 
               "inlineScript": "export AZURE_STORAGE_ACCOUNT=$1\nexport AZURE_STORAGE_KEY=$2\nexport CONTAINER_NAME=$3\nexport BUILD_NUMBER=$4\nexport WORKING_DIRECTORY=$5\n\nexport container_name=${CONTAINER_NAME}\nexport blob_name=\"TestReport_${BUILD_NUMBER}.xml\"\nexport destination_file=${WORKING_DIRECTORY}/TestReport.xml\n\necho \"Downloading the file...\"\naz storage blob download --account-name $1 --account-key $2 --container-name $container_name --name $blob_name --file $destination_file --output table",
               "args": "$(storageAccount.name) $(storageAccount.key) $(storageAccount.containerName) $(Build.BuildNumber) $(System.DefaultWorkingDirectory)",

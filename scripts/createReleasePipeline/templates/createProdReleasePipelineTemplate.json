@@ -82,7 +82,7 @@
             "artifactsDownloadInput": {
               "downloadInputs": []
             },
-            "queueId": 6,
+            "queueId": "${agentQueueId}",
             "demands": [],
             "enableAccessToken": false,
             "timeoutInMinutes": 0,
@@ -345,7 +345,7 @@
               "artifactsDownloadInput": {
                 "downloadInputs": []
               },
-              "queueId": 6,
+              "queueId": "${agentQueueId}",
               "demands": [],
               "enableAccessToken": false,
               "timeoutInMinutes": 0,
@@ -458,7 +458,7 @@
   ],
   "artifacts": [
     {
-      "sourceId": "${gitHubServiceConnectionId}:buildit/digitalrig-metal-azure",
+      "sourceId": "${gitHubServiceConnection}:buildit/digitalrig-metal-azure",
       "type": "GitHub",
       "alias": "_buildit_digitalrig-metal-azure",
       "definitionReference": {
@@ -475,8 +475,7 @@
           "name": ""
         },
         "connection": {
-          "id": "${gitHubServiceConnectionId}",
-          "name": "${gitHubServiceConnectionName}"
+          "id": "${gitHubServiceConnection}"
         },
         "defaultVersionSpecific": {
           "id": "",

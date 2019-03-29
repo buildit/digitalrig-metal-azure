@@ -50,6 +50,9 @@
         "gitPAT": {
             "value":"GITPAT"
         },
+        "agentQueueId": {
+            "value":"AGENTQUEUEID"
+        },
         "subscription_id": {
             "value":"SUBSCRIPTIONID"
         },
@@ -66,7 +69,7 @@
             "value":"VERSIONHASH"
         },
         "serviceConnectionId": {
-            "value":"SERVICECONNECTIONID"
+            "value":"${SERVICECONNECTIONID}"
         },
         "gitHubServiceConnectionId": {
             "value":"GITHUBSERVICECONNID"
