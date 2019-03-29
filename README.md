@@ -2,6 +2,12 @@
 
 This repository contains a series of bash scripts and JSON templates used to create and maintain a simple Rig implementation on Azure. The technologies used for this Rig implementation consist primarily of PaaS offerings in Azure as well managed Azure DevOps pipelines.
 
+* Backlog: <https://digitalrig.atlassian.net/jira/software/projects/ARI/boards/437/backlog>
+* Live DevOps project: <https://dev.azure.com/BuilditAzureSandbox/BuilditAzureRig>
+* Integration: <https://builditslackbotappdev.azurewebsites.net/>
+* Staging: <https://builditslackbotappstage.azurewebsites.net/>
+* Production: <https://builditslackbotappprod.azurewebsites.net/>
+
 ## Prerequisites
 
 ### Authorize requests for Azure
@@ -94,7 +100,14 @@ The goal of the Azure Rig is not to overwhelm the user with an endless array of 
 1. GitHub PAT (see above)
 1. Base name for the resource groups that get generated
 
-## Database (TODO)
+## TODOs
+
+* Need to extract more parameters out of our templates
+* Likely need to move to REST API or ARM templates for creating Azure resources
+  * Application Insights alerts can't be created via the `az` CLI
+* Move away from BASH scripts and write utilities in code.  `curl` & `jq` just aren't sufficient to deal w/ the chattiness of the Azure & Azure DevOps services.
+
+### Database (TODO)
 
 The Azure Rig supports two database options at present:
 
