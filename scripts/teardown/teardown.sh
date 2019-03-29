@@ -1,3 +1,5 @@
+#!/bin/bash
+
 BASERESOURCEGROUPNAME=$(jq -r '.parameters.resourceGroupName.value' < ./output/parameters.json)
 DEVOPSUSER=$(jq -r '.parameters.devops_user.value' < ./output/parameters.json)
 DEVOPSPAT=$(jq -r '.parameters.devops_PAT.value' < ./output/parameters.json)
@@ -12,8 +14,6 @@ curl -u $USERCRED \
 "https://dev.azure.com/$ORGNAME/_apis/projects/$PROJECTID?api-version=5.0"
 
 #delete resource groups
-
-BASERESOURCEGROUPNAME="apiBuildit"
 
 az group delete --yes -n $BASERESOURCEGROUPNAME
 az group delete --yes -n $BASERESOURCEGROUPNAME"DEV"

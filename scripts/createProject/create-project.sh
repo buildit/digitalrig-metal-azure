@@ -19,7 +19,7 @@ do
     read -p "Devops Personal Access Token (check readme for instructions to get): " DEVOPSPAT
 done
 
-USERCRED=$DEVOPSUSERNAME:$DEVOPSPAT
+USERCRED="$DEVOPSUSERNAME:$DEVOPSPAT"
 
 while [[ -z "$ORGNAME" ]]
 do
@@ -42,15 +42,14 @@ cp $TEMPLATEPATH/$TEMPLATEFILE $DATAPATH/$DATAFILE
 
 #inject values into datafile
 sed -i'' -e " s|\${projectName}|$PROJECTNAME|" $DATAPATH/$DATAFILE
-
-until $(curl -u $USERCRED --header "Content-Type: application/json" --request POST --data "@$DATAPATH/$DATAFILE" "https://dev.azure.com/$ORGNAME/_apis/projects?api-version=5.0" | jq '.' > $OUTPUTPATH/$OUTPUTFILE); do
+until $(curl -u "$USERCRED" --header "Content-Type: application/json" --request POST --data "@$DATAPATH/$DATAFILE" "https://dev.azure.com/$ORGNAME/_apis/projects?api-version=5.0" | jq '.' > $OUTPUTPATH/$OUTPUTFILE); do
     printf "waiting to create project"
     sleep 5
 done
 sleep 30
 echo ""
 OUTPUTFILE="getProject.json"
-until $(curl -u $USERCRED --request GET "https://dev.azure.com/$ORGNAME/_apis/projects/$PROJECTNAME?api-version=5.0" | jq '.' > $OUTPUTPATH/$OUTPUTFILE); do
+until $(curl -u "$USERCRED" --request GET "https://dev.azure.com/$ORGNAME/_apis/projects/$PROJECTNAME?api-version=5.0" | jq '.' > $OUTPUTPATH/$OUTPUTFILE); do
     printf "waiting to create project"
     sleep 5
 done

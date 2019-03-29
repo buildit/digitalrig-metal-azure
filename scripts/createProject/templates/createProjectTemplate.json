@@ -1,6 +1,6 @@
 {
     "name": "${projectName}",
-    "description": null,
+    "description": "api Generated Project",
     "visibility": "private",
     "capabilities" : {
         "versioncontrol" : {
