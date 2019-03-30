@@ -17,10 +17,10 @@ curl -u $USERCRED \
 
 az group delete --yes -n $BASERESOURCEGROUPNAME
 az group delete --yes -n $BASERESOURCEGROUPNAME"DEV"
-az group delete --yes -n $BASERESOURCEGROUPNAME"STAGE"
-az group delete --yes -n $BASERESOURCEGROUPNAME"PROD"
+az group delete --yes -n $BASERESOURCEGROUPNAME"PRODSTAGE"
+az group delete --yes -n $BASERESOURCEGROUPNAME"PRODPROD"
 
 #delete old param file
-
-PARAM_FILE="output/parameters.json"
-rm $PARAM_FILE
+# maybe don't do that
+# PARAM_FILE="output/parameters.json"
+# rm $PARAM_FILE

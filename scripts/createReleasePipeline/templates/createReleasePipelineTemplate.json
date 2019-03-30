@@ -287,7 +287,7 @@
   ],
   "artifacts": [
     {
-      "sourceId": "${gitHubServiceConnection}:buildit/digitalrig-metal-azure",
+      "sourceId": "${gitHubServiceConnectionId}:buildit/digitalrig-metal-azure",
       "type": "GitHub",
       "alias": "_buildit_digitalrig-metal-azure",
       "definitionReference": {
@@ -304,7 +304,7 @@
           "name": ""
         },
         "connection": {
-          "id": "${gitHubServiceConnection}"
+          "id": "${gitHubServiceConnectionId}"
         },
         "defaultVersionSpecific": {
           "id": "",
