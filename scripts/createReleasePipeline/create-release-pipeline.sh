@@ -76,7 +76,7 @@ OUTPUTFILE=createProdReleaseOutput.json
 cp $TEMPLATEPATH/$TEMPLATEFILE $DATAPATH/$DATAFILE
 
 STAGE="PROD"
-PIPELINENAME="$STAGE Testing2 Pipeline-"$VERSIONHASH
+PIPELINENAME="$STAGE Pipeline-"$VERSIONHASH
 SOURCEPIPELINEID=$(jq -r '.parameters.prodPipelineId.value' < ./output/parameters.json)
 SOURCEPIPELINENAME=$(jq -r '.parameters.prodPipelineName.value' < ./output/parameters.json)
 IMAGENAME="azurerig"
