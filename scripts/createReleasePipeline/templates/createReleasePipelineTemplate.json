@@ -79,7 +79,7 @@
             "artifactsDownloadInput": {
               "downloadInputs": []
             },
-            "queueId": 6,
+            "queueId": "${agentQueueId}",
             "demands": [],
             "enableAccessToken": false,
             "timeoutInMinutes": 0,
@@ -304,8 +304,7 @@
           "name": ""
         },
         "connection": {
-          "id": "${gitHubServiceConnectionId}",
-          "name": "${gitHubServiceConnectionName}"
+          "id": "${gitHubServiceConnectionId}"
         },
         "defaultVersionSpecific": {
           "id": "",

@@ -60,7 +60,7 @@ until $(curl -u $USERCRED --header "Content-Type: application/json" --request PO
     sleep 5
 done
 SERVICECONNECTIONID=$(jq -r '.id' < $OUTPUTPATH/createServiceOutput.json)
-sed -i'' -e "s/SERVICECONNECTIONID/${SERVICECONNECTIONID}/g" ./output/parameters.json
+sed -i'' -e "s/\${SERVICECONNECTIONID}/${SERVICECONNECTIONID}/g" ./output/parameters.json
 sleep 30
 echo ""
 
@@ -105,6 +105,8 @@ until $(curl -u $USERCRED --header "Content-Type: application/json" --request PO
     sleep 5
 done
 DEVPIPELINEID=$(jq -r '.id' < $OUTPUTPATH/$OUTPUTFILE)
+AGENTQUEUEID=$(jq -r '.queue.id' < $OUTPUTPATH/$OUTPUTFILE)
+sed -i'' -e "s|AGENTQUEUEID|$AGENTQUEUEID|g" ./output/parameters.json
 sed -i'' -e "s/DEVPIPELINEID/${DEVPIPELINEID}/g" ./output/parameters.json
 sed -i'' -e "s/DEVPIPELINENAME/${PIPELINENAME}/g" ./output/parameters.json
 sleep 30

@@ -26,6 +26,7 @@ OWNER_ID=$(jq -r '.parameters.ownerId.value' < ./output/parameters.json)
 COMMON_STORAGEACCOUNT_NAME=$(jq -r '.parameters.commonStorageAccountName.value' < ./output/parameters.json)
 COMMON_STORAGEACCOUNT_KEY=$(jq -r '.parameters.commonStorageAccountKey.value' < ./output/parameters.json)
 COMMON_CONTAINERREGISTRY_URL=$(jq -r '.parameters.commonContainerRegistryName.value' < ./output/parameters.json)"azurecr.io"
+AGENTQUEUEID=$(jq -r '.parameters.agentQueueId.value' < ./output/parameters.json)
 
 #create release pipelines
 echo "creating dev release pipeline"
@@ -56,7 +57,7 @@ APP_BASE_URL="https://${APPNAME_LOWERCASE}.azurewebsites.net/"
 GITORG=$(jq -r '.parameters.gitOrg.value' < ./output/parameters.json)
 GITREPO=$(jq -r '.parameters.gitRepo.value' < ./output/parameters.json)
 
-sed -i'' -e " s|\${serviceConnectionId}|$SERVICECONNECTIONID|g; s|\${resourceGroupName}|$RESOURCEGROUPNAME|g; s|\${location}|$LOCATION|g; s|\${registryName}|$REGISTRYNAME|g; s|\${registryAddress}|$REGISTRYADDRESS|g; s|\${appName}|$APPNAME|g; s|\${registrySku}|$REGISTRYSKU|g; s|\${imageName}|$IMAGENAME|g; s|\${orgName}|$ORGNAME|g; s|\${pipelineName}|$PIPELINENAME|g; s|\${pipelineId}|$SOURCEPIPELINEID|g" $DATAPATH/$DATAFILE
+sed -i'' -e " s|\${agentQueueId}|$AGENTQUEUEID|g; s|\${serviceConnectionId}|$SERVICECONNECTIONID|g; s|\${resourceGroupName}|$RESOURCEGROUPNAME|g; s|\${location}|$LOCATION|g; s|\${registryName}|$REGISTRYNAME|g; s|\${registryAddress}|$REGISTRYADDRESS|g; s|\${appName}|$APPNAME|g; s|\${registrySku}|$REGISTRYSKU|g; s|\${imageName}|$IMAGENAME|g; s|\${orgName}|$ORGNAME|g; s|\${pipelineName}|$PIPELINENAME|g; s|\${pipelineId}|$SOURCEPIPELINEID|g" $DATAPATH/$DATAFILE
 sed -i'' -e " s|\${OWNER_ID}|$OWNER_ID|g; s|\${sourcePipelineName}|$SOURCEPIPELINENAME|g; s|\${projectId}|$PROJECTID|g" $DATAPATH/$DATAFILE
 sed -i'' -e " s|STORAGE_ACCOUNT_KEY|$COMMON_STORAGEACCOUNT_KEY|g; s|STORAGE_ACCOUNT_NAME|$COMMON_STORAGEACCOUNT_NAME|g; s|STORAGE_ACCOUNT_URL|$COMMON_STORAGEACCOUNT_CONTAINER_URL|g; s|STORAGE_ACCOUNT_CONTAINER_NAME|$COMMON_STORAGEACCOUNT_CONTAINER_NAME|g; s|APP_BASE_URL|$APP_BASE_URL|g;" $DATAPATH/$DATAFILE
 sed -i'' -e " s|\${gitOrg}|$GITORG|g; s|\${gitRepo}|$GITREPO|g; s|\${gitHubServiceConnectionId}|$GITHUBSERVICECONNECTIONID|g; s|\${gitHubServiceConnectionName}|$GITHUBSERVICECONNECTIONNAME|g;" $DATAPATH/$DATAFILE
@@ -75,7 +76,7 @@ OUTPUTFILE=createProdReleaseOutput.json
 cp $TEMPLATEPATH/$TEMPLATEFILE $DATAPATH/$DATAFILE
 
 STAGE="PROD"
-PIPELINENAME="$STAGE New Pipeline-"$VERSIONHASH
+PIPELINENAME="$STAGE Pipeline-"$VERSIONHASH
 SOURCEPIPELINEID=$(jq -r '.parameters.prodPipelineId.value' < ./output/parameters.json)
 SOURCEPIPELINENAME=$(jq -r '.parameters.prodPipelineName.value' < ./output/parameters.json)
 IMAGENAME="azurerig"
@@ -90,7 +91,7 @@ COMMON_STORAGEACCOUNT_CONTAINER_NAME="$STAGE_LOWERCASE-test-results"
 COMMON_STORAGEACCOUNT_CONTAINER_URL="https://${COMMON_STORAGEACCOUNT_NAME}.blob.core.windows.net/${COMMON_STORAGEACCOUNT_CONTAINER_NAME}"
 APP_BASE_URL="https://${APPNAME_LOWERCASE}${STAGE_LOWERCASE}.azurewebsites.net/"
 
-sed -i'' -e " s|\${serviceConnectionId}|$SERVICECONNECTIONID|g; s|\${resourceGroupName}|$RESOURCEGROUPNAME|g; s|\${location}|$LOCATION|g; s|\${registryName}|$REGISTRYNAME|g; s|\${registryAddress}|$REGISTRYADDRESS|g; s|\${appName}|$APPNAME|g; s|\${registrySku}|$REGISTRYSKU|g; s|\${imageName}|$IMAGENAME|g; s|\${orgName}|$ORGNAME|g; s|\${pipelineName}|$PIPELINENAME|g; s|\${pipelineId}|$SOURCEPIPELINEID|g" $DATAPATH/$DATAFILE
+sed -i'' -e " s|\${agentQueueId}|$AGENTQUEUEID|g; s|\${serviceConnectionId}|$SERVICECONNECTIONID|g; s|\${resourceGroupName}|$RESOURCEGROUPNAME|g; s|\${location}|$LOCATION|g; s|\${registryName}|$REGISTRYNAME|g; s|\${registryAddress}|$REGISTRYADDRESS|g; s|\${appName}|$APPNAME|g; s|\${registrySku}|$REGISTRYSKU|g; s|\${imageName}|$IMAGENAME|g; s|\${orgName}|$ORGNAME|g; s|\${pipelineName}|$PIPELINENAME|g; s|\${pipelineId}|$SOURCEPIPELINEID|g" $DATAPATH/$DATAFILE
 sed -i'' -e " s|\${OWNER_ID}|$OWNER_ID|g; s|\${sourcePipelineName}|$SOURCEPIPELINENAME|g; s|\${projectId}|$PROJECTID|g; s|\${stage1}|$STAGE1|g; s|\${stage2}|$STAGE2|g" $DATAPATH/$DATAFILE
 sed -i'' -e " s|STORAGE_ACCOUNT_KEY|$COMMON_STORAGEACCOUNT_KEY|g; s|STORAGE_ACCOUNT_NAME|$COMMON_STORAGEACCOUNT_NAME|g; s|STORAGE_ACCOUNT_URL|$COMMON_STORAGEACCOUNT_CONTAINER_URL|g; s|STORAGE_ACCOUNT_CONTAINER_NAME|$COMMON_STORAGEACCOUNT_CONTAINER_NAME|g; s|APP_BASE_URL|$APP_BASE_URL|g;" $DATAPATH/$DATAFILE
 sed -i'' -e " s|\${gitOrg}|$GITORG|g; s|\${gitRepo}|$GITREPO|g; s|\${gitHubServiceConnectionId}|$GITHUBSERVICECONNECTIONID|g; s|\${gitHubServiceConnectionName}|$GITHUBSERVICECONNECTIONNAME|g;" $DATAPATH/$DATAFILE
