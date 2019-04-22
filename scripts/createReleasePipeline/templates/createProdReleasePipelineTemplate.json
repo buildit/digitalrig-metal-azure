@@ -531,7 +531,7 @@
         },
         "project": {
           "id": "${projectId}",
-          "name": "BuilditAzureRig"
+          "name": "${projectName}"
         },
         "artifactSourceDefinitionUrl": {
           "id": "https://dev.azure.com/${orgName}/_permalink/_build/index?collectionId=$(System.CollectionId)&projectId=${projectId}&definitionId=${pipelineId}",
