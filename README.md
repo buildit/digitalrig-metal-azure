@@ -10,6 +10,20 @@ This repository contains a series of bash scripts and JSON templates used to cre
 
 ## Prerequisites
 
+### Packages
+
+Make sure you have the following packages install:
+
+1. Azure CLI: <https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest>
+1. jq: <https://stedolan.github.io/jq/download/>
+
+### Create a new organization and project in Azure DevOps(optional)
+
+You can either reuse an existing proejct and organization or create a new one at: <https://dev.azure.com/>
+
+1. Make sure the organization is connected to the right Azure Active Directory at Organization Settings -> Azure Active Directory
+
+
 ### Authorize requests for Azure
 
 A Personal Access Token (PAT) is required to authorize API requests. To grant a PAT follow these steps:
@@ -36,7 +50,8 @@ A PAT for the Azure pipeline to access github must be created and added to the p
 ## Running the Rig
 
 1. Clone this repository
-1. run the command: `make create-populateProject`
+1. If the case of new organization and project, you will need admin right to the slackbot repo in order to create a new webhook.
+1. Verify or update org name, project name, and project id(can be obtained from the curl command above) at `create-parameters-file.sh` then run the command: `make create-populateProject`
 1. Respond to the step by step prompts for parameter values
 1. Resource Group and Pipelines will be created and a build will be kicked off (may take a few minutes)
 
