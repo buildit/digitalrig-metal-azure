@@ -3,10 +3,10 @@
 # Set the default values for the parameter variables.
 DEFAULT_CONTAINER_APP_NAME="RigContainerApp"
 DEFAULT_LOCATION="centralus"
-DEFAULT_RESOURCEGROUP_NAME="chihhoSandbox"
-ORGNAME="ChihhoBuilditAzureSandbox"
-PROJECTNAME="AzureRig"
-PROJECTID="ce12ac0f-b76c-4884-8d28-d5df454322ff"
+DEFAULT_RESOURCEGROUP_NAME="builditSandbox"
+ORGNAME="BuilditAzureSandbox"
+PROJECTNAME="BuilditAzureRig"
+PROJECTID="7b202733-9515-4424-be96-5fb9e2ccc0f3"
 GITORG="buildit"
 GITREPO="slackbot"
 
